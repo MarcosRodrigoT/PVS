@@ -29,9 +29,16 @@ class FaceDetector:
 
         # Initialize InsightFace detector
         print("Initializing face detector...")
-        self.app = FaceAnalysis(providers=["CPUExecutionProvider"])
-        self.app.prepare(ctx_id=0, det_size=det_size)
-        print("Face detector initialized")
+        # Try to use GPU (CUDA), fall back to CPU if not available
+        try:
+            self.app = FaceAnalysis(providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
+            self.app.prepare(ctx_id=0, det_size=det_size)
+            print("Face detector initialized (GPU enabled)")
+        except Exception as e:
+            print(f"GPU initialization failed, using CPU: {e}")
+            self.app = FaceAnalysis(providers=['CPUExecutionProvider'])
+            self.app.prepare(ctx_id=-1, det_size=det_size)
+            print("Face detector initialized (CPU mode)")
 
     def detect_faces_in_video(self, video_path: str, clip_id: str) -> List[Dict]:
         """

@@ -11,6 +11,20 @@ import numpy as np
 from deepface import DeepFace
 from collections import defaultdict
 
+# Configure TensorFlow to use GPU if available
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+try:
+    import tensorflow as tf
+    gpus = tf.config.list_physical_devices('GPU')
+    if gpus:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+        print(f"GPU detected: {len(gpus)} GPU(s) available for face recognition")
+    else:
+        print("No GPU detected, using CPU for face recognition")
+except Exception as e:
+    print(f"GPU configuration warning: {e}")
+
 
 class FaceRecognizer:
     """Face recognizer using DeepFace with ArcFace for state-of-the-art performance"""
