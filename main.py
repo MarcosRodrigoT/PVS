@@ -76,7 +76,8 @@ class PVSPipeline:
         # For now, look for existing video clips in the summaries directory
         video_clips = list(Path(self.video_summaries_dir).glob("*.mp4")) + list(Path(self.video_summaries_dir).glob("*.avi")) + list(Path(self.video_summaries_dir).glob("*.mov"))
 
-        video_clips = [str(clip) for clip in video_clips]
+        # Sort video clips by filename to ensure consistent ordering
+        video_clips = sorted([str(clip) for clip in video_clips])
 
         if video_clips:
             print(f"\nFound {len(video_clips)} existing video clips in {self.video_summaries_dir}")

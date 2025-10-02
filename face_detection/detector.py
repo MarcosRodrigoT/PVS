@@ -160,7 +160,8 @@ def process_video_clips(video_clips: List[str], output_dir: str = "data/cropped_
     detector = FaceDetector(output_dir=output_dir)
 
     for i, video_path in enumerate(video_clips):
-        clip_id = f"clip_{i:04d}"
+        # Use original filename (without extension) as clip_id
+        clip_id = Path(video_path).stem
         print(f"Processing {video_path} (clip {i+1}/{len(video_clips)})...")
         detections = detector.detect_faces_in_video(video_path, clip_id)
         print(f"  Detected {len(detections)} faces")
