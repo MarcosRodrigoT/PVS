@@ -154,7 +154,7 @@ class PVSPipeline:
             print("No recognition results found. Skipping visualization.")
             return
 
-        visualize_results(recognition_results_path=recognition_results, output_dir=f"{self.output_dir}/visualizations", show_plots=show_plots)
+        visualize_results(recognition_results_path=recognition_results, output_dir=self.output_dir, show_plots=show_plots)
 
     def run(self, input_video: str = None, show_plots: bool = False):
         """

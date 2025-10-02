@@ -121,7 +121,7 @@ class ResemblanceVisualizer:
                     if len(frames) == 1:
                         # Single point - draw horizontal line from frame 0 to detected frame
                         frame_num = frames[0]
-                        ax.axhline(y=similarities[0], color='b', linewidth=2, alpha=0.7)
+                        ax.axhline(y=similarities[0], color="b", linewidth=2, alpha=0.7)
                         ax.fill_between([0, frame_num], similarities[0], alpha=0.3)
                         # Set x-axis limits to show from 0 to the detected frame
                         ax.set_xlim([0, frame_num])
@@ -164,7 +164,13 @@ class ResemblanceVisualizer:
         plt.tight_layout(rect=[0, 0, 1, 0.97])
 
         # Save the plot
-        plot_filename = output_path / f"resemblance_curves_{target_name}.png"
+        # If multiple targets exist, include target name in filename
+        all_targets = list(set(target for clip in self.results.values() for target in clip.keys()))
+        if len(all_targets) > 1:
+            plot_filename = output_path / f"resemblance_results_{target_name}.png"
+        else:
+            plot_filename = output_path / "resemblance_results.png"
+
         plt.savefig(plot_filename, dpi=150, bbox_inches="tight")
         print(f"Saved plot: {plot_filename}")
 
@@ -221,7 +227,7 @@ class ResemblanceVisualizer:
         print(f"Summary report saved to {output_path}")
 
 
-def visualize_results(recognition_results_path: str = "data/face_recognition_results.json", output_dir: str = "data/visualizations", show_plots: bool = False):
+def visualize_results(recognition_results_path: str = "data/face_recognition_results.json", output_dir: str = "data", show_plots: bool = False):
     """
     Generate visualizations and summary report
 
