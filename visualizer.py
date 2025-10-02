@@ -117,9 +117,20 @@ class ResemblanceVisualizer:
                     frames = sorted(frame_resemblance.keys())
                     similarities = [frame_resemblance[f] for f in frames]
 
-                    # Plot the curve
-                    ax.plot(frames, similarities, "b-", linewidth=1.5, alpha=0.7)
-                    ax.fill_between(frames, similarities, alpha=0.3)
+                    # Plot the curve (use horizontal line for single points, line for multiple)
+                    if len(frames) == 1:
+                        # Single point - draw horizontal line from frame 0 to detected frame
+                        frame_num = frames[0]
+                        ax.axhline(y=similarities[0], color='b', linewidth=2, alpha=0.7)
+                        ax.fill_between([0, frame_num], similarities[0], alpha=0.3)
+                        # Set x-axis limits to show from 0 to the detected frame
+                        ax.set_xlim([0, frame_num])
+                    else:
+                        # Multiple points - use line plot
+                        ax.plot(frames, similarities, "b-", linewidth=1.5, alpha=0.7)
+                        ax.fill_between(frames, similarities, alpha=0.3)
+                        # Set x-axis limits based on actual frame range
+                        ax.set_xlim([min(frames), max(frames)])
 
                     # Add threshold line
                     ax.axhline(y=0.6, color="r", linestyle="--", linewidth=1, label="Match Threshold (0.6)", alpha=0.7)
