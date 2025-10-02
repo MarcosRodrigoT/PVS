@@ -160,7 +160,8 @@ class ResemblanceVisualizer:
         for idx in range(num_clips, len(axes)):
             axes[idx].set_visible(False)
 
-        plt.tight_layout()
+        # Adjust layout to make room for suptitle at the top
+        plt.tight_layout(rect=[0, 0, 1, 0.97])
 
         # Save the plot
         plot_filename = output_path / f"resemblance_curves_{target_name}.png"
