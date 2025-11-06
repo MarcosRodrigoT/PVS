@@ -16,6 +16,7 @@ from typing import List
 import argparse
 
 # Import pipeline components
+from video_summarization import generate_highlights
 from face_detection.detector import process_video_clips
 from face_recognition.recognizer import recognize_faces
 from visualizer import visualize_results
@@ -39,6 +40,11 @@ class PVSPipeline:
         self.cropped_faces_dir = self.config.get("cropped_faces_dir", "data/cropped_faces")
         self.output_dir = self.config.get("output_dir", "data")
 
+        # SportCLIP configuration
+        self.sportclip_dir = self.config.get("sportclip_dir", "/home/mrt/Projects/SportCLIP-official")
+        self.sportclip_dataset_dir = self.config.get("sportclip_dataset_dir", "/mnt/Data/mrt/SportCLIP-OlympicHighlights")
+        self.sportclip_sentences_file = self.config.get("sportclip_sentences_file", None)  # e.g., "data/sentences/long_jump.json"
+
         # Model configurations
         self.face_recognition_model = self.config.get("face_recognition_model", "ArcFace")
 
@@ -48,45 +54,60 @@ class PVSPipeline:
         Path(self.cropped_faces_dir).mkdir(parents=True, exist_ok=True)
         Path(self.output_dir).mkdir(parents=True, exist_ok=True)
 
-    def step1_video_summarization(self, input_video: str) -> List[str]:
+    def step1_video_summarization(self, input_video: str = None, video_name: str = None) -> List[str]:
         """
-        Step 1: Video Summarization (VS)
+        Step 1: Video Summarization using SportCLIP
 
-        This is a template call to the external video summarization project.
-        Replace this with actual integration when VS project is complete.
+        Generates video highlights using the SportCLIP framework.
+        If input_video is provided, runs SportCLIP pipeline (multi_sentences.py + summarize.py).
+        Otherwise, looks for existing video clips in the summaries directory.
 
         Args:
-            input_video: Path to the input video file
+            input_video: Video name (without extension) for SportCLIP processing
+            video_name: Video name for processing (without extension)
 
         Returns:
             List of paths to video summary clips
         """
         print("\n" + "=" * 80)
-        print("STEP 1: VIDEO SUMMARIZATION")
+        print("STEP 1: VIDEO SUMMARIZATION (SportCLIP)")
         print("=" * 80)
 
-        # TODO: Replace with actual VS project call
-        # Example: video_clips = vs_project.summarize(input_video, output_dir=self.video_summaries_dir)
+        if input_video:
+            # Validate input parameters
+            if not video_name:
+                raise ValueError("video_name must be provided when input_video is specified")
 
-        print(f"[TEMPLATE] Calling VS project for video summarization...")
-        print(f"[TEMPLATE] Input video: {input_video}")
-        print(f"[TEMPLATE] Output directory: {self.video_summaries_dir}")
-        print(f"[TEMPLATE] This will be replaced with actual VS project integration")
+            if not self.sportclip_sentences_file:
+                raise ValueError("sportclip_sentences_file must be provided in config. Example: 'data/sentences/long_jump.json'")
 
-        # For now, look for existing video clips in the summaries directory
-        video_clips = list(Path(self.video_summaries_dir).glob("*.mp4")) + list(Path(self.video_summaries_dir).glob("*.avi")) + list(Path(self.video_summaries_dir).glob("*.mov"))
+            # Generate highlights using SportCLIP
+            video_clips = generate_highlights(
+                video_name=video_name,
+                sentences_file=self.sportclip_sentences_file,
+                output_dir=self.video_summaries_dir,
+                sportclip_dir=self.sportclip_dir,
+                sportclip_dataset_dir=self.sportclip_dataset_dir,
+            )
 
-        # Sort video clips by filename to ensure consistent ordering
-        video_clips = sorted([str(clip) for clip in video_clips])
+            return video_clips
 
-        if video_clips:
-            print(f"\nFound {len(video_clips)} existing video clips in {self.video_summaries_dir}")
         else:
-            print(f"\nNo video clips found in {self.video_summaries_dir}")
-            print("Please run the VS project separately and place clips in this directory, or")
-            print("integrate the VS project API here.")
+            # Look for existing video clips in the summaries directory
+            print("\nNo input video specified. Looking for existing video clips...")
+            video_clips = list(Path(self.video_summaries_dir).glob("*.mp4")) + list(Path(self.video_summaries_dir).glob("*.avi")) + list(Path(self.video_summaries_dir).glob("*.mov"))
 
-        return video_clips
+            # Sort video clips by filename to ensure consistent ordering
+            video_clips = sorted([str(clip) for clip in video_clips])
+
+            if video_clips:
+                print(f"✓ Found {len(video_clips)} existing video clips in {self.video_summaries_dir}")
+            else:
+                print(f"⚠ No video clips found in {self.video_summaries_dir}")
+                print("\nTo generate highlights, run with:")
+                print("  --input <video_name> --video-name <video_name> --sentences-file <path>")
+
+            return video_clips
 
     def step2_face_detection(self, video_clips: List[str]) -> str:
         """
@@ -156,12 +177,13 @@ class PVSPipeline:
 
         visualize_results(recognition_results_path=recognition_results, output_dir=self.output_dir, show_plots=show_plots)
 
-    def run(self, input_video: str = None, show_plots: bool = False):
+    def run(self, input_video: str = None, video_name: str = None, show_plots: bool = False):
         """
         Run the complete PVS pipeline
 
         Args:
-            input_video: Path to input video (for VS step)
+            input_video: Video name for SportCLIP processing (without extension)
+            video_name: Video name for processing (without extension)
             show_plots: Whether to display plots interactively
         """
         print("\n" + "#" * 80)
@@ -169,7 +191,7 @@ class PVSPipeline:
         print("#" * 80)
 
         # Step 1: Video Summarization
-        video_clips = self.step1_video_summarization(input_video)
+        video_clips = self.step1_video_summarization(input_video, video_name)
 
         # Step 2: Face Detection
         detection_metadata = self.step2_face_detection(video_clips)
@@ -200,8 +222,9 @@ Examples:
   # Run pipeline on existing video clips in data/video_summaries/
   python main.py
 
-  # Specify input video for summarization
-  python main.py --input my_video.mp4
+  # Generate highlights using SportCLIP and run full pipeline
+  python main.py --input longjump_video1 --video-name longjump_video1 \\
+      --sentences-file data/sentences/long_jump.json
 
   # Show plots interactively
   python main.py --show-plots
@@ -211,12 +234,25 @@ Examples:
         """,
     )
 
-    parser.add_argument("--input", type=str, default=None, help="Input video file for summarization")
+    # Video input parameters
+    parser.add_argument("--input", type=str, default=None, help="Video name for SportCLIP processing (without extension)")
+    parser.add_argument("--video-name", type=str, default=None, help="Video name for processing (without extension)")
+
+    # SportCLIP parameters
+    parser.add_argument("--sentences-file", type=str, default=None, help="Path to SportCLIP sentences file (e.g., data/sentences/long_jump.json)")
+    parser.add_argument("--sportclip-dir", type=str, default="/home/mrt/Projects/SportCLIP-official", help="SportCLIP project directory")
+    parser.add_argument("--sportclip-dataset-dir", type=str, default="/mnt/Data/mrt/SportCLIP-OlympicHighlights", help="SportCLIP dataset directory")
+
+    # PVS directories
     parser.add_argument("--video-summaries", type=str, default="data/video_summaries", help="Directory containing video summary clips")
     parser.add_argument("--target-faces", type=str, default="target_faces", help="Directory containing target face images")
     parser.add_argument("--cropped-faces", type=str, default="data/cropped_faces", help="Directory to save cropped face images")
     parser.add_argument("--output", type=str, default="data", help="Output directory for results")
+
+    # Model parameters
     parser.add_argument("--model", type=str, default="ArcFace", choices=["ArcFace", "Facenet", "VGG-Face", "DeepFace"], help="Face recognition model to use")
+
+    # Display parameters
     parser.add_argument("--show-plots", action="store_true", help="Display plots interactively")
 
     args = parser.parse_args()
@@ -228,11 +264,14 @@ Examples:
         "cropped_faces_dir": args.cropped_faces,
         "output_dir": args.output,
         "face_recognition_model": args.model,
+        "sportclip_dir": args.sportclip_dir,
+        "sportclip_dataset_dir": args.sportclip_dataset_dir,
+        "sportclip_sentences_file": args.sentences_file,
     }
 
     # Initialize and run pipeline
     pipeline = PVSPipeline(config=config)
-    pipeline.run(input_video=args.input, show_plots=args.show_plots)
+    pipeline.run(input_video=args.input, video_name=args.video_name, show_plots=args.show_plots)
 
 
 if __name__ == "__main__":

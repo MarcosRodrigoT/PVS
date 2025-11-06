@@ -59,12 +59,31 @@ Run the pipeline on existing video clips:
 python main.py
 ```
 
+### Using SportCLIP Integration
+
+Generate video highlights using SportCLIP and run the full pipeline:
+
+```bash
+# Example: Long jump video
+python main.py --input longjump_video1 \
+               --video-name longjump_video1 \
+               --sentences-file data/sentences/long_jump.json
+
+# Example: 100m sprint video
+python main.py --input 100m_video1 \
+               --video-name 100m_video1 \
+               --sentences-file data/sentences/100_meters.json
+```
+
+This will:
+1. Run SportCLIP's `multi_sentences.py` to analyze highlight/non-highlight pairs
+2. Run SportCLIP's `summarize.py` to generate individual highlight videos
+3. Copy the generated highlights to `data/video_summaries/`
+4. Run face detection, recognition, and visualization on the highlights
+
 ### Advanced Options
 
 ```bash
-# Specify input video for summarization (when VS is integrated)
-python main.py --input my_video.mp4
-
 # Show plots interactively
 python main.py --show-plots
 
@@ -73,15 +92,33 @@ python main.py --video-summaries custom/summaries --target-faces custom/targets
 
 # Use different face recognition model
 python main.py --model Facenet
+
+# Custom SportCLIP directories
+python main.py --input longjump_video1 \
+               --video-name longjump_video1 \
+               --sentences-file data/sentences/long_jump.json \
+               --sportclip-dir /path/to/SportCLIP \
+               --sportclip-dataset-dir /path/to/dataset
 ```
 
 ### Command-line Arguments
 
-- `--input`: Input video file for summarization
+#### Video Input
+- `--input`: Video name for SportCLIP processing (without extension)
+- `--video-name`: Video name for processing (without extension)
+
+#### SportCLIP Configuration
+- `--sentences-file`: Path to SportCLIP sentences file (e.g., `data/sentences/long_jump.json`)
+- `--sportclip-dir`: SportCLIP project directory (default: `/home/mrt/Projects/SportCLIP-official`)
+- `--sportclip-dataset-dir`: SportCLIP dataset directory (default: `/mnt/Data/mrt/SportCLIP-OlympicHighlights`)
+
+#### PVS Directories
 - `--video-summaries`: Directory containing video summary clips (default: `data/video_summaries`)
 - `--target-faces`: Directory containing target face images (default: `target_faces`)
 - `--cropped-faces`: Directory to save cropped faces (default: `data/cropped_faces`)
 - `--output`: Output directory for results (default: `data`)
+
+#### Model & Display
 - `--model`: Face recognition model (ArcFace, Facenet, VGG-Face, DeepFace)
 - `--show-plots`: Display plots interactively
 
@@ -123,27 +160,39 @@ The pipeline generates:
    - Match rates and resemblance scores
    - Overall pipeline results
 
-## Integration with VS Project
+## Integration with SportCLIP Project
 
-The video summarization step (Step 1 in `main.py`) is currently a template. To integrate with your VS project:
+The video summarization step (Step 1 in `main.py`) is now fully integrated with the SportCLIP framework. The integration works as follows:
 
-1. Import your VS module in `main.py`
-2. Replace the template call in `step1_video_summarization()` with your VS API
-3. Ensure VS outputs video clips to the specified directory
+### How It Works
 
-Example integration:
-```python
-def step1_video_summarization(self, input_video: str) -> List[str]:
-    from vs_project import VideoSummarizer
+1. **Multi-sentence analysis**: Calls `multi_sentences.py` to test all combinations of highlight/non-highlight sentence pairs and compute similarity scores
+2. **Highlight extraction**: Calls `summarize.py` to filter the best pairs and extract individual highlight videos
+3. **Video copying**: Copies the generated highlight videos to the PVS `data/video_summaries/` directory
+4. **Face processing**: Proceeds with face detection and recognition on the extracted highlights
 
-    summarizer = VideoSummarizer()
-    video_clips = summarizer.summarize(
-        input_video=input_video,
-        output_dir=self.video_summaries_dir
-    )
+### Required Setup
 
-    return video_clips
+1. Ensure SportCLIP project is installed at the configured location (default: `/home/mrt/Projects/SportCLIP-official`)
+2. Ensure SportCLIP's virtual environment is set up at `<sportclip_dir>/venv/` with all dependencies installed
+3. Ensure your dataset (videos + frames + embeddings) is available at the configured location (default: `/mnt/Data/mrt/SportCLIP-OlympicHighlights`)
+4. Prepare a sentences file for your sport (e.g., `data/sentences/long_jump.json`)
+
+**Note**: The integration automatically uses SportCLIP's virtual environment if available, ensuring all dependencies are accessible.
+
+### Example Usage
+
+```bash
+python main.py --input longjump_video1 \
+               --video-name longjump_video1 \
+               --sentences-file data/sentences/long_jump.json
 ```
+
+This automatically:
+- Generates individual highlight videos using SportCLIP
+- Copies them to `data/video_summaries/longjump_video1_highlight_000.mp4`, etc.
+- Runs face detection and recognition on each highlight
+- Creates visualizations showing when target faces appear in the highlights
 
 ## Face Detection Metadata
 
