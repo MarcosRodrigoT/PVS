@@ -24,8 +24,7 @@ wheels/
 *.egg
 
 # Data directories
-data/
-!data/.gitkeep
+results*/
 target_faces/*
 !target_faces/.gitkeep
 

@@ -35,10 +35,10 @@ class PVSPipeline:
         self.config = config or {}
 
         # Default paths
-        self.video_summaries_dir = self.config.get("video_summaries_dir", "data/video_summaries")
+        self.video_summaries_dir = self.config.get("video_summaries_dir", "results/video_summaries")
         self.target_faces_dir = self.config.get("target_faces_dir", "target_faces")
-        self.cropped_faces_dir = self.config.get("cropped_faces_dir", "data/cropped_faces")
-        self.output_dir = self.config.get("output_dir", "data")
+        self.cropped_faces_dir = self.config.get("cropped_faces_dir", "results/cropped_faces")
+        self.output_dir = self.config.get("output_dir", "results")
 
         # Video summarization method selection
         self.video_summarizer = self.config.get("video_summarizer", "sportclip")  # "sportclip" or "qddetr"
@@ -326,10 +326,10 @@ Examples:
     parser.add_argument("--qddetr-annotation-path", type=str, default=None, help="Path to QD-DETR annotation JSONL file (required when using pre-extracted features)")
 
     # PVS directories
-    parser.add_argument("--video-summaries", type=str, default="data/video_summaries", help="Directory containing video summary clips")
+    parser.add_argument("--video-summaries", type=str, default="results/video_summaries", help="Directory containing video summary clips")
     parser.add_argument("--target-faces", type=str, default="target_faces", help="Directory containing target face images")
-    parser.add_argument("--cropped-faces", type=str, default="data/cropped_faces", help="Directory to save cropped face images")
-    parser.add_argument("--output", type=str, default="data", help="Output directory for results")
+    parser.add_argument("--cropped-faces", type=str, default="results/cropped_faces", help="Directory to save cropped face images")
+    parser.add_argument("--output", type=str, default="results", help="Output directory for results")
 
     # Model parameters
     parser.add_argument("--model", type=str, default="ArcFace", choices=["ArcFace", "Facenet", "VGG-Face", "DeepFace"], help="Face recognition model to use")
