@@ -31,12 +31,12 @@ class FaceDetector:
         print("Initializing face detector...")
         # Try to use GPU (CUDA), fall back to CPU if not available
         try:
-            self.app = FaceAnalysis(providers=['CUDAExecutionProvider', 'CPUExecutionProvider'])
+            self.app = FaceAnalysis(providers=["CUDAExecutionProvider", "CPUExecutionProvider"])
             self.app.prepare(ctx_id=0, det_size=det_size)
             print("Face detector initialized (GPU enabled)")
         except Exception as e:
             print(f"GPU initialization failed, using CPU: {e}")
-            self.app = FaceAnalysis(providers=['CPUExecutionProvider'])
+            self.app = FaceAnalysis(providers=["CPUExecutionProvider"])
             self.app.prepare(ctx_id=-1, det_size=det_size)
             print("Face detector initialized (CPU mode)")
 
@@ -167,7 +167,7 @@ def process_video_clips(video_clips: List[str], output_dir: str = "data/cropped_
         print(f"  Detected {len(detections)} faces")
 
     # Save all detection metadata
-    metadata_path = "data/face_detections.json"
+    metadata_path = "results/face_detections.json"
     detector.save_detection_metadata(metadata_path)
 
     # Print statistics

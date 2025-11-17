@@ -50,7 +50,7 @@ class ResemblanceVisualizer:
 
         return dict(frame_resemblance)
 
-    def plot_resemblance_curves(self, output_dir: str = "data/visualizations", show_plot: bool = False):
+    def plot_resemblance_curves(self, output_dir: str = "results/visualizations", show_plot: bool = False):
         """
         Create resemblance curves for all clips and targets
 
@@ -179,7 +179,7 @@ class ResemblanceVisualizer:
         else:
             plt.close()
 
-    def generate_summary_report(self, output_path: str = "data/summary_report.txt"):
+    def generate_summary_report(self, output_path: str = "results/summary_report.txt"):
         """
         Generate a text summary report of recognition results
 
@@ -227,7 +227,7 @@ class ResemblanceVisualizer:
         print(f"Summary report saved to {output_path}")
 
 
-def visualize_results(recognition_results_path: str = "data/face_recognition_results.json", output_dir: str = "data", show_plots: bool = False):
+def visualize_results(recognition_results_path: str = "results/face_recognition_results.json", output_dir: str = "results", show_plots: bool = False):
     """
     Generate visualizations and summary report
 

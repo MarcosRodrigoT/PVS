@@ -61,6 +61,8 @@ class PVSPipeline:
 
         # Model configurations
         self.face_recognition_model = self.config.get("face_recognition_model", "ArcFace")
+        self.transface_weight = self.config.get("transface_weight", None)
+        self.transface_network = self.config.get("transface_network", "vit_l_dp005_mask_005")
 
         # Ensure directories exist
         Path(self.video_summaries_dir).mkdir(parents=True, exist_ok=True)
@@ -92,6 +94,17 @@ class PVSPipeline:
             # Validate input parameters
             if not video_name:
                 raise ValueError("video_name must be provided when input_video is specified")
+
+            # Check if video summaries already exist
+            existing_clips = (
+                list(Path(self.video_summaries_dir).glob("*.mp4")) + list(Path(self.video_summaries_dir).glob("*.avi")) + list(Path(self.video_summaries_dir).glob("*.mov"))
+            )
+
+            if existing_clips:
+                print(f"\n✓ Found {len(existing_clips)} existing video clips in {self.video_summaries_dir}")
+                print("  Skipping video summarization step...")
+                video_clips = sorted([str(clip) for clip in existing_clips])
+                return video_clips
 
             # Select and run video summarizer
             if self.video_summarizer == "sportclip":
@@ -188,6 +201,20 @@ class PVSPipeline:
             print("No video clips to process. Skipping face detection.")
             return None
 
+        # Check if face detection results already exist
+        detection_metadata_path = "results/face_detections.json"
+        if os.path.exists(detection_metadata_path):
+            # Also verify that cropped faces directory exists and has files
+            cropped_faces_dir = Path(self.cropped_faces_dir)
+            if cropped_faces_dir.exists():
+                # Search recursively for cropped faces in subdirectories
+                cropped_faces = list(cropped_faces_dir.glob("**/*.jpg")) + list(cropped_faces_dir.glob("**/*.png"))
+                if cropped_faces:
+                    print(f"\n✓ Found existing face detection results: {detection_metadata_path}")
+                    print(f"✓ Found {len(cropped_faces)} cropped face images in {self.cropped_faces_dir}")
+                    print("  Skipping face detection step...")
+                    return detection_metadata_path
+
         detection_metadata = process_video_clips(video_clips=video_clips, output_dir=self.cropped_faces_dir)
 
         return detection_metadata
@@ -212,7 +239,13 @@ class PVSPipeline:
             print("No detection metadata found. Skipping face recognition.")
             return None
 
-        recognition_results = recognize_faces(detection_metadata_path=detection_metadata, target_faces_dir=self.target_faces_dir, model_name=self.face_recognition_model)
+        recognition_results = recognize_faces(
+            detection_metadata_path=detection_metadata,
+            target_faces_dir=self.target_faces_dir,
+            model_name=self.face_recognition_model,
+            transface_weight=self.transface_weight,
+            transface_network=self.transface_network,
+        )
 
         return recognition_results
 
@@ -291,6 +324,16 @@ Examples:
       --video-name longjump_video1 --video-path /path/to/longjump_video1.mp4 \\
       --qddetr-query "highlight moments in this long jump competition"
 
+  # Use TransFace transformer model for face recognition
+  python main.py --model TransFace
+
+  # Use TransFace with custom weights
+  python main.py --model TransFace --transface-weight /path/to/custom_weights.pt
+
+  # Full pipeline with SportCLIP + TransFace
+  python main.py --input longjump_video1 --video-name longjump_video1 \\
+      --sentences-file data/sentences/long_jump.json --model TransFace
+
   # Show plots interactively
   python main.py --show-plots
 
@@ -332,7 +375,14 @@ Examples:
     parser.add_argument("--output", type=str, default="results", help="Output directory for results")
 
     # Model parameters
-    parser.add_argument("--model", type=str, default="ArcFace", choices=["ArcFace", "Facenet", "VGG-Face", "DeepFace"], help="Face recognition model to use")
+    parser.add_argument("--model", type=str, default="ArcFace", choices=["ArcFace", "Facenet", "VGG-Face", "DeepFace", "TransFace"], help="Face recognition model to use")
+    parser.add_argument(
+        "--transface-weight",
+        type=str,
+        default=None,
+        help="Path to TransFace model weights (default: /home/mrt/Projects/TransFace/work_dirs/glint360k_vit_l/glint360k_model_TransFace_L.pt)",
+    )
+    parser.add_argument("--transface-network", type=str, default="vit_l_dp005_mask_005", help="TransFace network architecture (default: vit_l_dp005_mask_005)")
 
     # Display parameters
     parser.add_argument("--show-plots", action="store_true", help="Display plots interactively")
@@ -361,6 +411,9 @@ Examples:
         "qddetr_feat_dirs": args.qddetr_feat_dirs,
         "qddetr_text_feat_dir": args.qddetr_text_feat_dir,
         "qddetr_annotation_path": args.qddetr_annotation_path,
+        # TransFace config
+        "transface_weight": args.transface_weight,
+        "transface_network": args.transface_network,
     }
 
     # Initialize and run pipeline
