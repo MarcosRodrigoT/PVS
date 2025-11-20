@@ -25,6 +25,7 @@ os.environ["TF_USE_LEGACY_KERAS"] = "1"
 os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
 try:
     import tensorflow as tf
+
     gpus = tf.config.list_physical_devices("GPU")
     if gpus:
         for gpu in gpus:
@@ -57,7 +58,7 @@ def get_existing_embeddings(h5_path: Path) -> Set[str]:
         return set()
 
     try:
-        with h5py.File(str(h5_path), 'r') as f:
+        with h5py.File(str(h5_path), "r") as f:
             return set(f.keys())
     except Exception:
         return set()
@@ -73,19 +74,14 @@ def save_embeddings_to_h5(embeddings: Dict[str, np.ndarray], output_path: Path):
     """
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    mode = 'a' if output_path.exists() else 'w'
+    mode = "a" if output_path.exists() else "w"
     with h5py.File(str(output_path), mode) as f:
         for face_name, embedding in embeddings.items():
             if face_name not in f:
                 f.create_dataset(face_name, data=embedding, compression="gzip", compression_opts=4)
 
 
-def extract_arcface_embeddings_progressive(
-    image_paths: List[str],
-    output_path: Path,
-    gpu_id: int = 0,
-    save_interval: int = SAVE_BATCH_SIZE
-) -> int:
+def extract_arcface_embeddings_progressive(image_paths: List[str], output_path: Path, gpu_id: int = 0, save_interval: int = SAVE_BATCH_SIZE) -> int:
     """
     Extract ArcFace embeddings and save progressively to HDF5
 
@@ -126,11 +122,7 @@ def extract_arcface_embeddings_progressive(
             continue
 
         try:
-            embedding = DeepFace.represent(
-                img_path=img_path,
-                model_name="ArcFace",
-                enforce_detection=False
-            )
+            embedding = DeepFace.represent(img_path=img_path, model_name="ArcFace", enforce_detection=False)
 
             if isinstance(embedding, list) and len(embedding) > 0:
                 face_name = Path(img_path).stem
@@ -152,12 +144,7 @@ def extract_arcface_embeddings_progressive(
     return total_extracted
 
 
-def extract_transface_embeddings_batch(
-    image_paths: List[str],
-    transface_weight: str,
-    transface_network: str,
-    temp_dir: str = "/tmp"
-) -> Dict[str, np.ndarray]:
+def extract_transface_embeddings_batch(image_paths: List[str], transface_weight: str, transface_network: str, temp_dir: str = "/tmp") -> Dict[str, np.ndarray]:
     """
     Extract TransFace embeddings using batch processing
 
@@ -189,11 +176,16 @@ def extract_transface_embeddings_batch(
         cmd = [
             TRANSFACE_VENV_PYTHON,
             TRANSFACE_BATCH_SCRIPT,
-            "--mode", "extract-batch",
-            "--input-list", input_file,
-            "--output", output_file,
-            "--weight", transface_weight,
-            "--network", transface_network,
+            "--mode",
+            "extract-batch",
+            "--input-list",
+            input_file,
+            "--output",
+            output_file,
+            "--weight",
+            transface_weight,
+            "--network",
+            transface_network,
         ]
 
         try:
@@ -236,13 +228,7 @@ def extract_transface_embeddings_batch(
             os.remove(output_file)
 
 
-def extract_transface_embeddings_progressive(
-    image_paths: List[str],
-    output_path: Path,
-    transface_weight: str,
-    transface_network: str,
-    batch_size: int = 1000
-) -> int:
+def extract_transface_embeddings_progressive(image_paths: List[str], output_path: Path, transface_weight: str, transface_network: str, batch_size: int = 1000) -> int:
     """
     Extract TransFace embeddings and save progressively to HDF5
 
@@ -277,16 +263,12 @@ def extract_transface_embeddings_progressive(
     num_batches = (len(remaining_paths) - 1) // batch_size + 1
 
     for i in range(0, len(remaining_paths), batch_size):
-        batch_paths = remaining_paths[i:i+batch_size]
+        batch_paths = remaining_paths[i : i + batch_size]
         batch_num = i // batch_size + 1
         print(f"  Batch {batch_num}/{num_batches}: {len(batch_paths)} images")
 
         # Extract embeddings for this batch
-        batch_embeddings = extract_transface_embeddings_batch(
-            image_paths=batch_paths,
-            transface_weight=transface_weight,
-            transface_network=transface_network
-        )
+        batch_embeddings = extract_transface_embeddings_batch(image_paths=batch_paths, transface_weight=transface_weight, transface_network=transface_network)
 
         # Save immediately after each batch
         if batch_embeddings:
@@ -308,7 +290,7 @@ def load_embedding_from_h5(h5_path: Path, face_name: str) -> np.ndarray:
     Returns:
         Embedding as numpy array
     """
-    with h5py.File(str(h5_path), 'r') as f:
+    with h5py.File(str(h5_path), "r") as f:
         return f[face_name][:]
 
 
@@ -346,11 +328,7 @@ def find_all_face_crops(cropped_faces_dir: str) -> Dict[str, List[str]]:
     return video_faces
 
 
-def process_arcface_embeddings(
-    video_faces: Dict[str, List[str]],
-    output_dir: Path,
-    gpu_id: int = 0
-):
+def process_arcface_embeddings(video_faces: Dict[str, List[str]], output_dir: Path, gpu_id: int = 0):
     """
     Extract and save ArcFace embeddings for all videos
 
@@ -379,11 +357,7 @@ def process_arcface_embeddings(
         output_path = output_dir / f"{video_name}.h5"
 
         # Extract and save progressively
-        num_extracted = extract_arcface_embeddings_progressive(
-            image_paths=face_paths,
-            output_path=output_path,
-            gpu_id=gpu_id
-        )
+        num_extracted = extract_arcface_embeddings_progressive(image_paths=face_paths, output_path=output_path, gpu_id=gpu_id)
 
         processed_faces += num_extracted
         print(f"  Total embeddings in {output_path.name}: {num_extracted}")
@@ -391,13 +365,7 @@ def process_arcface_embeddings(
     print(f"\n✓ ArcFace: Processed {processed_faces}/{total_faces} faces")
 
 
-def process_transface_embeddings(
-    video_faces: Dict[str, List[str]],
-    output_dir: Path,
-    transface_weight: str,
-    transface_network: str,
-    batch_size: int = 1000
-):
+def process_transface_embeddings(video_faces: Dict[str, List[str]], output_dir: Path, transface_weight: str, transface_network: str, batch_size: int = 1000):
     """
     Extract and save TransFace embeddings for all videos
 
@@ -430,11 +398,7 @@ def process_transface_embeddings(
 
         # Extract and save progressively
         num_extracted = extract_transface_embeddings_progressive(
-            image_paths=face_paths,
-            output_path=output_path,
-            transface_weight=transface_weight,
-            transface_network=transface_network,
-            batch_size=batch_size
+            image_paths=face_paths, output_path=output_path, transface_weight=transface_weight, transface_network=transface_network, batch_size=batch_size
         )
 
         processed_faces += num_extracted
@@ -486,52 +450,18 @@ Output Format:
   Or to list all embeddings in a file:
     with h5py.File('video_name.h5', 'r') as f:
         print(list(f.keys()))
-        """
+        """,
     )
 
+    parser.add_argument("--input-dir", type=str, default="cropped_faces", help="Directory containing cropped face images (default: cropped_faces)")
+    parser.add_argument("--output-dir", type=str, default="cropped_faces_embeddings", help="Directory to save embeddings (default: cropped_faces_embeddings)")
+    parser.add_argument("--models", nargs="+", choices=["ArcFace", "TransFace"], default=["ArcFace", "TransFace"], help="Which models to use for embedding extraction (default: both)")
+    parser.add_argument("--gpu-id", type=int, default=0, help="GPU ID to use for ArcFace (0 or 1, default: 0)")
     parser.add_argument(
-        "--input-dir",
-        type=str,
-        default="cropped_faces",
-        help="Directory containing cropped face images (default: cropped_faces)"
+        "--transface-weight", type=str, default="/home/mrt/Projects/TransFace/work_dirs/glint360k_vit_l/glint360k_model_TransFace_L.pt", help="Path to TransFace model weights"
     )
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        default="cropped_faces_embeddings",
-        help="Directory to save embeddings (default: cropped_faces_embeddings)"
-    )
-    parser.add_argument(
-        "--models",
-        nargs="+",
-        choices=["ArcFace", "TransFace"],
-        default=["ArcFace", "TransFace"],
-        help="Which models to use for embedding extraction (default: both)"
-    )
-    parser.add_argument(
-        "--gpu-id",
-        type=int,
-        default=0,
-        help="GPU ID to use for ArcFace (0 or 1, default: 0)"
-    )
-    parser.add_argument(
-        "--transface-weight",
-        type=str,
-        default="/home/mrt/Projects/TransFace/work_dirs/glint360k_vit_l/glint360k_model_TransFace_L.pt",
-        help="Path to TransFace model weights"
-    )
-    parser.add_argument(
-        "--transface-network",
-        type=str,
-        default="vit_l_dp005_mask_005",
-        help="TransFace network architecture (default: vit_l_dp005_mask_005)"
-    )
-    parser.add_argument(
-        "--batch-size",
-        type=int,
-        default=1000,
-        help="Batch size for TransFace processing (default: 1000)"
-    )
+    parser.add_argument("--transface-network", type=str, default="vit_l_dp005_mask_005", help="TransFace network architecture (default: vit_l_dp005_mask_005)")
+    parser.add_argument("--batch-size", type=int, default=1000, help="Batch size for TransFace processing (default: 1000)")
 
     args = parser.parse_args()
 
@@ -564,11 +494,7 @@ Output Format:
     # Process each model
     if "ArcFace" in args.models:
         arcface_output_dir = output_dir / "ArcFace"
-        process_arcface_embeddings(
-            video_faces=video_faces,
-            output_dir=arcface_output_dir,
-            gpu_id=args.gpu_id
-        )
+        process_arcface_embeddings(video_faces=video_faces, output_dir=arcface_output_dir, gpu_id=args.gpu_id)
 
     if "TransFace" in args.models:
         # Verify TransFace is available
@@ -584,11 +510,7 @@ Output Format:
         else:
             transface_output_dir = output_dir / "TransFace"
             process_transface_embeddings(
-                video_faces=video_faces,
-                output_dir=transface_output_dir,
-                transface_weight=args.transface_weight,
-                transface_network=args.transface_network,
-                batch_size=args.batch_size
+                video_faces=video_faces, output_dir=transface_output_dir, transface_weight=args.transface_weight, transface_network=args.transface_network, batch_size=args.batch_size
             )
 
     # Summary

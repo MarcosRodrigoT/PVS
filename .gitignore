@@ -24,9 +24,16 @@ wheels/
 *.egg
 
 # Data directories
+data/*
 results*/
 target_faces/*
+target_faces_updated/*
+cropped_faces/*
+cropped_faces_embeddings/*
+resemblance_results/*
+
 !target_faces/.gitkeep
+!target_faces_updated/.gitkeep
 
 # IDE
 .vscode/
