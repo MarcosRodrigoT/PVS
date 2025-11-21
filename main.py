@@ -54,6 +54,7 @@ class PVSPipelineNew:
 
         # Video summarization config
         self.video_summarizer = self.config.get("video_summarizer", "sportclip")
+        self.use_updated_target = self.config.get("use_updated_target", False)
 
         # SportCLIP config
         self.sportclip_dir = self.config.get("sportclip_dir", "/home/mrt/Projects/SportCLIP-official")
@@ -398,6 +399,112 @@ class PVSPipelineNew:
         print(f"\n✓ Processed {len(successful_targets)}/{len(target_images)} targets")
         return successful_targets
 
+    def step4_extract_original_target_embeddings(self, target_names: List[str]) -> bool:
+        """
+        Step 4 (Alternative): Extract Embeddings from Original Target Faces
+
+        This step extracts embeddings directly from the original target images in target_faces/.
+        Used when --use-updated-target is NOT set (first pass only).
+
+        Args:
+            target_names: List of target names to process
+
+        Returns:
+            True if successful, False otherwise
+        """
+        print("\n" + "=" * 80)
+        print("STEP 4: EXTRACT EMBEDDINGS FROM ORIGINAL TARGET FACES")
+        print("=" * 80)
+
+        if not target_names:
+            print("\nNo targets to process")
+            return False
+
+        print(f"\nExtracting embeddings from original target faces for {len(target_names)} target(s)...")
+        print("Note: Using original target images (not updated from video)")
+
+        try:
+            # Call extract_original_target_embeddings.py script
+            cmd = [
+                sys.executable,
+                "extract_original_target_embeddings.py",
+                "--target-faces",
+                self.target_faces_dir,
+                "--output",
+                self.target_faces_updated_dir,
+                "--transface-weight",
+                self.transface_weight,
+                "--transface-network",
+                self.transface_network,
+            ]
+
+            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+
+            print(f"\n✓ Successfully extracted original target embeddings")
+            return True
+
+        except subprocess.CalledProcessError as e:
+            print(f"\nError extracting original target embeddings: {e}")
+            if e.stdout:
+                print(f"STDOUT: {e.stdout}")
+            if e.stderr:
+                print(f"STDERR: {e.stderr}")
+            return False
+
+    def step4b_extract_updated_target_embeddings(self, video_name: str, target_names: List[str]) -> bool:
+        """
+        Step 4b: Extract Embeddings from Updated Targets (Second Pass)
+
+        This step extracts embeddings from the updated target faces (best matches from video).
+        When these embeddings are compared against the video, we should get 100% similarity
+        for the exact frame where the updated target came from.
+
+        Args:
+            video_name: Video name (without extension)
+            target_names: List of target names to process
+
+        Returns:
+            True if successful, False otherwise
+        """
+        print("\n" + "=" * 80)
+        print("STEP 4b: EXTRACT EMBEDDINGS FROM UPDATED TARGETS (SECOND PASS)")
+        print("=" * 80)
+
+        if not target_names:
+            print("\nNo targets to process")
+            return False
+
+        print(f"\nExtracting embeddings from updated targets for {len(target_names)} target(s)...")
+        print("This will enable 100% similarity match in resemblance curves")
+
+        try:
+            # Call extract_updated_target_embeddings.py script
+            cmd = [
+                sys.executable,
+                "extract_updated_target_embeddings.py",
+                "--updated-targets",
+                self.target_faces_updated_dir,
+                "--video",
+                video_name,
+                "--transface-weight",
+                self.transface_weight,
+                "--transface-network",
+                self.transface_network,
+            ]
+
+            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+
+            print(f"\n✓ Successfully extracted updated target embeddings")
+            return True
+
+        except subprocess.CalledProcessError as e:
+            print(f"\nError extracting updated target embeddings: {e}")
+            if e.stdout:
+                print(f"STDOUT: {e.stdout}")
+            if e.stderr:
+                print(f"STDERR: {e.stderr}")
+            return False
+
     def step5_compute_resemblance_curves(self, video_name: str, target_names: List[str]) -> bool:
         """
         Step 5: Compute Resemblance Curves
@@ -441,6 +548,10 @@ class PVSPipelineNew:
                 "--smooth-window",
                 str(self.smooth_window),
             ]
+
+            # Add flag if using updated target embeddings
+            if self.use_updated_target:
+                cmd.append("--use-updated-target")
 
             result = subprocess.run(cmd, check=True, capture_output=True, text=True)
 
@@ -508,6 +619,10 @@ class PVSPipelineNew:
                 str(self.smooth_window),
             ]
 
+            # Add flag if using updated target embeddings
+            if self.use_updated_target:
+                cmd.append("--use-updated-target")
+
             result = subprocess.run(cmd, check=True, capture_output=True, text=True)
 
             print(f"\n✓ Successfully created final visualizations")
@@ -550,17 +665,38 @@ class PVSPipelineNew:
             print("\nError: Embedding extraction failed. Aborting pipeline.")
             return
 
-        # Step 4: Find Updated Targets
-        target_names = self.step4_find_updated_targets(video_name)
-        if not target_names:
-            print("\nWarning: No targets processed. Continuing anyway...")
+        # Step 4 (conditional): Find Updated Targets - only if --use-updated-target is enabled
+        target_names = []
+        if self.use_updated_target:
+            target_names = self.step4_find_updated_targets(video_name)
+            if not target_names:
+                print("\nWarning: No targets processed. Aborting face recognition workflow...")
+                return
 
-        # Step 5: Compute Resemblance Curves
-        if target_names:
-            if not self.step5_compute_resemblance_curves(video_name, target_names):
-                print("\nWarning: Resemblance curve computation failed.")
+            # Step 4b: Extract Updated Target Embeddings (second pass)
+            if not self.step4b_extract_updated_target_embeddings(video_name, target_names):
+                print("\nWarning: Updated target embedding extraction failed.")
+        else:
+            # Without --use-updated-target, we'll use original target faces directly
+            # Get target names from target_faces/ directory
+            target_faces_dir = Path(self.target_faces_dir)
+            target_images = list(target_faces_dir.glob("*.jpg")) + list(target_faces_dir.glob("*.png")) + list(target_faces_dir.glob("*.jpeg"))
+            target_names = [img.stem for img in target_images]
 
-        # Step 6: Create Final Visualization
+            if not target_names:
+                print("\nWarning: No target faces found in target_faces/")
+                return
+
+            # Extract embeddings from original target faces
+            if not self.step4_extract_original_target_embeddings(target_names):
+                print("\nWarning: Original target embedding extraction failed.")
+                return
+
+        # Step 5: Compute Resemblance Curves (always runs)
+        if not self.step5_compute_resemblance_curves(video_name, target_names):
+            print("\nWarning: Resemblance curve computation failed.")
+
+        # Step 6: Create Final Visualization (always runs)
         self.step6_create_final_visualization(video_name, segments_data, target_names)
 
         print("\n" + "#" * 80)
@@ -570,7 +706,10 @@ class PVSPipelineNew:
         print(f"  - Video summaries: {self.video_summaries_dir}/{self.video_summarizer.upper()}/{video_name}/")
         print(f"  - Face crops: {self.cropped_faces_dir}/{video_name}/")
         print(f"  - Embeddings: {self.embeddings_dir}/")
-        print(f"  - Updated targets: {self.target_faces_updated_dir}/")
+        if self.use_updated_target:
+            print(f"  - Updated targets (from video): {self.target_faces_updated_dir}/")
+        else:
+            print(f"  - Target embeddings (from original): {self.target_faces_updated_dir}/")
         print(f"  - Resemblance curves: {self.resemblance_results_dir}/")
         print(f"  - Final output: {self.output_dir}/{video_name}/")
 
@@ -638,6 +777,11 @@ Examples:
     parser.add_argument("--similarity-threshold", type=float, default=0.5, help="Similarity threshold for finding updated targets (default: 0.5)")
     parser.add_argument("--resemblance-threshold", type=float, default=0.6, help="Resemblance threshold for visualization (default: 0.6)")
     parser.add_argument("--smooth-window", type=int, default=5, help="Smoothing window for resemblance curves (default: 5)")
+    parser.add_argument(
+        "--use-updated-target",
+        action="store_true",
+        help="Perform second pass using updated target embeddings (should achieve 100%% similarity). Results saved with '_updated' suffix to avoid overwriting.",
+    )
 
     args = parser.parse_args()
 
@@ -692,6 +836,7 @@ Examples:
         "similarity_threshold": args.similarity_threshold,
         "resemblance_threshold": args.resemblance_threshold,
         "smooth_window": args.smooth_window,
+        "use_updated_target": args.use_updated_target,
     }
 
     # Initialize and run pipeline

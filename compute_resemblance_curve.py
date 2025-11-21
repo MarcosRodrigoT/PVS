@@ -74,21 +74,28 @@ def compute_cosine_similarity(emb1: np.ndarray, emb2: np.ndarray) -> float:
     return (similarity + 1) / 2
 
 
-def load_updated_target_embedding(target_dir: Path, model: str = "arcface") -> Optional[np.ndarray]:
+def load_updated_target_embedding(target_dir: Path, model: str = "arcface", use_updated: bool = False) -> Optional[np.ndarray]:
     """
     Load updated target embedding
 
     Args:
         target_dir: Directory containing updated target files
         model: Model type ("arcface" or "transface")
+        use_updated: If True, load embeddings from updated target face (second pass)
 
     Returns:
         Embedding as numpy array or None if not found
     """
     if model.lower() == "arcface":
-        emb_path = target_dir / "target_arcface_embedding.npy"
+        if use_updated:
+            emb_path = target_dir / "updated_target_arcface_embedding.npy"
+        else:
+            emb_path = target_dir / "target_arcface_embedding.npy"
     elif model.lower() == "transface":
-        emb_path = target_dir / "target_transface_embedding.npy"
+        if use_updated:
+            emb_path = target_dir / "updated_target_transface_embedding.npy"
+        else:
+            emb_path = target_dir / "target_transface_embedding.npy"
     else:
         print(f"Unknown model: {model}")
         return None
@@ -188,6 +195,7 @@ def create_resemblance_plot(
     video_name: str,
     threshold: float = 0.6,
     smooth_window: int = 5,
+    use_updated: bool = False,
 ):
     """
     Create an eye-catching resemblance curve plot
@@ -235,7 +243,8 @@ def create_resemblance_plot(
         ax1.fill_between(timestamps, 0, 1, where=above_threshold, alpha=0.2, color="#06A77D", label="Above Threshold", transform=ax1.get_xaxis_transform())
 
     ax1.set_ylabel("Resemblance Score", fontsize=14, fontweight="bold")
-    ax1.set_title(f"ArcFace Resemblance Curve - {target_name} in {video_name}", fontsize=16, fontweight="bold", pad=20)
+    title_suffix = " (Updated Target)" if use_updated else ""
+    ax1.set_title(f"ArcFace Resemblance Curve - {target_name} in {video_name}{title_suffix}", fontsize=16, fontweight="bold", pad=20)
     ax1.grid(True, alpha=0.3, linestyle=":", linewidth=1)
     ax1.set_ylim([0, 1])
     ax1.legend(loc="upper right", fontsize=10, framealpha=0.9)
@@ -275,7 +284,8 @@ def create_resemblance_plot(
 
     ax2.set_xlabel("Video Time (MM:SS)", fontsize=14, fontweight="bold")
     ax2.set_ylabel("Resemblance Score", fontsize=14, fontweight="bold")
-    ax2.set_title(f"TransFace Resemblance Curve - {target_name} in {video_name}", fontsize=16, fontweight="bold", pad=20)
+    title_suffix = " (Updated Target)" if use_updated else ""
+    ax2.set_title(f"TransFace Resemblance Curve - {target_name} in {video_name}{title_suffix}", fontsize=16, fontweight="bold", pad=20)
     ax2.grid(True, alpha=0.3, linestyle=":", linewidth=1)
     ax2.set_ylim([0, 1])
     ax2.legend(loc="upper right", fontsize=10, framealpha=0.9)
@@ -382,6 +392,11 @@ Examples:
     parser.add_argument("--output", type=str, default="resemblance_results", help="Output directory for plots and data (default: resemblance_results)")
     parser.add_argument("--threshold", type=float, default=0.6, help="Similarity threshold for visualization (default: 0.6)")
     parser.add_argument("--smooth-window", type=int, default=5, help="Window size for rolling average smoothing (default: 5)")
+    parser.add_argument(
+        "--use-updated-target",
+        action="store_true",
+        help="Use embeddings from updated target faces (second pass, should achieve 100%% similarity). Files saved with '_updated' suffix.",
+    )
 
     args = parser.parse_args()
 
@@ -417,6 +432,7 @@ Examples:
     print("COMPUTE RESEMBLANCE CURVE")
     print("=" * 80)
     print(f"\nVideo: {video_name}")
+    print(f"Mode: {'Updated Target (Second Pass)' if args.use_updated_target else 'Original Target (First Pass)'}")
     print(f"Threshold: {args.threshold}")
     print(f"Smooth window: {args.smooth_window}")
     print(f"Targets to process: {len(target_dirs)}")
@@ -450,9 +466,9 @@ Examples:
         print("=" * 80)
 
         # Load updated target embeddings
-        print("\nLoading updated target embeddings...")
-        arcface_emb = load_updated_target_embedding(target_dir, "arcface")
-        transface_emb = load_updated_target_embedding(target_dir, "transface")
+        print("\nLoading target embeddings...")
+        arcface_emb = load_updated_target_embedding(target_dir, "arcface", use_updated=args.use_updated_target)
+        transface_emb = load_updated_target_embedding(target_dir, "transface", use_updated=args.use_updated_target)
 
         if arcface_emb is None or transface_emb is None:
             print(f"\nError: Could not load target embeddings for {target_name}")
@@ -492,9 +508,10 @@ Examples:
         target_output_dir = output_dir / target_name / video_name
         target_output_dir.mkdir(parents=True, exist_ok=True)
 
-        # Create plot
+        # Create plot with suffix if using updated target
         print("\nCreating resemblance curve plot...")
-        plot_path = target_output_dir / f"{target_name}_{video_name}_resemblance_curve.png"
+        suffix = "_updated" if args.use_updated_target else ""
+        plot_path = target_output_dir / f"{target_name}_{video_name}_resemblance_curve{suffix}.png"
         create_resemblance_plot(
             timestamps=timestamps,
             arcface_scores=arcface_scores,
@@ -504,11 +521,12 @@ Examples:
             video_name=video_name,
             threshold=args.threshold,
             smooth_window=args.smooth_window,
+            use_updated=args.use_updated_target,
         )
 
-        # Save data
+        # Save data with suffix if using updated target
         print("\nSaving resemblance data...")
-        data_path = target_output_dir / f"{target_name}_{video_name}_resemblance_data.json"
+        data_path = target_output_dir / f"{target_name}_{video_name}_resemblance_data{suffix}.json"
         save_resemblance_data(
             timestamps=timestamps,
             arcface_scores=arcface_scores,

@@ -28,7 +28,6 @@ class FullVideoFaceExtractor:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.min_face_size = min_face_size
-        self.detection_results = []  # Store metadata for all detections
 
         # Initialize InsightFace detector (same as in detector.py)
         print("Initializing face detector...")
@@ -52,12 +51,23 @@ class FullVideoFaceExtractor:
         Returns:
             Number of faces extracted
         """
+        import json
+
         video_path = Path(video_path)
         video_name = video_path.stem  # Filename without extension
 
         # Create video-specific directory
         video_dir = self.output_dir / video_name
         video_dir.mkdir(parents=True, exist_ok=True)
+
+        # Path for video-specific metadata file
+        metadata_path = video_dir / "detections.json"
+
+        # Load existing detections if resuming
+        video_detections = []
+        if metadata_path.exists():
+            with open(metadata_path, "r") as f:
+                video_detections = json.load(f)
 
         # Open video
         cap = cv2.VideoCapture(str(video_path))
@@ -172,12 +182,17 @@ class FullVideoFaceExtractor:
                         "landmarks": landmarks,
                         "cropped_face_path": str(face_path),
                     }
-                    self.detection_results.append(detection_info)
+                    video_detections.append(detection_info)
 
                 frame_number += 1
                 pbar.update(1)
 
         cap.release()
+
+        # Save metadata for this video immediately
+        with open(metadata_path, "w") as f:
+            json.dump(video_detections, f, indent=2)
+        print(f"  ✓ Saved detection metadata to {metadata_path}")
 
         # Include previously extracted faces in the count
         if start_frame > 0:
@@ -189,35 +204,33 @@ class FullVideoFaceExtractor:
             print(f"  ✓ Extracted {total_faces_extracted} faces from {frame_number} frames")
             return total_faces_extracted
 
-    def save_detection_metadata(self, output_path: str = "face_detections.json"):
+    def get_all_detection_stats(self):
         """
-        Save all detection results to a JSON file
-
-        Args:
-            output_path: Path to save the detection metadata
-        """
-        import json
-        with open(output_path, "w") as f:
-            json.dump(self.detection_results, f, indent=2)
-
-        print(f"\n✓ Saved {len(self.detection_results)} face detections to {output_path}")
-
-    def get_detection_stats(self):
-        """
-        Get statistics about the detections
+        Get statistics about all detections across all processed videos
 
         Returns:
             Dictionary containing detection statistics
         """
-        if not self.detection_results:
-            return {"total_detections": 0}
+        import json
 
-        videos = set(d["video_name"] for d in self.detection_results)
+        all_detections = []
+        video_dirs = [d for d in self.output_dir.iterdir() if d.is_dir()]
+
+        for video_dir in video_dirs:
+            metadata_path = video_dir / "detections.json"
+            if metadata_path.exists():
+                with open(metadata_path, "r") as f:
+                    all_detections.extend(json.load(f))
+
+        if not all_detections:
+            return {"total_detections": 0, "total_videos_processed": 0}
+
+        videos = set(d["video_name"] for d in all_detections)
 
         return {
-            "total_detections": len(self.detection_results),
+            "total_detections": len(all_detections),
             "total_videos_processed": len(videos),
-            "average_faces_per_video": len(self.detection_results) / len(videos) if videos else 0,
+            "average_faces_per_video": len(all_detections) / len(videos) if videos else 0,
         }
 
 
@@ -303,12 +316,8 @@ Examples:
         faces_extracted = extractor.extract_faces_from_video(video_path)
         total_faces += faces_extracted
 
-    # Save detection metadata
-    metadata_path = Path(args.output_dir) / "face_detections.json"
-    extractor.save_detection_metadata(str(metadata_path))
-
     # Get and print statistics
-    stats = extractor.get_detection_stats()
+    stats = extractor.get_all_detection_stats()
 
     # Summary
     print("\n" + "=" * 80)
@@ -318,7 +327,7 @@ Examples:
     print(f"Total faces extracted: {total_faces}")
     print(f"Average faces per video: {total_faces / len(video_files):.1f}")
     print(f"\nAll cropped faces saved to: {args.output_dir}/")
-    print(f"Detection metadata with landmarks saved to: {metadata_path}")
+    print(f"Detection metadata saved per video in: {args.output_dir}/<video_name>/detections.json")
 
 
 if __name__ == "__main__":

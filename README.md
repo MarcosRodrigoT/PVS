@@ -6,17 +6,30 @@ A pipeline for generating personalized video summaries by detecting and recogniz
 
 The PVS pipeline has been redesigned to run components more independently to better handle sports videos where athletes may not be facing the camera during highlight moments.
 
-### New Approach
+### Pipeline Workflow
 
-1. **Video Summarization** - Generate highlight clips using SportCLIP or QD-DETR (runs independently)
-2. **Full Video Face Detection** - Detect and extract faces from ALL frames of original videos (not just summaries)
+The pipeline always runs these steps:
+
+#### Steps 1-3: Video Summarization and Face Data Extraction
+1. **Video Summarization** - Generate highlight clips using SportCLIP or QD-DETR
+2. **Full Video Face Detection** - Detect and extract faces from ALL frames of original videos
 3. **Face Embedding Extraction** - Extract embeddings from all face crops using ArcFace and TransFace
-4. **Two-Pass Face Recognition**:
-   - First pass: Compare target face against all crops to find best match (updated target)
-   - Second pass: Compare updated target against all crops to build resemblance curves
-5. **Score-Based Filtering** - Keep video summaries that show high resemblance scores
 
-This approach allows construction of resemblance score curves across entire videos, enabling identification of when and where the target person appears.
+#### Steps 4-6: Face Recognition and Resemblance Analysis
+The behavior of Step 4 depends on the `--use-updated-target` flag:
+
+**Without `--use-updated-target` flag (default - uses original target):**
+- **Step 4**: Extract embeddings from **original target images** in `target_faces/`
+- **Step 5**: Compute resemblance curves using original target embeddings
+- **Step 6**: Create final visualizations
+- **Result**: Max similarity ~80-90% (comparing original target vs. video faces)
+
+**With `--use-updated-target` flag (finds best match first):**
+- **Step 4**: Find best matching face in video → save as updated target
+- **Step 4b**: Extract embeddings from **updated target** (the best match)
+- **Step 5**: Compute resemblance curves using updated target embeddings
+- **Step 6**: Create final visualizations
+- **Result**: Max similarity ~100% (comparing updated target vs. itself in video)
 
 ### Supported Video Summarization Methods
 
@@ -32,16 +45,17 @@ This approach allows construction of resemblance score curves across entire vide
 
 ```
 PVS/
-├── main.py                       # Complete pipeline orchestrator
-├── generate_video_summaries.py   # Standalone video summarization script
-├── extract_all_faces.py          # Extract faces from all video frames (saves metadata)
-├── extract_embeddings.py         # Extract embeddings from face crops
-├── find_updated_target.py        # Find best matching face as updated target
-├── compute_resemblance_curve.py  # Compute and visualize resemblance scores
-├── create_final_visualization.py # Create enhanced plots with highlight overlays
-├── config.py                     # Configuration settings
-├── visualizer.py                 # Visualization component
-├── requirements.txt              # Python dependencies
+├── main.py                            # Complete pipeline orchestrator
+├── generate_video_summaries.py        # Standalone video summarization script
+├── extract_all_faces.py               # Extract faces from all video frames (saves metadata)
+├── extract_embeddings.py              # Extract embeddings from face crops
+├── find_updated_target.py             # Find best matching face as updated target
+├── extract_updated_target_embeddings.py  # Extract embeddings from updated targets (second pass)
+├── compute_resemblance_curve.py       # Compute and visualize resemblance scores
+├── create_final_visualization.py      # Create enhanced plots with highlight overlays
+├── config.py                          # Configuration settings
+├── visualizer.py                      # Visualization component
+├── requirements.txt                   # Python dependencies
 ├── face_detection/
 │   └── detector.py               # Face detection using InsightFace SCRFD
 ├── face_recognition/
@@ -72,9 +86,14 @@ PVS/
 │   └── TransFace/                # TransFace embeddings (<video>.h5)
 ├── target_faces_updated/         # Updated target faces (best matches)
 │   └── <target_name>/            # One directory per target
-│       ├── target_face.jpg       # Updated target face image
-│       ├── target_arcface_embedding.npy
-│       └── target_transface_embedding.npy
+│       ├── target_face_crop.jpg              # Cropped face from original target
+│       ├── target_arcface_embedding.npy      # Embedding from original target
+│       ├── target_transface_embedding.npy    # Embedding from original target
+│       ├── updated_target_arcface.jpg        # Best matching face from video (ArcFace)
+│       ├── updated_target_transface.jpg      # Best matching face from video (TransFace)
+│       ├── updated_target_arcface_embedding.npy    # Embedding from updated target (optional, with --use-updated-target)
+│       ├── updated_target_transface_embedding.npy  # Embedding from updated target (optional, with --use-updated-target)
+│       └── <target>_<video>_matching_log.txt # Match details
 ├── resemblance_results/          # Resemblance curve analysis
 │   └── <target_name>/            # One directory per target
 │       └── <video_name>/         # One directory per video
@@ -117,13 +136,43 @@ python main.py --video highjump_video1 \
     --qddetr-query "highlight moments in this high jump competition"
 ```
 
-This single command will:
+**Without `--use-updated-target` flag (uses original target face):**
+```bash
+python main.py --video highjump_video1 \
+    --video-summarizer qddetr \
+    --qddetr-query "high jump moments"
+```
+
+This performs:
 1. Generate video summaries (saved to `video_summaries/`)
 2. Extract faces from entire video (saved to `cropped_faces/`)
-3. Extract embeddings (saved to `cropped_faces_embeddings/`)
-4. Find updated targets (saved to `target_faces_updated/`)
-5. Compute resemblance curves (saved to `resemblance_results/`)
-6. Create final visualizations with highlight overlays (saved to `results/<video>/<target>/`)
+3. Extract embeddings from all video faces (saved to `cropped_faces_embeddings/`)
+4. Extract embeddings from **original target images** in `target_faces/`
+5. Compute resemblance curves using original target embeddings
+6. Create final visualizations with highlight overlays
+
+**Result**: Max similarity ~80-90% (comparing original target vs. video faces)
+**Output**: `resemblance_results/` and `results/<video>/<target>/`
+
+**With `--use-updated-target` flag (finds best match first):**
+```bash
+python main.py --video highjump_video1 \
+    --video-summarizer qddetr \
+    --qddetr-query "high jump moments" \
+    --use-updated-target
+```
+
+This performs:
+1. Generate video summaries (saved to `video_summaries/`)
+2. Extract faces from entire video (saved to `cropped_faces/`)
+3. Extract embeddings from all video faces (saved to `cropped_faces_embeddings/`)
+4. **Find best matching face in video** → save as updated target (saved to `target_faces_updated/`)
+5. Extract embeddings from **updated target** (second pass)
+6. Compute resemblance curves using updated target embeddings
+7. Create final visualizations with highlight overlays
+
+**Result**: Max similarity ~100% (comparing updated target vs. itself in video)
+**Output**: Files saved with `_updated` suffix to avoid overwriting the original results
 
 **Key Features:**
 - **Smart caching**: Automatically skips steps that have already been completed
@@ -132,7 +181,7 @@ This single command will:
 
 ### Option 2: Run Steps Individually
 
-For more control, run each step separately:
+For more control, run each step separately.
 
 ## Individual Workflow Steps
 
@@ -249,7 +298,9 @@ with h5py.File('cropped_faces_embeddings/ArcFace/100m_video1.h5', 'r') as f:
     all_keys = list(f.keys())
 ```
 
-### Step 4: Find Updated Target Face
+### Step 4 (Optional): Find Updated Target Face
+
+**This step is only needed for face recognition and resemblance analysis.**
 
 Compare your target face against all face crops to find the best matching face (updated target):
 
@@ -275,13 +326,72 @@ Output structure:
 ```
 target_faces_updated/
 └── athlete1/
-    ├── target_face.jpg                    # Best matching face image
-    ├── target_arcface_embedding.npy       # ArcFace embedding
-    ├── target_transface_embedding.npy     # TransFace embedding
+    ├── target_face_crop.jpg               # Cropped face from original target
+    ├── target_arcface_embedding.npy       # ArcFace embedding (from original)
+    ├── target_transface_embedding.npy     # TransFace embedding (from original)
+    ├── updated_target_arcface.jpg         # Best matching face from video
+    ├── updated_target_transface.jpg       # Best matching face from video
     └── athlete1_highjump_video1_matching_log.txt  # Match details
 ```
 
-### Step 5: Compute Resemblance Curves
+#### Step 4b: Extract Updated Target Embeddings - Second Pass
+
+**This step is automatically performed when using `--use-updated-target` flag with main.py.**
+
+When running the standalone scripts, resemblance curves are computed using embeddings from your **original target image** by default. This is why you may see maximum similarity scores of ~85% instead of 100%.
+
+To achieve 100% similarity at the point where the updated target appears, use the `--use-updated-target` flag. This performs a second pass that:
+
+1. Extracts embeddings from the **updated target face** (the best match found in step 4)
+2. Compares these new embeddings against all video faces
+3. Results in 100% similarity when comparing the updated target against itself in the video
+
+**Usage with main.py:**
+```bash
+# Run complete pipeline with second pass
+python main.py --video highjump_video1 \
+    --video-summarizer qddetr \
+    --qddetr-query "high jump moments" \
+    --use-updated-target
+```
+
+**Standalone usage:**
+```bash
+# Extract updated target embeddings manually
+python extract_updated_target_embeddings.py --video highjump_video1
+
+# Compute resemblance curves with updated embeddings
+python compute_resemblance_curve.py --video highjump_video1 --use-updated-target
+
+# Create visualizations with updated embeddings
+python create_final_visualization.py --video highjump_video1 --model qddetr --use-updated-target
+```
+
+**What gets generated:**
+When using `--use-updated-target`, additional files are created with `_updated` suffix to avoid overwriting:
+```
+target_faces_updated/athlete1/
+    ├── updated_target_arcface_embedding.npy    # NEW: Embedding from best match
+    └── updated_target_transface_embedding.npy  # NEW: Embedding from best match
+
+resemblance_results/athlete1/highjump_video1/
+    ├── athlete1_highjump_video1_resemblance_curve_updated.png
+    └── athlete1_highjump_video1_resemblance_data_updated.json
+
+results/highjump_video1/athlete1/
+    ├── athlete1_highjump_video1_enhanced_curve_updated.png
+    └── athlete1_highjump_video1_summary_updated.json
+```
+
+**Comparison:**
+- **Without flag**: Max similarity ~80-90% (comparing original target vs. video faces)
+- **With flag**: Max similarity ~100% (comparing updated target vs. itself in video)
+
+This allows you to compare both approaches side-by-side to see the difference!
+
+### Step 5 (Optional): Compute Resemblance Curves
+
+**This step is only needed for face recognition and resemblance analysis.**
 
 Generate resemblance score curves showing when and where the target person appears in the video:
 
@@ -333,7 +443,9 @@ The plot shows:
 - Highlighted regions above threshold
 - Statistics (mean, max, frames above threshold)
 
-### Step 6: Create Final Visualizations with Highlights
+### Step 6 (Optional): Create Final Visualizations with Highlights
+
+**This step is only needed for face recognition and resemblance analysis.**
 
 Generate enhanced resemblance curves with highlight segments overlaid on the timeline, and copy relevant clips:
 
@@ -421,6 +533,7 @@ The enhanced plot shows:
 | `--similarity-threshold` | `0.5` | Similarity threshold for finding updated targets |
 | `--resemblance-threshold` | `0.6` | Resemblance threshold for visualization |
 | `--smooth-window` | `5` | Smoothing window for resemblance curves |
+| `--use-updated-target` | `False` | **Enable face recognition workflow** (Steps 4-7). Without this flag, only video summarization and face data extraction (Steps 1-3) are performed. |
 
 ### generate_video_summaries.py
 
@@ -491,6 +604,7 @@ The enhanced plot shows:
 | `--output` | `resemblance_results` | Output directory for plots and data |
 | `--threshold` | `0.6` | Similarity threshold for visualization |
 | `--smooth-window` | `5` | Window size for rolling average smoothing |
+| `--use-updated-target` | `False` | Use embeddings from updated target (second pass). Files saved with '_updated' suffix |
 
 ### create_final_visualization.py
 
@@ -504,6 +618,7 @@ The enhanced plot shows:
 | `--output` | `results` | Output directory for final results |
 | `--threshold` | `0.6` | Resemblance score threshold |
 | `--smooth-window` | `5` | Smoothing window size |
+| `--use-updated-target` | `False` | Use results from updated target embeddings (second pass). Reads files with '_updated' suffix |
 
 ## Video Summarization Integration
 

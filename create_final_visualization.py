@@ -498,6 +498,11 @@ Examples:
     parser.add_argument("--output", type=str, default="results", help="Output directory for final results")
     parser.add_argument("--threshold", type=float, default=0.6, help="Resemblance score threshold (default: 0.6)")
     parser.add_argument("--smooth-window", type=int, default=5, help="Smoothing window size (default: 5)")
+    parser.add_argument(
+        "--use-updated-target",
+        action="store_true",
+        help="Use results from updated target embeddings (second pass). Reads files with '_updated' suffix.",
+    )
 
     args = parser.parse_args()
 
@@ -506,6 +511,7 @@ Examples:
     print("=" * 80)
     print(f"\nVideo: {args.video}")
     print(f"Model: {args.model.upper()}")
+    print(f"Mode: {'Updated Target (Second Pass)' if args.use_updated_target else 'Original Target (First Pass)'}")
     print(f"Threshold: {args.threshold}")
 
     # Setup paths
@@ -561,8 +567,9 @@ Examples:
         print(f"PROCESSING TARGET: {target_name}")
         print(f"{'='*80}")
 
-        # Find resemblance data file
-        resemblance_file = target_dir / args.video / f"{target_name}_{args.video}_resemblance_data.json"
+        # Find resemblance data file (with suffix if using updated target)
+        suffix = "_updated" if args.use_updated_target else ""
+        resemblance_file = target_dir / args.video / f"{target_name}_{args.video}_resemblance_data{suffix}.json"
 
         if not resemblance_file.exists():
             print(f"  Warning: Resemblance data not found: {resemblance_file}")
@@ -596,9 +603,9 @@ Examples:
             transface_scores_smooth=transface_scores_smooth,
         )
 
-        # Create enhanced plot with relevant segments count
+        # Create enhanced plot with relevant segments count (with suffix if using updated target)
         # Note: plot function will apply smoothing internally, but we'll ignore returned values
-        plot_path = target_output_dir / f"{target_name}_{args.video}_enhanced_curve.png"
+        plot_path = target_output_dir / f"{target_name}_{args.video}_enhanced_curve{suffix}.png"
         _, _ = create_enhanced_resemblance_plot(
             resemblance_data=resemblance_data,
             segments_data=segments_data,
@@ -608,8 +615,8 @@ Examples:
             relevant_segments_count=len(copied_clips),
         )
 
-        # Create summary report
-        report_path = target_output_dir / f"{target_name}_{args.video}_summary.json"
+        # Create summary report (with suffix if using updated target)
+        report_path = target_output_dir / f"{target_name}_{args.video}_summary{suffix}.json"
         create_summary_report(
             target_name=target_name,
             video_name=args.video,
