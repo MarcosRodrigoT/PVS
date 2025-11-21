@@ -129,7 +129,9 @@ def extract_clip_timestamps(clip_name: str) -> Optional[Tuple[float, float]]:
         return None
 
 
-def create_enhanced_resemblance_plot(resemblance_data: Dict, segments_data: Dict, output_path: Path, threshold: float = 0.6, smooth_window: int = 5):
+def create_enhanced_resemblance_plot(
+    resemblance_data: Dict, segments_data: Dict, output_path: Path, threshold: float = 0.6, smooth_window: int = 5, relevant_segments_count: int = None
+) -> Tuple[np.ndarray, np.ndarray]:
     """
     Create enhanced resemblance curve plot with highlight segments overlaid
 
@@ -139,6 +141,10 @@ def create_enhanced_resemblance_plot(resemblance_data: Dict, segments_data: Dict
         output_path: Path to save plot
         threshold: Similarity threshold
         smooth_window: Smoothing window size
+        relevant_segments_count: Number of segments where target appears (optional)
+
+    Returns:
+        Tuple of (arcface_scores_smooth, transface_scores_smooth) for use in clip filtering
     """
     target_name = resemblance_data["target"]
     video_name = resemblance_data["video"]
@@ -286,11 +292,16 @@ def create_enhanced_resemblance_plot(resemblance_data: Dict, segments_data: Dict
 
     stats_text = f"ArcFace - Mean: {arcface_mean:.3f} | Max: {arcface_max:.3f} | Above threshold: {arcface_above}\n"
     stats_text += f"TransFace - Mean: {transface_mean:.3f} | Max: {transface_max:.3f} | Above threshold: {transface_above}\n"
-    stats_text += f"Highlight Segments: {num_segments}"
 
-    fig.text(0.5, 0.02, stats_text, ha="center", fontsize=11, bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5))
+    # Show relevant segments count if available
+    if relevant_segments_count is not None:
+        stats_text += f"Highlight Segments: {relevant_segments_count}/{num_segments} (with target)"
+    else:
+        stats_text += f"Highlight Segments: {num_segments}"
 
-    plt.tight_layout(rect=[0, 0.04, 1, 1])
+    fig.text(0.5, 0.01, stats_text, ha="center", fontsize=11, bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5))
+
+    plt.tight_layout(rect=[0, 0.06, 1, 1])
 
     # Save plot
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -298,6 +309,9 @@ def create_enhanced_resemblance_plot(resemblance_data: Dict, segments_data: Dict
     plt.close()
 
     print(f"  ✓ Created enhanced plot: {output_path.name}")
+
+    # Return smoothed scores for use in clip filtering
+    return arcface_scores_smooth, transface_scores_smooth
 
 
 def check_segment_overlap(segment_times: Tuple[float, float], timestamps: np.ndarray, scores: np.ndarray, threshold: float) -> bool:
@@ -329,7 +343,16 @@ def check_segment_overlap(segment_times: Tuple[float, float], timestamps: np.nda
     return np.any(segment_scores >= threshold)
 
 
-def copy_relevant_clips(video_name: str, segments_data: Dict, resemblance_data: Dict, video_summaries_dir: Path, output_dir: Path, threshold: float = 0.6) -> List[str]:
+def copy_relevant_clips(
+    video_name: str,
+    segments_data: Dict,
+    resemblance_data: Dict,
+    video_summaries_dir: Path,
+    output_dir: Path,
+    threshold: float = 0.6,
+    arcface_scores_smooth: np.ndarray = None,
+    transface_scores_smooth: np.ndarray = None,
+) -> List[str]:
     """
     Copy highlight clips where target person appears to results directory
 
@@ -340,6 +363,8 @@ def copy_relevant_clips(video_name: str, segments_data: Dict, resemblance_data: 
         video_summaries_dir: Directory containing video summaries
         output_dir: Output directory for relevant clips
         threshold: Resemblance score threshold
+        arcface_scores_smooth: Pre-smoothed ArcFace scores (if None, uses raw scores)
+        transface_scores_smooth: Pre-smoothed TransFace scores (if None, uses raw scores)
 
     Returns:
         List of copied clip names
@@ -348,12 +373,14 @@ def copy_relevant_clips(video_name: str, segments_data: Dict, resemblance_data: 
     target_name = resemblance_data["target"]
 
     timestamps = np.array(resemblance_data["timestamps_seconds"])
-    arcface_scores = np.array(resemblance_data["arcface_scores"])
-    transface_scores = np.array(resemblance_data["transface_scores"])
 
-    # Use raw scores for clip filtering (not smoothed)
-    # Smoothing reduces peaks and causes false negatives
-    avg_scores = (arcface_scores + transface_scores) / 2
+    # Use pre-smoothed scores if provided, otherwise use raw scores
+    if arcface_scores_smooth is None or transface_scores_smooth is None:
+        arcface_scores = np.array(resemblance_data["arcface_scores"])
+        transface_scores = np.array(resemblance_data["transface_scores"])
+        avg_scores = (arcface_scores + transface_scores) / 2
+    else:
+        avg_scores = (arcface_scores_smooth + transface_scores_smooth) / 2
 
     # Find source clips directory
     model_dir = "SportCLIP" if model == "sportclip" else "QD-DETR"
@@ -550,13 +577,14 @@ Examples:
         target_output_dir = output_dir / args.video / target_name
         target_output_dir.mkdir(parents=True, exist_ok=True)
 
-        # Create enhanced plot
-        plot_path = target_output_dir / f"{target_name}_{args.video}_enhanced_curve.png"
-        create_enhanced_resemblance_plot(
-            resemblance_data=resemblance_data, segments_data=segments_data, output_path=plot_path, threshold=args.threshold, smooth_window=args.smooth_window
-        )
+        # Apply smoothing once (to be used by both plot and clip filtering)
+        arcface_scores = np.array(resemblance_data["arcface_scores"])
+        transface_scores = np.array(resemblance_data["transface_scores"])
+        arcface_scores_smooth = smooth_scores(arcface_scores, args.smooth_window)
+        transface_scores_smooth = smooth_scores(transface_scores, args.smooth_window)
 
-        # Copy relevant clips
+        # Copy relevant clips first (needed for plot statistics)
+        # Use the same smoothed scores that will be plotted
         copied_clips = copy_relevant_clips(
             video_name=args.video,
             segments_data=segments_data,
@@ -564,6 +592,20 @@ Examples:
             video_summaries_dir=video_summaries_dir,
             output_dir=target_output_dir,
             threshold=args.threshold,
+            arcface_scores_smooth=arcface_scores_smooth,
+            transface_scores_smooth=transface_scores_smooth,
+        )
+
+        # Create enhanced plot with relevant segments count
+        # Note: plot function will apply smoothing internally, but we'll ignore returned values
+        plot_path = target_output_dir / f"{target_name}_{args.video}_enhanced_curve.png"
+        _, _ = create_enhanced_resemblance_plot(
+            resemblance_data=resemblance_data,
+            segments_data=segments_data,
+            output_path=plot_path,
+            threshold=args.threshold,
+            smooth_window=args.smooth_window,
+            relevant_segments_count=len(copied_clips),
         )
 
         # Create summary report
