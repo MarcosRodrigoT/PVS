@@ -157,18 +157,22 @@ Output: `video_summaries/<model>/<video_name>/`
 
 Extract face crops from every frame of all videos in the data directory:
 
+**IMPORTANT**: This script requires GPU acceleration. Use the `run_with_cuda.sh` wrapper to enable CUDA libraries:
+
 ```bash
-python extract_all_faces.py
+./run_with_cuda.sh python extract_all_faces.py
 ```
 
 Options:
 ```bash
 # Filter out faces smaller than 50x50 pixels
-python extract_all_faces.py --min-face-size 50
+./run_with_cuda.sh python extract_all_faces.py --min-face-size 50
 
 # Custom directories
-python extract_all_faces.py --data-dir /path/to/videos --output-dir /path/to/output
+./run_with_cuda.sh python extract_all_faces.py --data-dir /path/to/videos --output-dir /path/to/output
 ```
+
+**Why the wrapper?** The system has CUDA 13.0, but `onnxruntime-gpu` needs CUDA 12.x libraries. The wrapper script automatically sets up the library path to use CUDA 12 libraries from pip packages. See [QUICK_START.md](QUICK_START.md) for details.
 
 Output structure:
 ```
@@ -191,7 +195,7 @@ The `face_detections.json` file contains detailed metadata for each detected fac
 
 This metadata is useful for face alignment, quality assessment, and advanced analysis.
 
-### Step 2: Extract Embeddings
+### Step 3: Extract Embeddings
 
 Extract face embeddings from all crops using ArcFace and/or TransFace:
 
@@ -213,6 +217,8 @@ python extract_embeddings.py --models ArcFace --gpu-id 1
 # Custom TransFace batch size
 python extract_embeddings.py --models TransFace --batch-size 2000
 ```
+
+**Note**: This script uses TensorFlow for face recognition, which works fine with the system's CUDA 13.0 installation, so no wrapper is needed.
 
 Features:
 - **Progressive saving**: Saves embeddings incrementally (every 1000) to avoid memory issues
@@ -243,7 +249,7 @@ with h5py.File('cropped_faces_embeddings/ArcFace/100m_video1.h5', 'r') as f:
     all_keys = list(f.keys())
 ```
 
-### Step 3: Find Updated Target Face
+### Step 4: Find Updated Target Face
 
 Compare your target face against all face crops to find the best matching face (updated target):
 
@@ -275,7 +281,7 @@ target_faces_updated/
     └── athlete1_highjump_video1_matching_log.txt  # Match details
 ```
 
-### Step 4: Compute Resemblance Curves
+### Step 5: Compute Resemblance Curves
 
 Generate resemblance score curves showing when and where the target person appears in the video:
 
@@ -327,7 +333,7 @@ The plot shows:
 - Highlighted regions above threshold
 - Statistics (mean, max, frames above threshold)
 
-### Step 5: Create Final Visualizations with Highlights
+### Step 6: Create Final Visualizations with Highlights
 
 Generate enhanced resemblance curves with highlight segments overlaid on the timeline, and copy relevant clips:
 
@@ -436,12 +442,16 @@ The enhanced plot shows:
 
 ### extract_all_faces.py
 
+**Usage**: `./run_with_cuda.sh python extract_all_faces.py [options]`
+
 | Argument | Default | Description |
 |----------|---------|-------------|
 | `--data-dir` | `data` | Directory containing video files |
 | `--output-dir` | `cropped_faces` | Directory to save cropped faces |
 | `--min-face-size` | `0` | Minimum face width/height in pixels |
 | `--det-size` | `640 640` | Detection size for the model |
+
+**Note**: Requires the `run_with_cuda.sh` wrapper for GPU acceleration. See [Troubleshooting](#cuda-library-compatibility-onnxruntime-gpu) section.
 
 ### extract_embeddings.py
 
@@ -542,12 +552,29 @@ See `requirements.txt` for specific versions.
 
 ## Performance Notes
 
-- Face extraction processes ~45 frames/second on CPU
+- Face extraction with GPU: ~40-100 frames/second (using run_with_cuda.sh wrapper)
+- Face extraction on CPU only: ~2-5 frames/second
 - GPU acceleration available for embedding extraction
 - HDF5 storage format handles 400k+ embeddings efficiently
 - Progressive saving prevents memory issues with large videos
 
 ## Troubleshooting
+
+### CUDA Library Compatibility (onnxruntime-gpu)
+
+**Problem**: Error message "libcublasLt.so.12: cannot open shared object file" when running `extract_all_faces.py`.
+
+**Cause**: System has CUDA 13.0, but `onnxruntime-gpu 1.20.2` requires CUDA 12.x libraries.
+
+**Solution**: Use the `run_with_cuda.sh` wrapper script:
+
+```bash
+./run_with_cuda.sh python extract_all_faces.py --min-face-size 50
+```
+
+The wrapper automatically adds CUDA 12 libraries (installed via pip) to the library search path. See [QUICK_START.md](QUICK_START.md) for details and alternative solutions.
+
+**Verification**: You should see `Applied providers: ['CUDAExecutionProvider', 'CPUExecutionProvider']` in the output instead of falling back to CPU only.
 
 ### Highlight Segment Timing Issues
 
