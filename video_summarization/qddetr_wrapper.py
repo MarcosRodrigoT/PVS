@@ -224,8 +224,31 @@ def main():
     with open(results_file, "w") as f:
         json.dump({"highlight_videos": highlight_videos}, f, indent=2)
 
+    # Save events with timing information for downstream processing
+    events_file = output_path / "events_filtered.json"
+    fps = results["fps"]
+    events_json = {}
+    for event_id, event_data in results["events_filtered"].items():
+        frames = event_data["frames"]
+        if frames:
+            start_frame = min(frames)
+            end_frame = max(frames)
+            events_json[str(event_id)] = {
+                "frames": frames,
+                "start_frame": int(start_frame),
+                "end_frame": int(end_frame),
+                "start_time": float(start_frame / fps),
+                "end_time": float(end_frame / fps),
+                "duration_frames": len(frames),
+                "duration_seconds": float(len(frames) / fps)
+            }
+
+    with open(events_file, "w") as f:
+        json.dump(events_json, f, indent=2)
+
     print(f"\n✓ QD-DETR wrapper completed successfully")
     print(f"  Results saved to: {results_file}")
+    print(f"  Events timing saved to: {events_file}")
 
 
 if __name__ == "__main__":

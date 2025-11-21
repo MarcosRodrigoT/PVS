@@ -110,27 +110,24 @@ def process_sportclip_summaries(video_path: Path, output_dir: Path, sportclip_di
 
     try:
         # Generate highlights using SportCLIP
-        clip_paths = generate_highlights_sportclip(
-            video_name=video_name, sentences_file=sentences_file, output_dir=str(video_output_dir), sportclip_dir=sportclip_dir, sportclip_dataset_dir=sportclip_dataset_dir
+        clip_paths, segments_metadata = generate_highlights_sportclip(
+            video_name=video_name,
+            sentences_file=sentences_file,
+            output_dir=str(video_output_dir),
+            sportclip_dir=sportclip_dir,
+            sportclip_dataset_dir=sportclip_dataset_dir,
+            video_path=str(video_path),
         )
 
         if not clip_paths:
             print(f"  Warning: No highlights generated for {video_name}")
             return None
 
-        # Extract segment information from clip filenames
-        # SportCLIP clips are typically named with timestamps
-        segments = []
-        for i, clip_path in enumerate(clip_paths, 1):
-            # Try to extract timestamps from filename if possible
-            # Format varies, so we'll store basic info
-            segments.append({"segment_id": i, "clip_path": str(Path(clip_path).relative_to(video_output_dir)), "clip_name": Path(clip_path).name})
-
-        # Save segments metadata
-        result = {"video_name": video_name, "total_segments": len(segments), "segments": segments}
+        # Save segments metadata (with timing information)
+        result = {"video_name": video_name, "model": "sportclip", "total_segments": len(segments_metadata), "segments": segments_metadata}
         save_segments_metadata(result, segments_file)
 
-        print(f"  ✓ Generated {len(clip_paths)} highlight clips")
+        print(f"  ✓ Generated {len(clip_paths)} highlight clips with timing information")
         return result
 
     except Exception as e:
@@ -182,7 +179,7 @@ def process_qddetr_summaries(
 
     try:
         # Generate highlights using QD-DETR
-        clip_paths = generate_highlights_qddetr(
+        clip_paths, segments_metadata = generate_highlights_qddetr(
             video_name=video_name,
             query=qddetr_query,
             output_dir=str(video_output_dir),
@@ -201,17 +198,11 @@ def process_qddetr_summaries(
             print(f"  Warning: No highlights generated for {video_name}")
             return None
 
-        # Extract segment information
-        # QD-DETR typically provides temporal boundaries
-        segments = []
-        for i, clip_path in enumerate(clip_paths, 1):
-            segments.append({"segment_id": i, "clip_path": str(Path(clip_path).relative_to(video_output_dir)), "clip_name": Path(clip_path).name})
-
-        # Save segments metadata
-        result = {"video_name": video_name, "total_segments": len(segments), "segments": segments}
+        # Save segments metadata (with timing information)
+        result = {"video_name": video_name, "model": "qddetr", "total_segments": len(segments_metadata), "segments": segments_metadata}
         save_segments_metadata(result, segments_file)
 
-        print(f"  ✓ Generated {len(clip_paths)} highlight clips")
+        print(f"  ✓ Generated {len(clip_paths)} highlight clips with timing information")
         return result
 
     except Exception as e:

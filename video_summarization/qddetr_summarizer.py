@@ -9,7 +9,8 @@ import os
 import json
 import subprocess
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Dict, Tuple
+import cv2
 
 
 def generate_highlights(
@@ -31,7 +32,7 @@ def generate_highlights(
     feat_dirs: Optional[List[str]] = None,
     text_feat_dir: Optional[str] = None,
     annotation_path: Optional[str] = None,
-) -> List[str]:
+) -> Tuple[List[str], List[Dict]]:
     """
     Generate video highlights using QD-DETR framework.
 
@@ -62,7 +63,8 @@ def generate_highlights(
         annotation_path: Path to QD-DETR annotation JSONL file (required for Olympic videos)
 
     Returns:
-        List of paths to generated highlight videos
+        Tuple of (list of paths to highlight videos, list of segment metadata dicts)
+        Each segment metadata dict contains: start_frame, end_frame, start_time, end_time, clip_path
 
     Raises:
         FileNotFoundError: If video file, checkpoint, or QD-DETR project not found
@@ -180,4 +182,59 @@ def generate_highlights(
     if not highlight_videos:
         print("⚠ Warning: No highlight videos were generated")
 
-    return highlight_videos
+    # Extract timing information from events_filtered.json
+    events_file = output_path / "events_filtered.json"
+    segments_metadata = []
+
+    if events_file.exists():
+        try:
+            with open(events_file, "r") as f:
+                events_data = json.load(f)
+
+            for event_id_str, event_info in sorted(events_data.items(), key=lambda x: int(x[0])):
+                event_id = int(event_id_str)
+                # Find corresponding video path
+                video_file = highlight_videos[event_id] if event_id < len(highlight_videos) else None
+                clip_name = Path(video_file).name if video_file else f"highlight_{event_id:03d}.mp4"
+
+                segments_metadata.append({
+                    "segment_id": event_id + 1,
+                    "clip_path": clip_name,
+                    "clip_name": clip_name,
+                    "start_frame": event_info.get("start_frame"),
+                    "end_frame": event_info.get("end_frame"),
+                    "start_time": event_info.get("start_time"),
+                    "end_time": event_info.get("end_time"),
+                    "duration_frames": event_info.get("duration_frames"),
+                    "duration_seconds": event_info.get("duration_seconds")
+                })
+
+            print(f"✓ Extracted timing for {len(segments_metadata)} segments")
+        except Exception as e:
+            print(f"Warning: Could not load timing information: {e}")
+            # Fallback without timing
+            for i, video_file in enumerate(highlight_videos):
+                segments_metadata.append({
+                    "segment_id": i + 1,
+                    "clip_path": str(Path(video_file).name),
+                    "clip_name": str(Path(video_file).name),
+                    "start_frame": None,
+                    "end_frame": None,
+                    "start_time": None,
+                    "end_time": None
+                })
+    else:
+        print(f"Warning: events_filtered.json not found")
+        # Fallback without timing
+        for i, video_file in enumerate(highlight_videos):
+            segments_metadata.append({
+                "segment_id": i + 1,
+                "clip_path": str(Path(video_file).name),
+                "clip_name": str(Path(video_file).name),
+                "start_frame": None,
+                "end_frame": None,
+                "start_time": None,
+                "end_time": None
+            })
+
+    return highlight_videos, segments_metadata

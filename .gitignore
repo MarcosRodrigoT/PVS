@@ -31,6 +31,7 @@ target_faces_updated/*
 cropped_faces/*
 cropped_faces_embeddings/*
 resemblance_results/*
+video_summaries/*
 
 !target_faces/.gitkeep
 !target_faces_updated/.gitkeep

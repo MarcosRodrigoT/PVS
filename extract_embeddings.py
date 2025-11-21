@@ -455,7 +455,9 @@ Output Format:
 
     parser.add_argument("--input-dir", type=str, default="cropped_faces", help="Directory containing cropped face images (default: cropped_faces)")
     parser.add_argument("--output-dir", type=str, default="cropped_faces_embeddings", help="Directory to save embeddings (default: cropped_faces_embeddings)")
-    parser.add_argument("--models", nargs="+", choices=["ArcFace", "TransFace"], default=["ArcFace", "TransFace"], help="Which models to use for embedding extraction (default: both)")
+    parser.add_argument(
+        "--models", nargs="+", choices=["ArcFace", "TransFace"], default=["ArcFace", "TransFace"], help="Which models to use for embedding extraction (default: both)"
+    )
     parser.add_argument("--gpu-id", type=int, default=0, help="GPU ID to use for ArcFace (0 or 1, default: 0)")
     parser.add_argument(
         "--transface-weight", type=str, default="/home/mrt/Projects/TransFace/work_dirs/glint360k_vit_l/glint360k_model_TransFace_L.pt", help="Path to TransFace model weights"

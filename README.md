@@ -32,11 +32,14 @@ This approach allows construction of resemblance score curves across entire vide
 
 ```
 PVS/
-├── main.py                       # Main pipeline orchestrator (original sequential approach)
+├── main.py                       # Original sequential pipeline (legacy)
+├── main_new.py                   # NEW: Complete pipeline orchestrator (new approach)
+├── generate_video_summaries.py   # NEW: Standalone video summarization script
 ├── extract_all_faces.py          # Extract faces from all video frames
 ├── extract_embeddings.py         # Extract embeddings from face crops
 ├── find_updated_target.py        # Find best matching face as updated target
 ├── compute_resemblance_curve.py  # Compute and visualize resemblance scores
+├── create_final_visualization.py # NEW: Create enhanced plots with highlight overlays
 ├── config.py                     # Configuration settings
 ├── visualizer.py                 # Visualization component
 ├── requirements.txt              # Python dependencies
@@ -50,8 +53,21 @@ PVS/
 │   └── qddetr_wrapper.py         # QD-DETR wrapper script
 ├── data/                         # Input videos
 ├── target_faces/                 # Place target person face images here
-├── cropped_faces/                # Extracted face crops (one folder per video)
-├── cropped_faces_embeddings/     # Face embeddings in HDF5 format
+├── video_summaries/              # NEW: Organized video summaries (cached)
+│   ├── SportCLIP/                # SportCLIP summaries
+│   │   └── <video_name>/
+│   │       ├── clip_001.mp4
+│   │       ├── clip_002.mp4
+│   │       └── segments.json     # Segment metadata
+│   └── QD-DETR/                  # QD-DETR summaries
+│       └── <video_name>/
+│           ├── clip_001.mp4
+│           └── segments.json
+├── cropped_faces/                # Extracted face crops (cached, shared)
+│   └── <video_name>/
+│       ├── frame_000001_face_0.jpg
+│       └── ...
+├── cropped_faces_embeddings/     # Face embeddings in HDF5 format (cached, shared)
 │   ├── ArcFace/                  # ArcFace embeddings (<video>.h5)
 │   └── TransFace/                # TransFace embeddings (<video>.h5)
 ├── target_faces_updated/         # Updated target faces (best matches)
@@ -64,10 +80,8 @@ PVS/
 │       └── <video_name>/         # One directory per video
 │           ├── *_resemblance_curve.png
 │           └── *_resemblance_data.json
-└── results/                      # Results directory
-    ├── video_summaries/          # Video summary clips
-    ├── visualizations/           # Resemblance curve plots
-    └── *.json                    # Detection and recognition results
+└── results/                      # Final results directory
+    └── <video_name>/             # Per-video results
 ```
 
 ## Installation
@@ -85,9 +99,61 @@ pip install -r requirements.txt
 3. Place input videos in `data/`:
    - Supported formats: .mp4, .avi, .mov, .mkv
 
-## New Workflow
+## Quick Start - Complete Pipeline
 
-### Step 1: Extract Faces from All Videos
+### Option 1: Run Complete Pipeline (Recommended)
+
+Run the entire pipeline on a single video using `main_new.py`:
+
+```bash
+# With SportCLIP
+python main_new.py --video longjump_video1 \
+    --video-summarizer sportclip \
+    --sentences-file data/sentences/long_jump.json
+
+# With QD-DETR
+python main_new.py --video highjump_video1 \
+    --video-summarizer qddetr \
+    --qddetr-query "highlight moments in this high jump competition"
+```
+
+This single command will:
+1. Generate video summaries (saved to `video_summaries/`)
+2. Extract faces from entire video (saved to `cropped_faces/`)
+3. Extract embeddings (saved to `cropped_faces_embeddings/`)
+4. Find updated targets (saved to `target_faces_updated/`)
+5. Compute resemblance curves (saved to `resemblance_results/`)
+6. Create final visualizations with highlight overlays (saved to `results/<video>/<target>/`)
+
+**Key Features:**
+- **Smart caching**: Automatically skips steps that have already been completed
+- **Fast iteration**: Re-run on same video to skip expensive face extraction
+- **Shared resources**: Face crops and embeddings are cached at project root for reuse across experiments
+
+### Option 2: Run Steps Individually
+
+For more control, run each step separately:
+
+## Individual Workflow Steps
+
+### Step 1: Generate Video Summaries (Optional First)
+
+Generate highlight clips before or after face extraction:
+
+```bash
+# Process all videos with SportCLIP
+python generate_video_summaries.py --model sportclip \
+    --sentences-file data/sentences/long_jump.json
+
+# Process specific video with QD-DETR
+python generate_video_summaries.py --model qddetr \
+    --video highjump_video1 \
+    --qddetr-query "highlight moments in this sports video"
+```
+
+Output: `video_summaries/<model>/<video_name>/`
+
+### Step 2: Extract Faces from All Videos
 
 Extract face crops from every frame of all videos in the data directory:
 
@@ -165,27 +231,6 @@ with h5py.File('cropped_faces_embeddings/ArcFace/100m_video1.h5', 'r') as f:
 
     # List all available embeddings
     all_keys = list(f.keys())
-```
-
-### Step 3: Generate Video Summaries (Independent)
-
-Generate highlight clips using SportCLIP or QD-DETR. This step runs independently and can be done before or after face extraction.
-
-#### Using SportCLIP:
-```bash
-python main.py --video-summarizer sportclip \
-               --input longjump_video1 \
-               --video-name longjump_video1 \
-               --sentences-file data/sentences/long_jump.json
-```
-
-#### Using QD-DETR:
-```bash
-python main.py --video-summarizer qddetr \
-               --input longjump_video1 \
-               --video-name longjump_video1 \
-               --video-path /path/to/longjump_video1.mp4 \
-               --qddetr-query "highlights of the long jump"
 ```
 
 ### Step 3: Find Updated Target Face
@@ -272,32 +317,49 @@ The plot shows:
 - Highlighted regions above threshold
 - Statistics (mean, max, frames above threshold)
 
-### Step 5: Filter and Generate Video Summaries
+### Step 5: Create Final Visualizations with Highlights
 
-Use resemblance scores to filter video summaries and keep only segments where the target person appears.
+Generate enhanced resemblance curves with highlight segments overlaid on the timeline, and copy relevant clips:
 
-**(Coming soon)** Filter summaries based on resemblance curve data.
-
-### Optional: Generate Video Summaries (Independent)
-
-Generate highlight clips using SportCLIP or QD-DETR. This step runs independently and can be done before or after face extraction.
-
-#### Using SportCLIP:
 ```bash
-python main.py --video-summarizer sportclip \
-               --input longjump_video1 \
-               --video-name longjump_video1 \
-               --sentences-file data/sentences/long_jump.json
+# Process all targets for a video
+python create_final_visualization.py --video highjump_video1 --model sportclip
+
+# Process specific target only
+python create_final_visualization.py --video highjump_video1 --model sportclip --target barshim
+
+# Custom threshold
+python create_final_visualization.py --video highjump_video1 --model sportclip --threshold 0.65
 ```
 
-#### Using QD-DETR:
-```bash
-python main.py --video-summarizer qddetr \
-               --input longjump_video1 \
-               --video-name longjump_video1 \
-               --video-path /path/to/longjump_video1.mp4 \
-               --qddetr-query "highlights of the long jump"
+This script:
+- Creates enhanced resemblance curve plots with highlight segments marked on the timeline (red boxes labeled "H1", "H2", etc.)
+- Analyzes which highlight clips contain the target person (based on **raw** resemblance scores, not smoothed)
+- Copies only relevant highlight clips to `results/<video>/<target>/highlight_clips/`
+- Generates a summary report with statistics
+
+**Important**: The script uses **raw (unsmoothed) scores** for filtering clips to avoid false negatives. Smoothing reduces peak values and can cause the system to miss clips where the target appears.
+
+Output structure:
 ```
+results/
+└── highjump_video1/
+    └── barshim/
+        ├── barshim_highjump_video1_enhanced_curve.png  # Plot with highlights
+        ├── barshim_highjump_video1_summary.json        # Summary report
+        └── highlight_clips/                            # Relevant clips only
+            ├── highjump_video1_highlight_007.mp4
+            └── highjump_video1_highlight_021.mp4
+```
+
+The enhanced plot shows:
+- Raw and smoothed resemblance scores (both displayed for visualization)
+- **Red rectangular overlays** marking highlight segment positions on the timeline
+- **Red labels** ("H1", "H2", etc.) identifying each highlight
+- Threshold line and above-threshold regions
+- Summary statistics including number of highlight segments
+
+**Note**: Highlight segment timing is extracted directly from SportCLIP's or QD-DETR's event detection, ensuring accurate frame-level alignment with the original video.
 
 ## Original Sequential Pipeline
 
@@ -330,7 +392,49 @@ python main.py --model TransFace
 - Better handling of partial occlusions
 - Requires separate installation at `/home/mrt/Projects/TransFace`
 
-## Command-line Arguments
+## Command-line Arguments Reference
+
+### main_new.py (Complete Pipeline)
+
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `--video` | (required) | Video name to process (without extension) |
+| `--video-summarizer` | `sportclip` | Video summarization method (sportclip or qddetr) |
+| `--data-dir` | `data` | Directory containing video files |
+| `--target-faces` | `target_faces` | Directory containing target face images |
+| `--output` | `results` | Output directory for final results |
+| `--sentences-file` | (required for sportclip) | Path to SportCLIP sentences file |
+| `--sportclip-dir` | `/home/mrt/Projects/SportCLIP-official` | SportCLIP project directory |
+| `--sportclip-dataset-dir` | `/mnt/Data/mrt/SportCLIP-OlympicHighlights` | SportCLIP dataset directory |
+| `--qddetr-ckpt` | (default path) | Path to QD-DETR checkpoint |
+| `--qddetr-query` | (required for qddetr) | Query for QD-DETR |
+| `--qddetr-device` | `cuda:0` | Device for QD-DETR inference |
+| `--qddetr-context-window` | `600` | Context window size in frames |
+| `--qddetr-min-duration` | `15` | Minimum event duration in frames |
+| `--qddetr-min-area` | `15.0` | Minimum event area threshold |
+| `--transface-weight` | (default path) | Path to TransFace model weights |
+| `--transface-network` | `vit_l_dp005_mask_005` | TransFace network architecture |
+| `--similarity-threshold` | `0.5` | Similarity threshold for finding updated targets |
+| `--resemblance-threshold` | `0.6` | Resemblance threshold for visualization |
+| `--smooth-window` | `5` | Smoothing window for resemblance curves |
+
+### generate_video_summaries.py
+
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `--model` | (required) | Video summarization model (sportclip or qddetr) |
+| `--video` | (optional) | Specific video name to process. If not provided, processes all videos |
+| `--data-dir` | `data` | Directory containing video files |
+| `--output-dir` | `video_summaries` | Output directory for video summaries |
+| `--sentences-file` | (required for sportclip) | Path to SportCLIP sentences file |
+| `--sportclip-dir` | `/home/mrt/Projects/SportCLIP-official` | SportCLIP project directory |
+| `--sportclip-dataset-dir` | `/mnt/Data/mrt/SportCLIP-OlympicHighlights` | SportCLIP dataset directory |
+| `--qddetr-ckpt` | (default path) | Path to QD-DETR checkpoint |
+| `--qddetr-query` | (required for qddetr) | Query for QD-DETR |
+| `--qddetr-device` | `cuda:0` | Device for QD-DETR inference |
+| `--qddetr-context-window` | `600` | Context window size in frames |
+| `--qddetr-min-duration` | `15` | Minimum event duration in frames |
+| `--qddetr-min-area` | `15.0` | Minimum event area threshold |
 
 ### extract_all_faces.py
 
@@ -379,6 +483,19 @@ python main.py --model TransFace
 | `--output` | `resemblance_results` | Output directory for plots and data |
 | `--threshold` | `0.6` | Similarity threshold for visualization |
 | `--smooth-window` | `5` | Window size for rolling average smoothing |
+
+### create_final_visualization.py
+
+| Argument | Default | Description |
+|----------|---------|-------------|
+| `--video` | (required) | Video name (without extension) |
+| `--model` | (required) | Video summarization model used (sportclip or qddetr) |
+| `--target` | (optional) | Specific target to process. If not provided, processes all targets |
+| `--video-summaries` | `video_summaries` | Directory containing video summaries |
+| `--resemblance-results` | `resemblance_results` | Directory containing resemblance results |
+| `--output` | `results` | Output directory for final results |
+| `--threshold` | `0.6` | Resemblance score threshold |
+| `--smooth-window` | `5` | Smoothing window size |
 
 ### main.py
 
@@ -435,6 +552,77 @@ See `requirements.txt` for specific versions.
 - GPU acceleration available for embedding extraction
 - HDF5 storage format handles 400k+ embeddings efficiently
 - Progressive saving prevents memory issues with large videos
+
+## Troubleshooting
+
+### Highlight Segment Timing Issues
+
+**Problem**: Highlight clips don't align with resemblance curves, or wrong clips are being selected.
+
+**Common causes and fixes**:
+
+1. **Event-to-video matching bug** (Fixed in v1.1):
+   - **Issue**: SportCLIP creates non-consecutive highlight files (e.g., `highlight_001.mp4`, `highlight_007.mp4`, `highlight_021.mp4`), but the code was using array indices instead of matching by filename.
+   - **Result**: Event 7 was incorrectly matched to the 8th video file instead of `highlight_007.mp4`.
+   - **Fix**: Modified `sportclip_summarizer.py` to match events to videos by searching for the highlight number in the filename: `f"_highlight_{event_num:03d}.mp4"`.
+
+2. **Smoothing reduces peak scores**:
+   - **Issue**: Applying smoothing to resemblance scores before filtering clips reduces peak values below the threshold.
+   - **Result**: Clips where the target appears are incorrectly filtered out (false negatives).
+   - **Fix**: `create_final_visualization.py` now uses **raw (unsmoothed) scores** for clip filtering, while still displaying smoothed curves for visualization.
+
+3. **Missing JSON import in SportCLIP**:
+   - **Issue**: SportCLIP's `summarize.py` uses `json.dump()` but was missing `import json`.
+   - **Fix**: Added `import json` to line 7 of `/home/mrt/Projects/SportCLIP-official/summarize.py`.
+
+4. **segments.json structure**:
+   - The segments.json file should contain:
+     - `video_name`: Name of the source video
+     - `model`: Which summarization model was used ("sportclip" or "qddetr")
+     - `total_segments`: Number of highlight segments
+     - `segments`: Array of segment objects with:
+       - `segment_id`: Segment identifier
+       - `clip_path`: Relative path to the clip file
+       - `clip_name`: Clip filename
+       - `start_frame`: Starting frame number in original video
+       - `end_frame`: Ending frame number in original video
+       - `start_time`: Starting timestamp in seconds
+       - `end_time`: Ending timestamp in seconds
+       - `duration_frames`: Duration in frames
+       - `duration_seconds`: Duration in seconds
+
+### SportCLIP Integration Setup
+
+**Required modifications to SportCLIP** (already applied):
+
+1. Add JSON export to `summarize.py` (around line 520, before `if args.export_highlight_reel:`):
+   ```python
+   # Export events_filtered to JSON for downstream processing
+   events_json_path = os.path.join("results", VIDEO, "events_filtered.json")
+   with open(events_json_path, 'w') as f:
+       events_json = {str(k): {"frames": v["frames"], "length": v["length"], "area": float(v["area"])}
+                     for k, v in events_filtered.items()}
+       json.dump(events_json, f, indent=2)
+   print(f"Events exported to: {events_json_path}")
+   ```
+
+2. Add `import json` to the imports section of `summarize.py` (line 7).
+
+### Regenerating Segments After Fixes
+
+If you already generated video summaries before these fixes were applied, regenerate the segments.json files:
+
+```bash
+# Delete old segments.json
+rm video_summaries/SportCLIP/*/segments.json
+rm video_summaries/QD-DETR/*/segments.json
+
+# Regenerate with fixed code
+python generate_video_summaries.py --model sportclip --video highjump_video1 --sentences-file data/sentences/high_jump.json
+python generate_video_summaries.py --model qddetr --video highjump_video1 --qddetr-query "your query here"
+```
+
+The video clips don't need to be regenerated - only the segments.json metadata files need updating.
 
 ## License
 
