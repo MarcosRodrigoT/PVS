@@ -1,6 +1,8 @@
 """
 Extract all faces from all videos in the data directory
-Processes every frame of every video and saves cropped faces
+Processes every frame of every video and saves:
+- Cropped face images
+- Detection metadata (coordinates, confidence, facial landmarks)
 """
 
 import cv2
@@ -26,6 +28,7 @@ class FullVideoFaceExtractor:
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.min_face_size = min_face_size
+        self.detection_results = []  # Store metadata for all detections
 
         # Initialize InsightFace detector (same as in detector.py)
         print("Initializing face detector...")
@@ -147,6 +150,30 @@ class FullVideoFaceExtractor:
                     cv2.imwrite(str(face_path), face_crop)
                     total_faces_extracted += 1
 
+                    # Extract landmarks (5 points: left_eye, right_eye, nose, left_mouth, right_mouth)
+                    landmarks = {}
+                    if hasattr(face, "kps") and face.kps is not None:
+                        kps = face.kps.astype(int)
+                        landmarks = {
+                            "left_eye": [int(kps[0][0]), int(kps[0][1])],
+                            "right_eye": [int(kps[1][0]), int(kps[1][1])],
+                            "nose": [int(kps[2][0]), int(kps[2][1])],
+                            "left_mouth": [int(kps[3][0]), int(kps[3][1])],
+                            "right_mouth": [int(kps[4][0]), int(kps[4][1])],
+                        }
+
+                    # Store detection metadata
+                    detection_info = {
+                        "video_name": video_name,
+                        "frame_number": frame_number,
+                        "face_id": face_idx,
+                        "coordinates": {"x1": int(x1), "y1": int(y1), "x2": int(x2), "y2": int(y2)},
+                        "confidence": float(face.det_score) if hasattr(face, "det_score") else 1.0,
+                        "landmarks": landmarks,
+                        "cropped_face_path": str(face_path),
+                    }
+                    self.detection_results.append(detection_info)
+
                 frame_number += 1
                 pbar.update(1)
 
@@ -161,6 +188,37 @@ class FullVideoFaceExtractor:
         else:
             print(f"  ✓ Extracted {total_faces_extracted} faces from {frame_number} frames")
             return total_faces_extracted
+
+    def save_detection_metadata(self, output_path: str = "face_detections.json"):
+        """
+        Save all detection results to a JSON file
+
+        Args:
+            output_path: Path to save the detection metadata
+        """
+        import json
+        with open(output_path, "w") as f:
+            json.dump(self.detection_results, f, indent=2)
+
+        print(f"\n✓ Saved {len(self.detection_results)} face detections to {output_path}")
+
+    def get_detection_stats(self):
+        """
+        Get statistics about the detections
+
+        Returns:
+            Dictionary containing detection statistics
+        """
+        if not self.detection_results:
+            return {"total_detections": 0}
+
+        videos = set(d["video_name"] for d in self.detection_results)
+
+        return {
+            "total_detections": len(self.detection_results),
+            "total_videos_processed": len(videos),
+            "average_faces_per_video": len(self.detection_results) / len(videos) if videos else 0,
+        }
 
 
 def find_video_files(directory: str) -> List[Path]:
@@ -245,6 +303,13 @@ Examples:
         faces_extracted = extractor.extract_faces_from_video(video_path)
         total_faces += faces_extracted
 
+    # Save detection metadata
+    metadata_path = Path(args.output_dir) / "face_detections.json"
+    extractor.save_detection_metadata(str(metadata_path))
+
+    # Get and print statistics
+    stats = extractor.get_detection_stats()
+
     # Summary
     print("\n" + "=" * 80)
     print("EXTRACTION COMPLETE")
@@ -253,6 +318,7 @@ Examples:
     print(f"Total faces extracted: {total_faces}")
     print(f"Average faces per video: {total_faces / len(video_files):.1f}")
     print(f"\nAll cropped faces saved to: {args.output_dir}/")
+    print(f"Detection metadata with landmarks saved to: {metadata_path}")
 
 
 if __name__ == "__main__":

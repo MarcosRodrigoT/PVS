@@ -32,14 +32,13 @@ This approach allows construction of resemblance score curves across entire vide
 
 ```
 PVS/
-├── main.py                       # Original sequential pipeline (legacy)
-├── main_new.py                   # NEW: Complete pipeline orchestrator (new approach)
-├── generate_video_summaries.py   # NEW: Standalone video summarization script
-├── extract_all_faces.py          # Extract faces from all video frames
+├── main.py                       # Complete pipeline orchestrator
+├── generate_video_summaries.py   # Standalone video summarization script
+├── extract_all_faces.py          # Extract faces from all video frames (saves metadata)
 ├── extract_embeddings.py         # Extract embeddings from face crops
 ├── find_updated_target.py        # Find best matching face as updated target
 ├── compute_resemblance_curve.py  # Compute and visualize resemblance scores
-├── create_final_visualization.py # NEW: Create enhanced plots with highlight overlays
+├── create_final_visualization.py # Create enhanced plots with highlight overlays
 ├── config.py                     # Configuration settings
 ├── visualizer.py                 # Visualization component
 ├── requirements.txt              # Python dependencies
@@ -64,9 +63,10 @@ PVS/
 │           ├── clip_001.mp4
 │           └── segments.json
 ├── cropped_faces/                # Extracted face crops (cached, shared)
-│   └── <video_name>/
-│       ├── frame_000001_face_0.jpg
-│       └── ...
+│   ├── <video_name>/
+│   │   ├── frame_000001_face_0.jpg
+│   │   └── ...
+│   └── face_detections.json      # Detection metadata (coordinates, landmarks, confidence)
 ├── cropped_faces_embeddings/     # Face embeddings in HDF5 format (cached, shared)
 │   ├── ArcFace/                  # ArcFace embeddings (<video>.h5)
 │   └── TransFace/                # TransFace embeddings (<video>.h5)
@@ -103,16 +103,16 @@ pip install -r requirements.txt
 
 ### Option 1: Run Complete Pipeline (Recommended)
 
-Run the entire pipeline on a single video using `main_new.py`:
+Run the entire pipeline on a single video using `main.py`:
 
 ```bash
 # With SportCLIP
-python main_new.py --video longjump_video1 \
+python main.py --video longjump_video1 \
     --video-summarizer sportclip \
     --sentences-file data/sentences/long_jump.json
 
 # With QD-DETR
-python main_new.py --video highjump_video1 \
+python main.py --video highjump_video1 \
     --video-summarizer qddetr \
     --qddetr-query "highlight moments in this high jump competition"
 ```
@@ -178,8 +178,18 @@ cropped_faces/
 │   ├── frame_000241_face_1.jpg
 │   └── ...
 ├── 100m_video2/
+├── face_detections.json  # NEW: Metadata with landmarks, coordinates, confidence
 └── ...
 ```
+
+The `face_detections.json` file contains detailed metadata for each detected face:
+- Frame number and video name
+- Bounding box coordinates (x1, y1, x2, y2)
+- Detection confidence score
+- **Facial landmarks** (5 keypoints: left_eye, right_eye, nose, left_mouth, right_mouth)
+- Path to the cropped face image
+
+This metadata is useful for face alignment, quality assessment, and advanced analysis.
 
 ### Step 2: Extract Embeddings
 
@@ -361,18 +371,6 @@ The enhanced plot shows:
 
 **Note**: Highlight segment timing is extracted directly from SportCLIP's or QD-DETR's event detection, ensuring accurate frame-level alignment with the original video.
 
-## Original Sequential Pipeline
-
-The original sequential pipeline is still available via `main.py`:
-
-```bash
-# Run on existing video clips
-python main.py
-
-# With TransFace model
-python main.py --model TransFace
-```
-
 ## Models Used
 
 ### Face Detection: InsightFace SCRFD
@@ -394,7 +392,7 @@ python main.py --model TransFace
 
 ## Command-line Arguments Reference
 
-### main_new.py (Complete Pipeline)
+### main.py (Complete Pipeline)
 
 | Argument | Default | Description |
 |----------|---------|-------------|
@@ -496,10 +494,6 @@ python main.py --model TransFace
 | `--output` | `results` | Output directory for final results |
 | `--threshold` | `0.6` | Resemblance score threshold |
 | `--smooth-window` | `5` | Smoothing window size |
-
-### main.py
-
-See full documentation in the original usage section below.
 
 ## Video Summarization Integration
 
