@@ -258,7 +258,7 @@ def process_target_face(
         return None
 
     # Save cropped target face
-    target_crop_path = target_output_dir / "target_face_crop.jpg"
+    target_crop_path = target_output_dir / "face_crop.jpg"
     cv2.imwrite(str(target_crop_path), face_crop)
     print(f"  Saved cropped face to {target_crop_path}")
 
@@ -331,7 +331,7 @@ def process_target_face(
     best_transface = all_transface_matches[0] if all_transface_matches else None
 
     # Create log file
-    log_path = target_output_dir / f"{target_name}_{video_name}_matching_log.txt"
+    log_path = target_output_dir / f"{target_name}_log.txt"
     with open(log_path, "w") as log:
         log.write(f"Updated Target Matching Log\n")
         log.write(f"=" * 80 + "\n")
@@ -354,7 +354,7 @@ def process_target_face(
 
             if best_arcface[2] >= similarity_threshold:
                 # Copy best match as updated target
-                updated_path = target_output_dir / "updated_target_arcface.jpg"
+                updated_path = target_output_dir / "face_crop_arcface_updated.jpg"
                 if os.path.exists(best_arcface[3]):
                     import shutil
 
@@ -385,7 +385,7 @@ def process_target_face(
 
             if best_transface[2] >= similarity_threshold:
                 # Copy best match as updated target
-                updated_path = target_output_dir / "updated_target_transface.jpg"
+                updated_path = target_output_dir / "face_crop_transface_updated.jpg"
                 if os.path.exists(best_transface[3]):
                     import shutil
 

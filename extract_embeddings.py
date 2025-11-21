@@ -1,11 +1,15 @@
 """
-Extract embeddings from all face crops using ArcFace and TransFace
-Processes all face crops in cropped_faces/ and saves embeddings to cropped_faces_embeddings/
-Embeddings are stored in HDF5 format (one file per video) for efficient storage
+Unified Embedding Extraction Script
+
+This script handles all embedding extraction tasks in the project:
+1. Video Faces Mode: Extract embeddings from cropped video faces
+2. Original Targets Mode: Extract embeddings from original target face images
+3. Updated Targets Mode: Extract embeddings from updated target faces (best matches from video)
 
 Features:
 - Progressive saving: saves embeddings incrementally to avoid memory issues
 - Resume support: skips already processed embeddings if script is restarted
+- Unified interface for all embedding extraction workflows
 """
 
 import os
@@ -13,8 +17,9 @@ import sys
 import json
 import numpy as np
 import h5py
+import cv2
 from pathlib import Path
-from typing import List, Dict, Set
+from typing import List, Dict, Set, Optional
 from tqdm import tqdm
 import argparse
 
@@ -34,6 +39,7 @@ except Exception as e:
     print(f"GPU configuration warning: {e}")
 
 from deepface import DeepFace
+from insightface.app import FaceAnalysis
 
 # TransFace configuration
 TRANSFACE_DIR = "/home/mrt/Projects/TransFace"
@@ -42,6 +48,131 @@ TRANSFACE_VENV_PYTHON = os.path.join(TRANSFACE_DIR, "venv", "bin", "python")
 
 # Batch size for progressive saving (to limit memory usage)
 SAVE_BATCH_SIZE = 1000
+
+
+# =============================================================================
+# Common Functions
+# =============================================================================
+
+
+def detect_and_crop_face(image_path: str, face_detector: FaceAnalysis) -> Optional[np.ndarray]:
+    """
+    Detect and crop the largest face from an image
+
+    Args:
+        image_path: Path to the image
+        face_detector: InsightFace detector
+
+    Returns:
+        Cropped face image or None if no face detected
+    """
+    img = cv2.imread(image_path)
+    if img is None:
+        print(f"  Error: Could not read image {image_path}")
+        return None
+
+    faces = face_detector.get(img)
+    if not faces:
+        print(f"  Warning: No face detected in {image_path}")
+        return None
+
+    # Get the largest face
+    largest_face = max(faces, key=lambda f: (f.bbox[2] - f.bbox[0]) * (f.bbox[3] - f.bbox[1]))
+    bbox = largest_face.bbox.astype(int)
+    x1, y1, x2, y2 = bbox
+
+    # Ensure coordinates are within bounds
+    x1 = max(0, x1)
+    y1 = max(0, y1)
+    x2 = min(img.shape[1], x2)
+    y2 = min(img.shape[0], y2)
+
+    face_crop = img[y1:y2, x1:x2]
+    return face_crop
+
+
+def extract_arcface_embedding(image_path: str) -> Optional[np.ndarray]:
+    """
+    Extract ArcFace embedding from an image
+
+    Args:
+        image_path: Path to the image
+
+    Returns:
+        Embedding as numpy array or None if extraction failed
+    """
+    try:
+        embedding = DeepFace.represent(img_path=image_path, model_name="ArcFace", enforce_detection=False)
+
+        if isinstance(embedding, list) and len(embedding) > 0:
+            return np.array(embedding[0]["embedding"], dtype=np.float32)
+    except Exception as e:
+        print(f"  Error extracting ArcFace embedding: {e}")
+    return None
+
+
+def extract_transface_embedding(image_path: str, transface_weight: str, transface_network: str) -> Optional[np.ndarray]:
+    """
+    Extract TransFace embedding from an image
+
+    Args:
+        image_path: Path to the image
+        transface_weight: Path to TransFace weights
+        transface_network: TransFace network architecture
+
+    Returns:
+        Embedding as numpy array or None if extraction failed
+    """
+    import subprocess
+    import tempfile
+
+    try:
+        # Create temp files
+        with tempfile.NamedTemporaryFile(mode="w", suffix="_input.json", delete=False) as f:
+            input_file = f.name
+            json.dump({"images": [image_path]}, f)
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix="_output.json", delete=False) as f:
+            output_file = f.name
+
+        # Call TransFace
+        cmd = [
+            TRANSFACE_VENV_PYTHON,
+            TRANSFACE_BATCH_SCRIPT,
+            "--mode",
+            "extract-batch",
+            "--input-list",
+            input_file,
+            "--output",
+            output_file,
+            "--weight",
+            transface_weight,
+            "--network",
+            transface_network,
+        ]
+
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+
+        # Load embedding
+        with open(output_file, "r") as f:
+            data = json.load(f)
+
+        results = data.get("embeddings", {})
+        if image_path in results:
+            result_data = results[image_path]
+            if result_data["status"] == "success" and result_data["embedding"] is not None:
+                return np.array(result_data["embedding"], dtype=np.float32)
+
+    except Exception as e:
+        print(f"  Error extracting TransFace embedding: {e}")
+    finally:
+        # Clean up
+        if "input_file" in locals() and os.path.exists(input_file):
+            os.remove(input_file)
+        if "output_file" in locals() and os.path.exists(output_file):
+            os.remove(output_file)
+
+    return None
 
 
 def get_existing_embeddings(h5_path: Path) -> Set[str]:
@@ -79,6 +210,11 @@ def save_embeddings_to_h5(embeddings: Dict[str, np.ndarray], output_path: Path):
         for face_name, embedding in embeddings.items():
             if face_name not in f:
                 f.create_dataset(face_name, data=embedding, compression="gzip", compression_opts=4)
+
+
+# =============================================================================
+# Mode 1: Video Faces (Extract from cropped video faces)
+# =============================================================================
 
 
 def extract_arcface_embeddings_progressive(image_paths: List[str], output_path: Path, gpu_id: int = 0, save_interval: int = SAVE_BATCH_SIZE) -> int:
@@ -279,21 +415,6 @@ def extract_transface_embeddings_progressive(image_paths: List[str], output_path
     return total_extracted
 
 
-def load_embedding_from_h5(h5_path: Path, face_name: str) -> np.ndarray:
-    """
-    Load a single embedding from an HDF5 file
-
-    Args:
-        h5_path: Path to the HDF5 file
-        face_name: Name of the face (e.g., "frame_000241_face_0")
-
-    Returns:
-        Embedding as numpy array
-    """
-    with h5py.File(str(h5_path), "r") as f:
-        return f[face_name][:]
-
-
 def find_all_face_crops(cropped_faces_dir: str) -> Dict[str, List[str]]:
     """
     Find all face crop images organized by video
@@ -407,69 +528,10 @@ def process_transface_embeddings(video_faces: Dict[str, List[str]], output_dir: 
     print(f"\n✓ TransFace: Processed {processed_faces}/{total_faces} faces")
 
 
-def main():
-    """Main function to extract embeddings from all face crops"""
-    parser = argparse.ArgumentParser(
-        description="Extract embeddings from all face crops using ArcFace and TransFace",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Extract embeddings using both models
-  python extract_embeddings.py --models ArcFace TransFace
-
-  # Extract only ArcFace embeddings
-  python extract_embeddings.py --models ArcFace
-
-  # Extract only TransFace embeddings
-  python extract_embeddings.py --models TransFace
-
-  # Use custom directories
-  python extract_embeddings.py --input-dir cropped_faces --output-dir my_embeddings
-
-  # Use custom TransFace weights
-  python extract_embeddings.py --models TransFace --transface-weight /path/to/weights.pt
-
-  # Use specific GPU for ArcFace
-  python extract_embeddings.py --models ArcFace --gpu-id 1
-
-  # Custom TransFace batch size
-  python extract_embeddings.py --models TransFace --batch-size 2000
-
-Features:
-  - Progressive saving: saves embeddings incrementally (every 1000) to avoid memory issues
-  - Resume support: if you stop the script, just run it again and it will skip already processed faces
-
-Output Format:
-  Embeddings are saved in HDF5 format (one .h5 file per video).
-
-  To load an embedding:
-    import h5py
-    with h5py.File('video_name.h5', 'r') as f:
-        embedding = f['frame_000241_face_0'][:]
-
-  Or to list all embeddings in a file:
-    with h5py.File('video_name.h5', 'r') as f:
-        print(list(f.keys()))
-        """,
-    )
-
-    parser.add_argument("--input-dir", type=str, default="cropped_faces", help="Directory containing cropped face images (default: cropped_faces)")
-    parser.add_argument("--output-dir", type=str, default="cropped_faces_embeddings", help="Directory to save embeddings (default: cropped_faces_embeddings)")
-    parser.add_argument(
-        "--models", nargs="+", choices=["ArcFace", "TransFace"], default=["ArcFace", "TransFace"], help="Which models to use for embedding extraction (default: both)"
-    )
-    parser.add_argument("--gpu-id", type=int, default=0, help="GPU ID to use for ArcFace (0 or 1, default: 0)")
-    parser.add_argument(
-        "--transface-weight", type=str, default="/home/mrt/Projects/TransFace/work_dirs/glint360k_vit_l/glint360k_model_TransFace_L.pt", help="Path to TransFace model weights"
-    )
-    parser.add_argument("--transface-network", type=str, default="vit_l_dp005_mask_005", help="TransFace network architecture (default: vit_l_dp005_mask_005)")
-    parser.add_argument("--batch-size", type=int, default=1000, help="Batch size for TransFace processing (default: 1000)")
-
-    args = parser.parse_args()
-
-    # Find all face crops
+def run_video_faces_mode(args):
+    """Run video faces extraction mode"""
     print("=" * 80)
-    print("FACE EMBEDDING EXTRACTION")
+    print("MODE: VIDEO FACES EMBEDDING EXTRACTION")
     print("=" * 80)
     print(f"\nSearching for face crops in: {args.input_dir}")
 
@@ -526,10 +588,327 @@ Output Format:
     if "TransFace" in args.models:
         print(f"  - TransFace embeddings: {args.output_dir}/TransFace/<video_name>.h5")
 
-    print("\nTo load an embedding:")
-    print("  import h5py")
-    print("  with h5py.File('video_name.h5', 'r') as f:")
-    print("      embedding = f['frame_000241_face_0'][:]")
+
+# =============================================================================
+# Mode 2: Original Targets (Extract from original target images)
+# =============================================================================
+
+
+def process_original_target_face(target_image_path: Path, output_dir: Path, face_detector: FaceAnalysis, transface_weight: str, transface_network: str) -> bool:
+    """
+    Extract embeddings from original target face image
+
+    Args:
+        target_image_path: Path to target face image
+        output_dir: Output directory for embeddings
+        face_detector: InsightFace detector
+        transface_weight: Path to TransFace weights
+        transface_network: TransFace network
+
+    Returns:
+        True if successful, False otherwise
+    """
+    target_name = target_image_path.stem
+    print(f"\nProcessing target: {target_name}")
+
+    # Create output directory for this target
+    target_output_dir = output_dir / target_name
+    target_output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Step 1: Detect and crop face from target image
+    print("  Step 1: Detecting and cropping face from target image...")
+    face_crop = detect_and_crop_face(str(target_image_path), face_detector)
+    if face_crop is None:
+        return False
+
+    # Save cropped target face
+    target_crop_path = target_output_dir / "face_crop.jpg"
+    cv2.imwrite(str(target_crop_path), face_crop)
+    print(f"  Saved cropped face to {target_crop_path}")
+
+    # Step 2: Extract embeddings for target face
+    print("  Step 2: Extracting embeddings from target face...")
+
+    # ArcFace
+    print("    Extracting ArcFace embedding...")
+    arcface_emb = extract_arcface_embedding(str(target_crop_path))
+    if arcface_emb is None:
+        print("    Failed to extract ArcFace embedding")
+        return False
+
+    # Save ArcFace embedding
+    arcface_emb_path = target_output_dir / "target_arcface_embedding.npy"
+    np.save(str(arcface_emb_path), arcface_emb)
+    print(f"    ✓ Saved ArcFace embedding")
+
+    # TransFace
+    print("    Extracting TransFace embedding...")
+    transface_emb = extract_transface_embedding(str(target_crop_path), transface_weight, transface_network)
+    if transface_emb is None:
+        print("    Failed to extract TransFace embedding")
+        return False
+
+    # Save TransFace embedding
+    transface_emb_path = target_output_dir / "target_transface_embedding.npy"
+    np.save(str(transface_emb_path), transface_emb)
+    print(f"    ✓ Saved TransFace embedding")
+
+    print(f"  ✓ Successfully processed {target_name}")
+    return True
+
+
+def run_original_targets_mode(args):
+    """Run original targets extraction mode"""
+    target_faces_dir = Path(args.target_faces)
+    output_dir = Path(args.output_dir)
+
+    print("=" * 80)
+    print("MODE: ORIGINAL TARGET FACES EMBEDDING EXTRACTION")
+    print("=" * 80)
+
+    # Validate directories
+    if not target_faces_dir.exists():
+        print(f"\nError: Target faces directory not found: {target_faces_dir}")
+        return
+
+    # Find target images
+    target_images = list(target_faces_dir.glob("*.jpg")) + list(target_faces_dir.glob("*.png")) + list(target_faces_dir.glob("*.jpeg"))
+
+    if not target_images:
+        print(f"\nError: No target images found in {target_faces_dir}")
+        return
+
+    print(f"\nFound {len(target_images)} target image(s):")
+    for img in target_images:
+        print(f"  - {img.name}")
+
+    print(f"\nOutput directory: {output_dir}")
+
+    # Initialize face detector
+    print("\nInitializing face detector...")
+    try:
+        face_detector = FaceAnalysis(providers=["CUDAExecutionProvider", "CPUExecutionProvider"])
+        face_detector.prepare(ctx_id=0, det_size=(640, 640))
+        print("Face detector initialized (GPU enabled)")
+    except Exception as e:
+        print(f"GPU initialization failed, using CPU: {e}")
+        face_detector = FaceAnalysis(providers=["CPUExecutionProvider"])
+        face_detector.prepare(ctx_id=-1, det_size=(640, 640))
+        print("Face detector initialized (CPU mode)")
+
+    # Process each target
+    output_dir.mkdir(parents=True, exist_ok=True)
+    successful = 0
+    failed = 0
+
+    for target_img in target_images:
+        if process_original_target_face(target_img, output_dir, face_detector, args.transface_weight, args.transface_network):
+            successful += 1
+        else:
+            failed += 1
+
+    # Summary
+    print("\n" + "=" * 80)
+    print("PROCESSING COMPLETE")
+    print("=" * 80)
+    print(f"Successful: {successful}")
+    print(f"Failed: {failed}")
+    print(f"\nEmbeddings saved in: {output_dir}/")
+    print("\nNote: These are embeddings from ORIGINAL target images.")
+
+
+# =============================================================================
+# Mode 3: Updated Targets (Extract from updated target images)
+# =============================================================================
+
+
+def process_updated_target(target_dir: Path, target_name: str, video_name: str, transface_weight: str, transface_network: str) -> bool:
+    """
+    Extract embeddings from updated target face images
+
+    Args:
+        target_dir: Directory for this target (e.g., target_faces_updated/starc/)
+        target_name: Name of target person
+        video_name: Video name
+        transface_weight: Path to TransFace weights
+        transface_network: TransFace network
+
+    Returns:
+        True if successful, False otherwise
+    """
+    print(f"\nProcessing updated target: {target_name}")
+
+    # Look for updated target images
+    arcface_img = target_dir / "face_crop_arcface_updated.jpg"
+    transface_img = target_dir / "face_crop_transface_updated.jpg"
+
+    if not arcface_img.exists() and not transface_img.exists():
+        print(f"  Warning: No updated target images found for {target_name}")
+        return False
+
+    # Extract ArcFace embedding from updated target
+    if arcface_img.exists():
+        print(f"  Extracting ArcFace embedding from updated target...")
+        arcface_emb = extract_arcface_embedding(str(arcface_img))
+        if arcface_emb is not None:
+            # Save with suffix to distinguish from original
+            emb_path = target_dir / "updated_target_arcface_embedding.npy"
+            np.save(str(emb_path), arcface_emb)
+            print(f"    ✓ Saved to: {emb_path}")
+        else:
+            print(f"    ✗ Failed to extract ArcFace embedding")
+            return False
+    else:
+        print(f"  Warning: ArcFace updated target image not found")
+
+    # Extract TransFace embedding from updated target
+    if transface_img.exists():
+        print(f"  Extracting TransFace embedding from updated target...")
+        transface_emb = extract_transface_embedding(str(transface_img), transface_weight, transface_network)
+        if transface_emb is not None:
+            # Save with suffix to distinguish from original
+            emb_path = target_dir / "updated_target_transface_embedding.npy"
+            np.save(str(emb_path), transface_emb)
+            print(f"    ✓ Saved to: {emb_path}")
+        else:
+            print(f"    ✗ Failed to extract TransFace embedding")
+            return False
+    else:
+        print(f"  Warning: TransFace updated target image not found")
+
+    print(f"  ✓ Successfully processed {target_name}")
+    return True
+
+
+def run_updated_targets_mode(args):
+    """Run updated targets extraction mode"""
+    updated_targets_dir = Path(args.updated_targets)
+    video_name = args.video
+
+    print("=" * 80)
+    print("MODE: UPDATED TARGET FACES EMBEDDING EXTRACTION (SECOND PASS)")
+    print("=" * 80)
+    print(f"\nVideo: {video_name}")
+
+    # Validate directories
+    if not updated_targets_dir.exists():
+        print(f"\nError: Updated targets directory not found: {updated_targets_dir}")
+        print("Please run find_updated_target.py first.")
+        return
+
+    # Find all target directories
+    target_dirs = [d for d in updated_targets_dir.iterdir() if d.is_dir()]
+
+    if not target_dirs:
+        print(f"\nError: No target directories found in {updated_targets_dir}")
+        return
+
+    print(f"\nFound {len(target_dirs)} target(s):")
+    for target_dir in target_dirs:
+        print(f"  - {target_dir.name}")
+
+    # Process each target
+    successful = 0
+    failed = 0
+
+    for target_dir in target_dirs:
+        target_name = target_dir.name
+
+        # Check if this target has a matching log for the video
+        log_file = target_dir / f"{target_name}_log.txt"
+        if not log_file.exists():
+            print(f"\nSkipping {target_name} (no matching log for {video_name})")
+            continue
+
+        if process_updated_target(target_dir, target_name, video_name, args.transface_weight, args.transface_network):
+            successful += 1
+        else:
+            failed += 1
+
+    # Summary
+    print("\n" + "=" * 80)
+    print("PROCESSING COMPLETE")
+    print("=" * 80)
+    print(f"Successful: {successful}")
+    print(f"Failed: {failed}")
+    print(f"\nUpdated embeddings saved in: {updated_targets_dir}/")
+
+
+# =============================================================================
+# Main Entry Point
+# =============================================================================
+
+
+def main():
+    """Main function to extract embeddings based on mode"""
+    parser = argparse.ArgumentParser(
+        description="Unified embedding extraction for video faces, original targets, and updated targets",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Modes:
+  video_faces:      Extract embeddings from cropped video faces (default)
+  original_targets: Extract embeddings from original target face images
+  updated_targets:  Extract embeddings from updated target faces (best matches from video)
+
+Examples:
+  # Extract embeddings from video faces (default mode)
+  python extract_embeddings.py --mode video_faces
+
+  # Extract embeddings from original target faces
+  python extract_embeddings.py --mode original_targets
+
+  # Extract embeddings from updated target faces
+  python extract_embeddings.py --mode updated_targets --video highjump_video1
+
+  # Video faces mode: Extract only ArcFace embeddings
+  python extract_embeddings.py --mode video_faces --models ArcFace
+
+  # Video faces mode: Use custom directories
+  python extract_embeddings.py --mode video_faces --input-dir cropped_faces --output-dir my_embeddings
+        """,
+    )
+
+    parser.add_argument("--mode", type=str, choices=["video_faces", "original_targets", "updated_targets"], default="video_faces", help="Extraction mode (default: video_faces)")
+
+    # Common arguments
+    parser.add_argument(
+        "--transface-weight", type=str, default="/home/mrt/Projects/TransFace/work_dirs/glint360k_vit_l/glint360k_model_TransFace_L.pt", help="Path to TransFace model weights"
+    )
+    parser.add_argument("--transface-network", type=str, default="vit_l_dp005_mask_005", help="TransFace network architecture (default: vit_l_dp005_mask_005)")
+
+    # Video faces mode arguments
+    parser.add_argument("--input-dir", type=str, default="cropped_faces", help="[video_faces] Directory containing cropped face images (default: cropped_faces)")
+    parser.add_argument("--output-dir", type=str, default="cropped_faces_embeddings", help="[video_faces] Directory to save embeddings (default: cropped_faces_embeddings)")
+    parser.add_argument(
+        "--models", nargs="+", choices=["ArcFace", "TransFace"], default=["ArcFace", "TransFace"], help="[video_faces] Which models to use for embedding extraction (default: both)"
+    )
+    parser.add_argument("--gpu-id", type=int, default=0, help="[video_faces] GPU ID to use for ArcFace (0 or 1, default: 0)")
+    parser.add_argument("--batch-size", type=int, default=1000, help="[video_faces] Batch size for TransFace processing (default: 1000)")
+
+    # Original targets mode arguments
+    parser.add_argument("--target-faces", type=str, default="target_faces", help="[original_targets] Directory containing target face images (default: target_faces)")
+
+    # Updated targets mode arguments
+    parser.add_argument(
+        "--updated-targets", type=str, default="target_faces_updated", help="[updated_targets] Directory containing updated target faces (default: target_faces_updated)"
+    )
+    parser.add_argument("--video", type=str, default=None, help="[updated_targets] Video name to process (without extension, required for updated_targets mode)")
+
+    args = parser.parse_args()
+
+    # Route to appropriate mode
+    if args.mode == "video_faces":
+        run_video_faces_mode(args)
+    elif args.mode == "original_targets":
+        # Override output_dir for original_targets to save in target_faces_updated
+        args.output_dir = "target_faces_updated"
+        run_original_targets_mode(args)
+    elif args.mode == "updated_targets":
+        if not args.video:
+            print("Error: --video is required for updated_targets mode")
+            parser.print_help()
+            return
+        run_updated_targets_mode(args)
 
 
 if __name__ == "__main__":

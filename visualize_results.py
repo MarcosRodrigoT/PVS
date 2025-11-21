@@ -1,12 +1,14 @@
 """
-Create Final Visualization with Highlight Overlays
+Unified Visualization Script for Face Recognition Results
 
-This script:
-1. Loads resemblance curve data for each target
-2. Loads video summary segment data
-3. Creates enhanced plots with highlight segments overlaid on timeline
-4. Copies highlight clips where target appears to results directory
-5. Generates a summary report
+This script handles all visualization tasks in the project:
+1. Resemblance Curves Mode: Create resemblance curves for face recognition results
+2. Final with Highlights Mode: Create enhanced plots with highlight segments overlaid
+
+Features:
+- Unified interface for all visualization workflows
+- Supports both original and updated target embeddings
+- Creates summary reports and copies relevant clips
 """
 
 import os
@@ -17,13 +19,43 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from pathlib import Path
-from typing import List, Dict, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
+from collections import defaultdict
 import argparse
 
 # Use Agg backend for non-interactive plotting
 import matplotlib
-
 matplotlib.use("Agg")
+
+
+# =============================================================================
+# Common Functions
+# =============================================================================
+
+
+def smooth_scores(scores: np.ndarray, window_size: int = 5) -> np.ndarray:
+    """
+    Apply rolling average smoothing to scores
+
+    Args:
+        scores: Array of scores
+        window_size: Window size for rolling average
+
+    Returns:
+        Smoothed scores
+    """
+    if len(scores) < window_size:
+        return scores
+
+    kernel = np.ones(window_size) / window_size
+    smoothed = np.convolve(scores, kernel, mode="same")
+
+    # Fix edges
+    for i in range(window_size // 2):
+        smoothed[i] = np.mean(scores[: i + window_size // 2 + 1])
+        smoothed[-(i + 1)] = np.mean(scores[-(i + window_size // 2 + 1) :])
+
+    return smoothed
 
 
 def load_resemblance_data(resemblance_file: Path) -> Optional[Dict]:
@@ -68,65 +100,241 @@ def load_segments_data(segments_file: Path) -> Optional[Dict]:
         return None
 
 
-def smooth_scores(scores: np.ndarray, window_size: int = 5) -> np.ndarray:
-    """
-    Apply rolling average smoothing to scores
-
-    Args:
-        scores: Array of scores
-        window_size: Window size for rolling average
-
-    Returns:
-        Smoothed scores
-    """
-    if len(scores) < window_size:
-        return scores
-
-    kernel = np.ones(window_size) / window_size
-    smoothed = np.convolve(scores, kernel, mode="same")
-
-    # Fix edges
-    for i in range(window_size // 2):
-        smoothed[i] = np.mean(scores[: i + window_size // 2 + 1])
-        smoothed[-(i + 1)] = np.mean(scores[-(i + window_size // 2 + 1) :])
-
-    return smoothed
+# =============================================================================
+# Mode 1: Resemblance Curves (Basic visualization from face recognition results)
+# =============================================================================
 
 
-def extract_clip_timestamps(clip_name: str) -> Optional[Tuple[float, float]]:
-    """
-    Extract start and end timestamps from clip filename
+class ResemblanceVisualizer:
+    """Visualizer for face recognition resemblance curves"""
 
-    Assumes format like: "clip_001_0025.00_0035.00.mp4" or similar
+    def __init__(self, recognition_results_path: str):
+        """
+        Initialize the visualizer
 
-    Args:
-        clip_name: Name of clip file
+        Args:
+            recognition_results_path: Path to face recognition results JSON
+        """
+        self.recognition_results_path = recognition_results_path
+        self.results = self._load_results()
 
-    Returns:
-        Tuple of (start_time, end_time) in seconds or None if cannot parse
-    """
-    try:
-        # Try to extract timestamps from filename
-        # Common patterns: clip_XXX_START_END.mp4
-        parts = clip_name.replace(".mp4", "").split("_")
+    def _load_results(self) -> Dict:
+        """Load recognition results from JSON file"""
+        with open(self.recognition_results_path, "r") as f:
+            return json.load(f)
 
-        # Look for numeric parts that could be timestamps
-        timestamps = []
-        for part in parts:
-            try:
-                val = float(part)
-                timestamps.append(val)
-            except:
-                continue
+    def compute_frame_resemblance(self, clip_results: List[Dict]) -> Dict[int, float]:
+        """
+        Compute maximum resemblance per frame
 
-        if len(timestamps) >= 2:
-            # Assume last two numeric values are start and end
-            return (timestamps[-2], timestamps[-1])
+        Args:
+            clip_results: List of recognition results for a clip
 
-        return None
-    except Exception as e:
-        print(f"  Warning: Could not parse timestamps from {clip_name}")
-        return None
+        Returns:
+            Dictionary mapping frame numbers to maximum similarity scores
+        """
+        frame_resemblance = defaultdict(float)
+
+        for result in clip_results:
+            frame_num = result["frame_number"]
+            similarity = result["similarity"]
+
+            # Keep the maximum similarity for each frame
+            frame_resemblance[frame_num] = max(frame_resemblance[frame_num], similarity)
+
+        return dict(frame_resemblance)
+
+    def plot_resemblance_curves(self, output_dir: str = "results/visualizations", show_plot: bool = False):
+        """
+        Create resemblance curves for all clips and targets
+
+        Args:
+            output_dir: Directory to save the plots
+            show_plot: Whether to display plots interactively
+        """
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
+
+        if not self.results:
+            print("No recognition results to visualize")
+            return
+
+        # Get all targets
+        all_targets = set()
+        for clip_results in self.results.values():
+            all_targets.update(clip_results.keys())
+
+        # Create a plot for each target
+        for target_name in all_targets:
+            self._plot_target_resemblance(target_name, output_path, show_plot)
+
+        print(f"\nVisualization complete. Plots saved to {output_dir}/")
+
+    def _plot_target_resemblance(self, target_name: str, output_path: Path, show_plot: bool = False):
+        """
+        Create resemblance curve for a specific target across all clips
+
+        Args:
+            target_name: Name of the target person
+            output_path: Directory to save the plot
+            show_plot: Whether to display the plot interactively
+        """
+        num_clips = len(self.results)
+
+        if num_clips == 0:
+            return
+
+        # Determine subplot layout
+        cols = min(3, num_clips)
+        rows = (num_clips + cols - 1) // cols
+
+        fig, axes = plt.subplots(rows, cols, figsize=(6 * cols, 4 * rows))
+        fig.suptitle(f"Resemblance Curves - Target: {target_name}", fontsize=16, fontweight="bold")
+
+        # Handle single subplot case
+        if num_clips == 1:
+            axes = np.array([axes])
+
+        axes = axes.flatten() if num_clips > 1 else axes
+
+        clip_ids = sorted(self.results.keys())
+
+        for idx, clip_id in enumerate(clip_ids):
+            ax = axes[idx] if num_clips > 1 else axes[0]
+
+            # Get results for this clip and target
+            if target_name in self.results[clip_id]:
+                clip_results = self.results[clip_id][target_name]
+                frame_resemblance = self.compute_frame_resemblance(clip_results)
+
+                if frame_resemblance:
+                    frames = sorted(frame_resemblance.keys())
+                    similarities = [frame_resemblance[f] for f in frames]
+
+                    # Plot the curve (use horizontal line for single points, line for multiple)
+                    if len(frames) == 1:
+                        # Single point - draw horizontal line from frame 0 to detected frame
+                        frame_num = frames[0]
+                        ax.axhline(y=similarities[0], color="b", linewidth=2, alpha=0.7)
+                        ax.fill_between([0, frame_num], similarities[0], alpha=0.3)
+                        # Set x-axis limits to show from 0 to the detected frame
+                        ax.set_xlim([0, frame_num])
+                    else:
+                        # Multiple points - use line plot
+                        ax.plot(frames, similarities, "b-", linewidth=1.5, alpha=0.7)
+                        ax.fill_between(frames, similarities, alpha=0.3)
+                        # Set x-axis limits based on actual frame range
+                        ax.set_xlim([min(frames), max(frames)])
+
+                    # Add threshold line
+                    ax.axhline(y=0.6, color="r", linestyle="--", linewidth=1, label="Match Threshold (0.6)", alpha=0.7)
+
+                    # Styling
+                    ax.set_xlabel("Frame Number", fontsize=10)
+                    ax.set_ylabel("Resemblance Score", fontsize=10)
+                    ax.set_title(f"{clip_id}", fontsize=11, fontweight="bold")
+                    ax.set_ylim([0, 1])
+                    ax.grid(True, alpha=0.3)
+                    ax.legend(fontsize=8)
+
+                    # Add statistics
+                    avg_sim = np.mean(similarities)
+                    max_sim = np.max(similarities)
+                    matches = sum(1 for s in similarities if s >= 0.6)
+                    stats_text = f"Avg: {avg_sim:.3f}\nMax: {max_sim:.3f}\nMatches: {matches}"
+                    ax.text(0.02, 0.98, stats_text, transform=ax.transAxes, fontsize=8, verticalalignment="top", bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5))
+                else:
+                    ax.text(0.5, 0.5, "No faces detected", ha="center", va="center", transform=ax.transAxes, fontsize=10)
+                    ax.set_title(f"{clip_id}", fontsize=11, fontweight="bold")
+            else:
+                ax.text(0.5, 0.5, "No data for target", ha="center", va="center", transform=ax.transAxes, fontsize=10)
+                ax.set_title(f"{clip_id}", fontsize=11, fontweight="bold")
+
+        # Hide unused subplots
+        for idx in range(num_clips, len(axes)):
+            axes[idx].set_visible(False)
+
+        # Adjust layout to make room for suptitle at the top
+        plt.tight_layout(rect=[0, 0, 1, 0.97])
+
+        # Save the plot
+        # If multiple targets exist, include target name in filename
+        all_targets = list(set(target for clip in self.results.values() for target in clip.keys()))
+        if len(all_targets) > 1:
+            plot_filename = output_path / f"resemblance_results_{target_name}.png"
+        else:
+            plot_filename = output_path / "resemblance_results.png"
+
+        plt.savefig(plot_filename, dpi=150, bbox_inches="tight")
+        print(f"Saved plot: {plot_filename}")
+
+        if show_plot:
+            plt.show()
+        else:
+            plt.close()
+
+    def generate_summary_report(self, output_path: str = "results/summary_report.txt"):
+        """
+        Generate a text summary report of recognition results
+
+        Args:
+            output_path: Path to save the summary report
+        """
+        with open(output_path, "w") as f:
+            f.write("=" * 80 + "\n")
+            f.write("PERSONALIZED VIDEO SUMMARIZATION - RECOGNITION SUMMARY\n")
+            f.write("=" * 80 + "\n\n")
+
+            # Get all targets
+            all_targets = set()
+            for clip_results in self.results.values():
+                all_targets.update(clip_results.keys())
+
+            for target_name in all_targets:
+                f.write(f"\nTarget Person: {target_name}\n")
+                f.write("-" * 80 + "\n")
+
+                for clip_id in sorted(self.results.keys()):
+                    if target_name in self.results[clip_id]:
+                        clip_results = self.results[clip_id][target_name]
+                        frame_resemblance = self.compute_frame_resemblance(clip_results)
+
+                        if frame_resemblance:
+                            similarities = list(frame_resemblance.values())
+                            avg_sim = np.mean(similarities)
+                            max_sim = np.max(similarities)
+                            min_sim = np.min(similarities)
+                            matches = sum(1 for s in similarities if s >= 0.6)
+                            match_rate = (matches / len(similarities)) * 100
+
+                            f.write(f"\n  {clip_id}:\n")
+                            f.write(f"    Frames analyzed: {len(frame_resemblance)}\n")
+                            f.write(f"    Average resemblance: {avg_sim:.4f}\n")
+                            f.write(f"    Max resemblance: {max_sim:.4f}\n")
+                            f.write(f"    Min resemblance: {min_sim:.4f}\n")
+                            f.write(f"    Matches (>0.6): {matches} ({match_rate:.1f}%)\n")
+                        else:
+                            f.write(f"\n  {clip_id}: No faces detected\n")
+
+                f.write("\n")
+
+        print(f"Summary report saved to {output_path}")
+
+
+def run_resemblance_curves_mode(args):
+    """Run resemblance curves mode"""
+    print("=" * 80)
+    print("MODE: RESEMBLANCE CURVES VISUALIZATION")
+    print("=" * 80)
+
+    visualizer = ResemblanceVisualizer(args.recognition_results)
+    visualizer.plot_resemblance_curves(output_dir=args.output, show_plot=args.show)
+    visualizer.generate_summary_report()
+
+
+# =============================================================================
+# Mode 2: Final with Highlights (Enhanced visualization with highlight overlays)
+# =============================================================================
 
 
 def create_enhanced_resemblance_plot(
@@ -352,6 +560,7 @@ def copy_relevant_clips(
     threshold: float = 0.6,
     arcface_scores_smooth: np.ndarray = None,
     transface_scores_smooth: np.ndarray = None,
+    use_updated_target: bool = False,
 ) -> List[str]:
     """
     Copy highlight clips where target person appears to results directory
@@ -365,6 +574,7 @@ def copy_relevant_clips(
         threshold: Resemblance score threshold
         arcface_scores_smooth: Pre-smoothed ArcFace scores (if None, uses raw scores)
         transface_scores_smooth: Pre-smoothed TransFace scores (if None, uses raw scores)
+        use_updated_target: Whether using updated target (affects clips directory name)
 
     Returns:
         List of copied clip names
@@ -390,8 +600,9 @@ def copy_relevant_clips(
         print(f"  Warning: Clips directory not found: {clips_dir}")
         return []
 
-    # Create output directory
-    target_clips_dir = output_dir / "highlight_clips"
+    # Create output directory (separate for original vs updated target)
+    clips_dirname = "highlight_clips_updated" if use_updated_target else "highlight_clips"
+    target_clips_dir = output_dir / clips_dirname
     target_clips_dir.mkdir(parents=True, exist_ok=True)
 
     copied_clips = []
@@ -472,42 +683,10 @@ def create_summary_report(target_name: str, video_name: str, resemblance_data: D
     print(f"  ✓ Created summary report: {output_path.name}")
 
 
-def main():
-    """Main function"""
-    parser = argparse.ArgumentParser(
-        description="Create final visualization with highlight overlays",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  # Process all targets for a video
-  python create_final_visualization.py --video highjump_video1 --model sportclip
-
-  # Process specific target
-  python create_final_visualization.py --video highjump_video1 --model sportclip --target barshim
-
-  # Custom threshold
-  python create_final_visualization.py --video highjump_video1 --model sportclip --threshold 0.65
-        """,
-    )
-
-    parser.add_argument("--video", type=str, required=True, help="Video name (without extension)")
-    parser.add_argument("--model", type=str, required=True, choices=["sportclip", "qddetr"], help="Video summarization model used")
-    parser.add_argument("--target", type=str, default=None, help="Specific target to process. If not provided, processes all targets.")
-    parser.add_argument("--video-summaries", type=str, default="video_summaries", help="Directory containing video summaries")
-    parser.add_argument("--resemblance-results", type=str, default="resemblance_results", help="Directory containing resemblance results")
-    parser.add_argument("--output", type=str, default="results", help="Output directory for final results")
-    parser.add_argument("--threshold", type=float, default=0.6, help="Resemblance score threshold (default: 0.6)")
-    parser.add_argument("--smooth-window", type=int, default=5, help="Smoothing window size (default: 5)")
-    parser.add_argument(
-        "--use-updated-target",
-        action="store_true",
-        help="Use results from updated target embeddings (second pass). Reads files with '_updated' suffix.",
-    )
-
-    args = parser.parse_args()
-
+def run_final_with_highlights_mode(args):
+    """Run final with highlights mode"""
     print("=" * 80)
-    print("CREATE FINAL VISUALIZATION WITH HIGHLIGHT OVERLAYS")
+    print("MODE: FINAL VISUALIZATION WITH HIGHLIGHT OVERLAYS")
     print("=" * 80)
     print(f"\nVideo: {args.video}")
     print(f"Model: {args.model.upper()}")
@@ -569,7 +748,7 @@ Examples:
 
         # Find resemblance data file (with suffix if using updated target)
         suffix = "_updated" if args.use_updated_target else ""
-        resemblance_file = target_dir / args.video / f"{target_name}_{args.video}_resemblance_data{suffix}.json"
+        resemblance_file = target_dir / f"{target_name}{suffix}.json"
 
         if not resemblance_file.exists():
             print(f"  Warning: Resemblance data not found: {resemblance_file}")
@@ -581,7 +760,9 @@ Examples:
             continue
 
         # Create output directory for this target
-        target_output_dir = output_dir / args.video / target_name
+        # New structure: results/video/model/target
+        model_dir_name = args.model  # "sportclip" or "qddetr"
+        target_output_dir = output_dir / args.video / model_dir_name / target_name
         target_output_dir.mkdir(parents=True, exist_ok=True)
 
         # Apply smoothing once (to be used by both plot and clip filtering)
@@ -601,11 +782,12 @@ Examples:
             threshold=args.threshold,
             arcface_scores_smooth=arcface_scores_smooth,
             transface_scores_smooth=transface_scores_smooth,
+            use_updated_target=args.use_updated_target,
         )
 
         # Create enhanced plot with relevant segments count (with suffix if using updated target)
         # Note: plot function will apply smoothing internally, but we'll ignore returned values
-        plot_path = target_output_dir / f"{target_name}_{args.video}_enhanced_curve{suffix}.png"
+        plot_path = target_output_dir / f"{target_name}{suffix}.png"
         _, _ = create_enhanced_resemblance_plot(
             resemblance_data=resemblance_data,
             segments_data=segments_data,
@@ -616,7 +798,7 @@ Examples:
         )
 
         # Create summary report (with suffix if using updated target)
-        report_path = target_output_dir / f"{target_name}_{args.video}_summary{suffix}.json"
+        report_path = target_output_dir / f"{target_name}{suffix}.json"
         create_summary_report(
             target_name=target_name,
             video_name=args.video,
@@ -647,6 +829,75 @@ Examples:
     print("=" * 80)
     print(f"\nSuccessfully processed {successful}/{len(target_dirs)} targets")
     print(f"Results saved to: {output_dir}/{args.video}/")
+
+
+# =============================================================================
+# Main Entry Point
+# =============================================================================
+
+
+def main():
+    """Main function to visualize results based on mode"""
+    parser = argparse.ArgumentParser(
+        description="Unified visualization for face recognition results",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Modes:
+  resemblance_curves:   Create resemblance curves from face recognition results
+  final_with_highlights: Create enhanced plots with highlight segments overlaid
+
+Examples:
+  # Create resemblance curves (simple mode)
+  python visualize_results.py --mode resemblance_curves --recognition-results results/face_recognition_results.json
+
+  # Create final visualization with highlights
+  python visualize_results.py --mode final_with_highlights --video highjump_video1 --model sportclip
+
+  # Create final visualization with updated target embeddings
+  python visualize_results.py --mode final_with_highlights --video highjump_video1 --model sportclip --use-updated-target
+        """,
+    )
+
+    parser.add_argument(
+        "--mode",
+        type=str,
+        choices=["resemblance_curves", "final_with_highlights"],
+        required=True,
+        help="Visualization mode"
+    )
+
+    # Resemblance curves mode arguments
+    parser.add_argument("--recognition-results", type=str, default="results/face_recognition_results.json", help="[resemblance_curves] Path to face recognition results JSON")
+    parser.add_argument("--show", action="store_true", help="[resemblance_curves] Show plots interactively")
+
+    # Final with highlights mode arguments
+    parser.add_argument("--video", type=str, default=None, help="[final_with_highlights] Video name (without extension, required for this mode)")
+    parser.add_argument("--model", type=str, choices=["sportclip", "qddetr"], default=None, help="[final_with_highlights] Video summarization model used (required for this mode)")
+    parser.add_argument("--target", type=str, default=None, help="[final_with_highlights] Specific target to process. If not provided, processes all targets.")
+    parser.add_argument("--video-summaries", type=str, default="video_summaries", help="[final_with_highlights] Directory containing video summaries")
+    parser.add_argument("--resemblance-results", type=str, default="resemblance_results", help="[final_with_highlights] Directory containing resemblance results")
+    parser.add_argument("--threshold", type=float, default=0.6, help="[final_with_highlights] Resemblance score threshold (default: 0.6)")
+    parser.add_argument("--smooth-window", type=int, default=5, help="[final_with_highlights] Smoothing window size (default: 5)")
+    parser.add_argument(
+        "--use-updated-target",
+        action="store_true",
+        help="[final_with_highlights] Use results from updated target embeddings (second pass). Reads files with '_updated' suffix.",
+    )
+
+    # Common arguments
+    parser.add_argument("--output", type=str, default="results", help="Output directory for visualizations")
+
+    args = parser.parse_args()
+
+    # Route to appropriate mode
+    if args.mode == "resemblance_curves":
+        run_resemblance_curves_mode(args)
+    elif args.mode == "final_with_highlights":
+        if not args.video or not args.model:
+            print("Error: --video and --model are required for final_with_highlights mode")
+            parser.print_help()
+            return
+        run_final_with_highlights_mode(args)
 
 
 if __name__ == "__main__":

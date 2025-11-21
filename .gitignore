@@ -29,6 +29,7 @@ results*/
 target_faces/*
 target_faces_updated/*
 cropped_faces/*
+cropped_faces_GOOD/*
 cropped_faces_embeddings/*
 resemblance_results/*
 video_summaries/*

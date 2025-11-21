@@ -48,13 +48,11 @@ PVS/
 ├── main.py                            # Complete pipeline orchestrator
 ├── generate_video_summaries.py        # Standalone video summarization script
 ├── extract_all_faces.py               # Extract faces from all video frames (saves metadata)
-├── extract_embeddings.py              # Extract embeddings from face crops
+├── extract_embeddings.py              # UNIFIED: Extract embeddings (video faces, original targets, updated targets)
 ├── find_updated_target.py             # Find best matching face as updated target
-├── extract_updated_target_embeddings.py  # Extract embeddings from updated targets (second pass)
 ├── compute_resemblance_curve.py       # Compute and visualize resemblance scores
-├── create_final_visualization.py      # Create enhanced plots with highlight overlays
+├── visualize_results.py               # UNIFIED: Create resemblance curves and enhanced visualizations
 ├── config.py                          # Configuration settings
-├── visualizer.py                      # Visualization component
 ├── requirements.txt                   # Python dependencies
 ├── face_detection/
 │   └── detector.py               # Face detection using InsightFace SCRFD
@@ -66,7 +64,7 @@ PVS/
 │   └── qddetr_wrapper.py         # QD-DETR wrapper script
 ├── data/                         # Input videos
 ├── target_faces/                 # Place target person face images here
-├── video_summaries/              # NEW: Organized video summaries (cached)
+├── video_summaries/              # Organized video summaries (cached)
 │   ├── SportCLIP/                # SportCLIP summaries
 │   │   └── <video_name>/
 │   │       ├── clip_001.mp4
@@ -86,21 +84,33 @@ PVS/
 │   └── TransFace/                # TransFace embeddings (<video>.h5)
 ├── target_faces_updated/         # Updated target faces (best matches)
 │   └── <target_name>/            # One directory per target
-│       ├── target_face_crop.jpg              # Cropped face from original target
-│       ├── target_arcface_embedding.npy      # Embedding from original target
-│       ├── target_transface_embedding.npy    # Embedding from original target
-│       ├── updated_target_arcface.jpg        # Best matching face from video (ArcFace)
-│       ├── updated_target_transface.jpg      # Best matching face from video (TransFace)
-│       ├── updated_target_arcface_embedding.npy    # Embedding from updated target (optional, with --use-updated-target)
-│       ├── updated_target_transface_embedding.npy  # Embedding from updated target (optional, with --use-updated-target)
-│       └── <target>_<video>_matching_log.txt # Match details
+│       ├── face_crop.jpg                         # Cropped face from original target
+│       ├── target_arcface_embedding.npy          # Embedding from original target
+│       ├── target_transface_embedding.npy        # Embedding from original target
+│       ├── face_crop_arcface_updated.jpg         # Best matching face from video (ArcFace)
+│       ├── face_crop_transface_updated.jpg       # Best matching face from video (TransFace)
+│       ├── updated_target_arcface_embedding.npy  # Embedding from updated target (with --use-updated-target)
+│       ├── updated_target_transface_embedding.npy # Embedding from updated target (with --use-updated-target)
+│       └── <target>_log.txt                      # Match details
 ├── resemblance_results/          # Resemblance curve analysis
 │   └── <target_name>/            # One directory per target
-│       └── <video_name>/         # One directory per video
-│           ├── *_resemblance_curve.png
-│           └── *_resemblance_data.json
-└── results/                      # Final results directory
-    └── <video_name>/             # Per-video results
+│       ├── <target>.png          # Resemblance curve plot
+│       ├── <target>_updated.png  # Resemblance curve plot (with --use-updated-target)
+│       ├── <target>.json         # Resemblance data
+│       └── <target>_updated.json # Resemblance data (with --use-updated-target)
+└── results/                      # Final results directory (organized by video → model → target)
+    └── <video_name>/
+        └── <model>/              # "sportclip" or "qddetr"
+            └── <target_name>/
+                ├── <target>.png                # Enhanced curve plot
+                ├── <target>_updated.png        # Enhanced curve plot (with --use-updated-target)
+                ├── <target>.json               # Summary report
+                ├── <target>_updated.json       # Summary report (with --use-updated-target)
+                ├── config_log.txt              # Configuration parameters for this run
+                ├── highlight_clips/            # Relevant clips (without --use-updated-target)
+                │   └── clip_*.mp4
+                └── highlight_clips_updated/    # Relevant clips (with --use-updated-target)
+                    └── clip_*.mp4
 ```
 
 ## Installation
@@ -246,25 +256,39 @@ This metadata is useful for face alignment, quality assessment, and advanced ana
 
 ### Step 3: Extract Embeddings
 
-Extract face embeddings from all crops using ArcFace and/or TransFace:
+The unified `extract_embeddings.py` script handles all embedding extraction workflows with different modes.
+
+#### Mode 1: Extract embeddings from video faces (default)
 
 ```bash
-python extract_embeddings.py
+python extract_embeddings.py --mode video_faces
 ```
 
 Options:
 ```bash
 # Extract only ArcFace embeddings
-python extract_embeddings.py --models ArcFace
+python extract_embeddings.py --mode video_faces --models ArcFace
 
 # Extract only TransFace embeddings
-python extract_embeddings.py --models TransFace
+python extract_embeddings.py --mode video_faces --models TransFace
 
 # Use specific GPU for ArcFace
-python extract_embeddings.py --models ArcFace --gpu-id 1
+python extract_embeddings.py --mode video_faces --models ArcFace --gpu-id 1
 
 # Custom TransFace batch size
-python extract_embeddings.py --models TransFace --batch-size 2000
+python extract_embeddings.py --mode video_faces --models TransFace --batch-size 2000
+```
+
+#### Mode 2: Extract embeddings from original target faces
+
+```bash
+python extract_embeddings.py --mode original_targets
+```
+
+#### Mode 3: Extract embeddings from updated target faces
+
+```bash
+python extract_embeddings.py --mode updated_targets --video highjump_video1
 ```
 
 **Note**: This script uses TensorFlow for face recognition, which works fine with the system's CUDA 13.0 installation, so no wrapper is needed.
@@ -326,12 +350,12 @@ Output structure:
 ```
 target_faces_updated/
 └── athlete1/
-    ├── target_face_crop.jpg               # Cropped face from original target
+    ├── face_crop.jpg                      # Cropped face from original target
     ├── target_arcface_embedding.npy       # ArcFace embedding (from original)
     ├── target_transface_embedding.npy     # TransFace embedding (from original)
-    ├── updated_target_arcface.jpg         # Best matching face from video
-    ├── updated_target_transface.jpg       # Best matching face from video
-    └── athlete1_highjump_video1_matching_log.txt  # Match details
+    ├── face_crop_arcface_updated.jpg      # Best matching face from video (ArcFace)
+    ├── face_crop_transface_updated.jpg    # Best matching face from video (TransFace)
+    └── athlete1_log.txt                   # Match details
 ```
 
 #### Step 4b: Extract Updated Target Embeddings - Second Pass
@@ -358,13 +382,13 @@ python main.py --video highjump_video1 \
 **Standalone usage:**
 ```bash
 # Extract updated target embeddings manually
-python extract_updated_target_embeddings.py --video highjump_video1
+python extract_embeddings.py --mode updated_targets --video highjump_video1
 
 # Compute resemblance curves with updated embeddings
 python compute_resemblance_curve.py --video highjump_video1 --use-updated-target
 
 # Create visualizations with updated embeddings
-python create_final_visualization.py --video highjump_video1 --model qddetr --use-updated-target
+python visualize_results.py --mode final_with_highlights --video highjump_video1 --model qddetr --use-updated-target
 ```
 
 **What gets generated:**
@@ -374,13 +398,16 @@ target_faces_updated/athlete1/
     ├── updated_target_arcface_embedding.npy    # NEW: Embedding from best match
     └── updated_target_transface_embedding.npy  # NEW: Embedding from best match
 
-resemblance_results/athlete1/highjump_video1/
-    ├── athlete1_highjump_video1_resemblance_curve_updated.png
-    └── athlete1_highjump_video1_resemblance_data_updated.json
+resemblance_results/athlete1/
+    ├── athlete1_updated.png
+    └── athlete1_updated.json
 
-results/highjump_video1/athlete1/
-    ├── athlete1_highjump_video1_enhanced_curve_updated.png
-    └── athlete1_highjump_video1_summary_updated.json
+results/highjump_video1/qddetr/athlete1/
+    ├── athlete1_updated.png
+    ├── athlete1_updated.json
+    ├── config_log.txt  # Configuration parameters
+    └── highlight_clips_updated/
+        └── clip_*.mp4
 ```
 
 **Comparison:**
@@ -431,9 +458,10 @@ Output structure:
 ```
 resemblance_results/
 └── athlete1/
-    └── highjump_video1/
-        ├── athlete1_highjump_video1_resemblance_curve.png  # Visualization
-        └── athlete1_highjump_video1_resemblance_data.json  # Raw data
+    ├── athlete1.png                    # Resemblance curve visualization
+    ├── athlete1_updated.png            # Resemblance curve (with --use-updated-target)
+    ├── athlete1.json                   # Raw resemblance data
+    └── athlete1_updated.json           # Raw data (with --use-updated-target)
 ```
 
 The plot shows:
@@ -447,24 +475,38 @@ The plot shows:
 
 **This step is only needed for face recognition and resemblance analysis.**
 
+The unified `visualize_results.py` script handles all visualization needs with different modes.
+
+#### Mode 1: Create basic resemblance curves
+
+```bash
+python visualize_results.py --mode resemblance_curves --recognition-results results/face_recognition_results.json
+```
+
+#### Mode 2: Create enhanced visualizations with highlight overlays
+
 Generate enhanced resemblance curves with highlight segments overlaid on the timeline, and copy relevant clips:
 
 ```bash
 # Process all targets for a video
-python create_final_visualization.py --video highjump_video1 --model sportclip
+python visualize_results.py --mode final_with_highlights --video highjump_video1 --model sportclip
 
 # Process specific target only
-python create_final_visualization.py --video highjump_video1 --model sportclip --target barshim
+python visualize_results.py --mode final_with_highlights --video highjump_video1 --model sportclip --target barshim
 
 # Custom threshold
-python create_final_visualization.py --video highjump_video1 --model sportclip --threshold 0.65
+python visualize_results.py --mode final_with_highlights --video highjump_video1 --model sportclip --threshold 0.65
+
+# With updated target embeddings
+python visualize_results.py --mode final_with_highlights --video highjump_video1 --model sportclip --use-updated-target
 ```
 
 This script:
 - Creates enhanced resemblance curve plots with highlight segments marked on the timeline (red boxes labeled "H1", "H2", etc.)
 - Analyzes which highlight clips contain the target person (based on **raw** resemblance scores, not smoothed)
-- Copies only relevant highlight clips to `results/<video>/<target>/highlight_clips/`
+- Copies only relevant highlight clips to `results/<video>/<model>/<target>/highlight_clips/` (or `highlight_clips_updated/` with `--use-updated-target`)
 - Generates a summary report with statistics
+- Creates a `config_log.txt` file documenting all configuration parameters
 
 **Important**: The script uses **raw (unsmoothed) scores** for filtering clips to avoid false negatives. Smoothing reduces peak values and can cause the system to miss clips where the target appears.
 
@@ -472,12 +514,19 @@ Output structure:
 ```
 results/
 └── highjump_video1/
-    └── barshim/
-        ├── barshim_highjump_video1_enhanced_curve.png  # Plot with highlights
-        ├── barshim_highjump_video1_summary.json        # Summary report
-        └── highlight_clips/                            # Relevant clips only
-            ├── highjump_video1_highlight_007.mp4
-            └── highjump_video1_highlight_021.mp4
+    └── sportclip/                    # Organized by video summarization model
+        └── barshim/
+            ├── barshim.png           # Enhanced curve plot
+            ├── barshim_updated.png   # Enhanced curve plot (with --use-updated-target)
+            ├── barshim.json          # Summary report
+            ├── barshim_updated.json  # Summary report (with --use-updated-target)
+            ├── config_log.txt        # Configuration parameters
+            ├── highlight_clips/      # Relevant clips (without --use-updated-target)
+            │   ├── clip_007.mp4
+            │   └── clip_021.mp4
+            └── highlight_clips_updated/  # Relevant clips (with --use-updated-target)
+                ├── clip_007.mp4
+                └── clip_021.mp4
 ```
 
 The enhanced plot shows:
@@ -566,12 +615,14 @@ The enhanced plot shows:
 
 **Note**: Requires the `run_with_cuda.sh` wrapper for GPU acceleration. See [Troubleshooting](#cuda-library-compatibility-onnxruntime-gpu) section.
 
-### extract_embeddings.py
+### extract_embeddings.py (Unified Script)
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `--input-dir` | `cropped_faces` | Directory containing cropped faces |
-| `--output-dir` | `cropped_faces_embeddings` | Directory to save embeddings |
+| `--mode` | `video_faces` | Extraction mode: `video_faces`, `original_targets`, or `updated_targets` |
+| `--video` | (required for updated_targets) | Video name (without extension) |
+| `--input-dir` | `cropped_faces` | Directory containing cropped faces (video_faces mode) |
+| `--output-dir` | `cropped_faces_embeddings` | Directory to save embeddings (video_faces mode) |
 | `--models` | `ArcFace TransFace` | Models to use for extraction |
 | `--gpu-id` | `0` | GPU ID for ArcFace |
 | `--batch-size` | `1000` | Batch size for TransFace |
@@ -606,13 +657,15 @@ The enhanced plot shows:
 | `--smooth-window` | `5` | Window size for rolling average smoothing |
 | `--use-updated-target` | `False` | Use embeddings from updated target (second pass). Files saved with '_updated' suffix |
 
-### create_final_visualization.py
+### visualize_results.py (Unified Script)
 
 | Argument | Default | Description |
 |----------|---------|-------------|
-| `--video` | (required) | Video name (without extension) |
-| `--model` | (required) | Video summarization model used (sportclip or qddetr) |
+| `--mode` | (required) | Visualization mode: `resemblance_curves` or `final_with_highlights` |
+| `--video` | (required for final_with_highlights) | Video name (without extension) |
+| `--model` | (required for final_with_highlights) | Video summarization model used (sportclip or qddetr) |
 | `--target` | (optional) | Specific target to process. If not provided, processes all targets |
+| `--recognition-results` | (required for resemblance_curves) | Path to face recognition results JSON |
 | `--video-summaries` | `video_summaries` | Directory containing video summaries |
 | `--resemblance-results` | `resemblance_results` | Directory containing resemblance results |
 | `--output` | `results` | Output directory for final results |
@@ -664,6 +717,36 @@ Detected faces are tracked with:
 - tqdm
 
 See `requirements.txt` for specific versions.
+
+## Reorganization Notes
+
+The project has been reorganized for better maintainability:
+
+### Unified Scripts
+
+- **`extract_embeddings.py`**: Combines three separate embedding extraction scripts into one with `--mode` parameter
+  - `video_faces`: Extract embeddings from video face crops
+  - `original_targets`: Extract embeddings from original target faces
+  - `updated_targets`: Extract embeddings from updated target faces
+
+- **`visualize_results.py`**: Combines visualization scripts into one with `--mode` parameter
+  - `resemblance_curves`: Create basic resemblance curves
+  - `final_with_highlights`: Create enhanced visualizations with highlight overlays
+
+### Simplified Filenames
+
+Filenames have been simplified to remove redundant video names:
+- `target_faces_updated/{target}/{target}_log.txt` (was: `{target}_{video}_matching_log.txt`)
+- `resemblance_results/{target}/{target}.png` (was: `{target}_{video}_resemblance_curve.png`)
+- `results/{video}/{model}/{target}/{target}.png` (was: `{target}_{video}_enhanced_curve.png`)
+
+### Improved Directory Structure
+
+- Results are now organized as: `results/{video}/{model}/{target}/`
+- Separate `highlight_clips/` and `highlight_clips_updated/` directories prevent overwrites
+- Each target directory includes a `config_log.txt` with all configuration parameters
+
+See [REORGANIZATION_SUMMARY.md](REORGANIZATION_SUMMARY.md) for complete details.
 
 ## Performance Notes
 

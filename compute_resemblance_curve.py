@@ -505,13 +505,13 @@ Examples:
             continue
 
         # Create output directory
-        target_output_dir = output_dir / target_name / video_name
+        target_output_dir = output_dir / target_name
         target_output_dir.mkdir(parents=True, exist_ok=True)
 
         # Create plot with suffix if using updated target
         print("\nCreating resemblance curve plot...")
         suffix = "_updated" if args.use_updated_target else ""
-        plot_path = target_output_dir / f"{target_name}_{video_name}_resemblance_curve{suffix}.png"
+        plot_path = target_output_dir / f"{target_name}{suffix}.png"
         create_resemblance_plot(
             timestamps=timestamps,
             arcface_scores=arcface_scores,
@@ -526,7 +526,7 @@ Examples:
 
         # Save data with suffix if using updated target
         print("\nSaving resemblance data...")
-        data_path = target_output_dir / f"{target_name}_{video_name}_resemblance_data{suffix}.json"
+        data_path = target_output_dir / f"{target_name}{suffix}.json"
         save_resemblance_data(
             timestamps=timestamps,
             arcface_scores=arcface_scores,

@@ -350,7 +350,7 @@ class PVSPipelineNew:
         for target_img in target_images:
             target_name = target_img.stem
             target_output_dir = Path(self.target_faces_updated_dir) / target_name
-            log_file = target_output_dir / f"{target_name}_{video_name}_matching_log.txt"
+            log_file = target_output_dir / f"{target_name}_log.txt"
 
             # Check if already processed
             if log_file.exists():
@@ -424,14 +424,14 @@ class PVSPipelineNew:
         print("Note: Using original target images (not updated from video)")
 
         try:
-            # Call extract_original_target_embeddings.py script
+            # Call unified extract_embeddings.py script with original_targets mode
             cmd = [
                 sys.executable,
-                "extract_original_target_embeddings.py",
+                "extract_embeddings.py",
+                "--mode",
+                "original_targets",
                 "--target-faces",
                 self.target_faces_dir,
-                "--output",
-                self.target_faces_updated_dir,
                 "--transface-weight",
                 self.transface_weight,
                 "--transface-network",
@@ -478,10 +478,12 @@ class PVSPipelineNew:
         print("This will enable 100% similarity match in resemblance curves")
 
         try:
-            # Call extract_updated_target_embeddings.py script
+            # Call unified extract_embeddings.py script with updated_targets mode
             cmd = [
                 sys.executable,
-                "extract_updated_target_embeddings.py",
+                "extract_embeddings.py",
+                "--mode",
+                "updated_targets",
                 "--updated-targets",
                 self.target_faces_updated_dir,
                 "--video",
@@ -567,6 +569,66 @@ class PVSPipelineNew:
                 print(f"STDERR: {e.stderr}")
             return False
 
+    def _save_config_log(self, video_name: str, target_name: str, output_dir: Path):
+        """
+        Save configuration parameters to config_log.txt
+
+        Args:
+            video_name: Video name
+            target_name: Target person name
+            output_dir: Directory to save config file
+        """
+        from datetime import datetime
+
+        config_file = output_dir / "config_log.txt"
+
+        with open(config_file, "w") as f:
+            f.write("=" * 80 + "\n")
+            f.write("PERSONALIZED VIDEO SUMMARIZATION - CONFIGURATION LOG\n")
+            f.write("=" * 80 + "\n\n")
+            f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"Video: {video_name}\n")
+            f.write(f"Target: {target_name}\n\n")
+
+            f.write("VIDEO SUMMARIZATION\n")
+            f.write("-" * 80 + "\n")
+            f.write(f"Method: {self.video_summarizer.upper()}\n")
+
+            if self.video_summarizer == "sportclip":
+                f.write(f"SportCLIP Directory: {self.sportclip_dir}\n")
+                f.write(f"Dataset Directory: {self.sportclip_dataset_dir}\n")
+                f.write(f"Sentences File: {self.sportclip_sentences_file}\n")
+            else:  # qddetr
+                f.write(f"Checkpoint: {self.qddetr_ckpt_path}\n")
+                f.write(f"Query: {self.qddetr_query}\n")
+                f.write(f"Device: {self.qddetr_device}\n")
+                f.write(f"Context Window: {self.qddetr_context_window} frames\n")
+                f.write(f"Min Duration: {self.qddetr_min_duration} frames\n")
+                f.write(f"Min Area: {self.qddetr_min_area}\n")
+
+            f.write("\nFACE RECOGNITION\n")
+            f.write("-" * 80 + "\n")
+            f.write("Models: ArcFace + TransFace\n")
+            f.write(f"TransFace Weight: {self.transface_weight}\n")
+            f.write(f"TransFace Network: {self.transface_network}\n")
+            f.write(f"Similarity Threshold (target matching): {self.similarity_threshold}\n")
+            f.write(f"Resemblance Threshold (visualization): {self.resemblance_threshold}\n")
+            f.write(f"Smoothing Window: {self.smooth_window}\n")
+            f.write(f"Use Updated Target: {self.use_updated_target}\n")
+
+            f.write("\nDIRECTORY PATHS\n")
+            f.write("-" * 80 + "\n")
+            f.write(f"Data Directory: {self.data_dir}\n")
+            f.write(f"Target Faces: {self.target_faces_dir}\n")
+            f.write(f"Cropped Faces: {self.cropped_faces_dir}\n")
+            f.write(f"Embeddings: {self.embeddings_dir}\n")
+            f.write(f"Video Summaries: {self.video_summaries_dir}\n")
+            f.write(f"Updated Targets: {self.target_faces_updated_dir}\n")
+            f.write(f"Resemblance Results: {self.resemblance_results_dir}\n")
+            f.write(f"Final Output: {self.output_dir}\n")
+
+        print(f"    ✓ Saved config log: {config_file.name}")
+
     def step6_create_final_visualization(self, video_name: str, segments_data: Dict, target_names: List[str]):
         """
         Step 6: Create Final Visualization
@@ -599,10 +661,12 @@ class PVSPipelineNew:
         print(f"Highlight segments: {num_segments}")
 
         try:
-            # Call create_final_visualization.py script
+            # Call unified visualize_results.py script with final_with_highlights mode
             cmd = [
                 sys.executable,
-                "create_final_visualization.py",
+                "visualize_results.py",
+                "--mode",
+                "final_with_highlights",
                 "--video",
                 video_name,
                 "--model",
@@ -626,7 +690,14 @@ class PVSPipelineNew:
             result = subprocess.run(cmd, check=True, capture_output=True, text=True)
 
             print(f"\n✓ Successfully created final visualizations")
-            print(f"  Results saved to: {self.output_dir}/{video_name}/")
+            print(f"  Results saved to: {self.output_dir}/{video_name}/{self.video_summarizer}/")
+
+            # Save config log for each target
+            print(f"\nSaving configuration logs...")
+            for target_name in target_names:
+                target_output_dir = Path(self.output_dir) / video_name / self.video_summarizer / target_name
+                if target_output_dir.exists():
+                    self._save_config_log(video_name, target_name, target_output_dir)
 
         except subprocess.CalledProcessError as e:
             print(f"\nError creating final visualizations: {e}")
@@ -711,7 +782,7 @@ class PVSPipelineNew:
         else:
             print(f"  - Target embeddings (from original): {self.target_faces_updated_dir}/")
         print(f"  - Resemblance curves: {self.resemblance_results_dir}/")
-        print(f"  - Final output: {self.output_dir}/{video_name}/")
+        print(f"  - Final output: {self.output_dir}/{video_name}/{self.video_summarizer}/")
 
 
 def main():
