@@ -827,10 +827,11 @@ def create_assigned_highlights_plot(
     athlete_colors: Dict[str, str],
     output_path: Path,
     threshold: float,
+    video_name_arg: str = None,
 ) -> None:
     """
     Create a plot showing highlight segments colored by their assigned athlete
-    Shows both ArcFace and TransFace assignments in separate subplots
+    Shows both ArcFace and TransFace assignments in separate subplots, plus ground truth if available
 
     Args:
         all_resemblance_data: Dictionary mapping target_name to resemblance data
@@ -840,6 +841,7 @@ def create_assigned_highlights_plot(
         athlete_colors: Color mapping for athletes
         output_path: Path to save plot
         threshold: Similarity threshold
+        video_name_arg: Video name for finding ground truth CSV (optional)
     """
     if not all_resemblance_data:
         print("  Warning: No resemblance data to plot")
@@ -858,8 +860,56 @@ def create_assigned_highlights_plot(
     else:
         segments = segments_obj
 
-    # Create figure with two subplots
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 10), dpi=150)
+    # Try to load ground truth annotations
+    ground_truth_data = None
+    if video_name_arg:
+        import csv
+        import cv2
+
+        gt_csv_path = Path("data") / f"{video_name_arg}_identity.csv"
+        if gt_csv_path.exists():
+            try:
+                # Get video FPS to convert frames to seconds
+                video_path = None
+                data_dir = Path("data")
+                video_extensions = [".mp4", ".avi", ".mov", ".mkv"]
+                for ext in video_extensions:
+                    candidate = data_dir / f"{video_name_arg}{ext}"
+                    if candidate.exists():
+                        video_path = str(candidate)
+                        break
+
+                if video_path:
+                    cap = cv2.VideoCapture(video_path)
+                    fps = cap.get(cv2.CAP_PROP_FPS)
+                    cap.release()
+
+                    # Parse CSV
+                    ground_truth_data = []
+                    with open(gt_csv_path, "r") as f:
+                        reader = csv.DictReader(f)
+                        for row in reader:
+                            if row["Event type"] == "Highlight":
+                                first_frame = int(row["First frame"])
+                                last_frame = int(row["Last frame"])
+                                identity = row["Identity"].lower()  # Convert to lowercase
+
+                                # Convert frames to seconds
+                                start_time = first_frame / fps
+                                end_time = last_frame / fps
+
+                                ground_truth_data.append({"start_time": start_time, "end_time": end_time, "athlete": identity})
+
+                    print(f"  ✓ Loaded ground truth with {len(ground_truth_data)} segments")
+            except Exception as e:
+                print(f"  Warning: Could not load ground truth: {e}")
+                ground_truth_data = None
+
+    # Create figure with two or three subplots depending on ground truth availability
+    if ground_truth_data:
+        fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(16, 10), dpi=150)
+    else:
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 10), dpi=150)
     fig.patch.set_facecolor("white")
 
     def format_time(seconds):
@@ -992,15 +1042,73 @@ def create_assigned_highlights_plot(
     # Plot TransFace assignments
     unassigned_trans, assigned_trans = plot_assignments_on_axis(ax2, assignments_transface, "TransFace")
 
-    # Set xlabel only on bottom plot
-    ax2.set_xlabel("Video Time (MM:SS)", fontsize=14, fontweight="bold")
+    # Plot ground truth if available
+    if ground_truth_data:
+        # Count ground truth segments per athlete
+        gt_count = {}
+        for gt_segment in ground_truth_data:
+            start_time = gt_segment["start_time"]
+            end_time = gt_segment["end_time"]
+            athlete = gt_segment["athlete"]
 
-    # Add statistics
-    total_segments = len(segments)
-    stats_text = f"Total Segments: {total_segments}\n"
-    stats_text += f"ArcFace: {assigned_arc} assigned, {unassigned_arc} unassigned | "
-    stats_text += f"TransFace: {assigned_trans} assigned, {unassigned_trans} unassigned"
-    fig.text(0.5, 0.01, stats_text, ha="center", fontsize=10, bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5))
+            if start_time is not None and end_time is not None:
+                # Draw colored segment
+                color = athlete_colors.get(athlete, "#CCCCCC")
+                width = end_time - start_time
+
+                rect = patches.Rectangle(
+                    (start_time, 0),
+                    width,
+                    1,
+                    linewidth=2,
+                    edgecolor=color,
+                    facecolor=color,
+                    alpha=0.6,
+                    transform=ax3.get_xaxis_transform(),
+                )
+                ax3.add_patch(rect)
+
+                # Track counts
+                gt_count[athlete] = gt_count.get(athlete, 0) + 1
+
+        # Axis formatting
+        ax3.set_xlabel("Video Time (MM:SS)", fontsize=14, fontweight="bold")
+        ax3.set_ylabel("", fontsize=14)
+        ax3.set_title(f"Ground Truth - {video_name}", fontsize=14, fontweight="bold", pad=15)
+        ax3.set_ylim([0, 1])
+        ax3.set_xlim([0, video_duration])
+        ax3.set_xticks(tick_times)
+        ax3.set_xticklabels([format_time(t) for t in tick_times], rotation=45, ha="right")
+        ax3.set_yticks([])
+        ax3.grid(True, axis="x", alpha=0.3, linestyle=":", linewidth=1)
+
+        # Create legend with ground truth counts
+        legend_elements = []
+        athlete_names_gt = sorted(gt_count.keys())
+        for athlete in athlete_names_gt:
+            color = athlete_colors.get(athlete, "#CCCCCC")
+            count = gt_count[athlete]
+            legend_elements.append(patches.Patch(facecolor=color, edgecolor="black", alpha=0.6, label=f"{athlete} ({count})"))
+
+        ax3.legend(handles=legend_elements, loc="center left", bbox_to_anchor=(1.01, 0.5), fontsize=9, framealpha=0.9, title="Athlete (Segments)", title_fontsize=10)
+
+        # Add statistics including ground truth
+        total_segments = len(segments)
+        gt_segments = len(ground_truth_data)
+        stats_text = f"Total Segments: {total_segments} | Ground Truth Segments: {gt_segments}\n"
+        stats_text += f"ArcFace: {assigned_arc} assigned, {unassigned_arc} unassigned | "
+        stats_text += f"TransFace: {assigned_trans} assigned, {unassigned_trans} unassigned"
+        fig.text(0.5, 0.01, stats_text, ha="center", fontsize=10, bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5))
+    else:
+        # Set xlabel only on bottom plot (ax2)
+        ax2.set_xlabel("Video Time (MM:SS)", fontsize=14, fontweight="bold")
+
+        # Add statistics without ground truth
+        total_segments = len(segments)
+        stats_text = f"Total Segments: {total_segments}\n"
+        stats_text += f"ArcFace: {assigned_arc} assigned, {unassigned_arc} unassigned | "
+        stats_text += f"TransFace: {assigned_trans} assigned, {unassigned_trans} unassigned"
+        fig.text(0.5, 0.01, stats_text, ha="center", fontsize=10, bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5))
 
     # Adjust layout
     plt.tight_layout(rect=[0, 0.06, 0.85, 1])
@@ -1552,6 +1660,7 @@ def run_final_with_highlights_mode(args):
             athlete_colors=athlete_colors,
             output_path=assigned_plot_path,
             threshold=args.threshold,
+            video_name_arg=args.video,
         )
 
         print(f"\nCombined plots saved to:")
