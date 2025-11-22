@@ -720,6 +720,300 @@ def create_summary_report(target_name: str, video_name: str, resemblance_data: D
     print(f"  ✓ Created summary report: {output_path.name}")
 
 
+def assign_highlights_to_athletes(
+    all_resemblance_data: Dict[str, Dict],
+    segments_data: Dict,
+    threshold: float,
+    smooth_window: int,
+    model: str = "arcface",
+) -> Dict[int, Optional[str]]:
+    """
+    Assign each highlight segment to an athlete based on resemblance curves
+
+    Algorithm: Scan timeline left-to-right. When an athlete's score crosses threshold,
+    assign all subsequent highlights to that athlete until another athlete crosses threshold.
+
+    Args:
+        all_resemblance_data: Dictionary mapping target_name to resemblance data
+        segments_data: Video segments metadata
+        threshold: Similarity threshold
+        smooth_window: Smoothing window size
+        model: Which model to use for assignment ("arcface" or "transface")
+
+    Returns:
+        Dictionary mapping segment index to assigned athlete name (or None if unassigned)
+    """
+    if not all_resemblance_data:
+        return {}
+
+    # Get timestamps from first target
+    first_target = next(iter(all_resemblance_data.values()))
+    timestamps = np.array(first_target["timestamps_seconds"])
+
+    # Get sorted athlete names (consistent ordering)
+    athlete_names = sorted(all_resemblance_data.keys())
+
+    # Compute smoothed scores for all athletes using the specified model
+    athlete_scores = {}
+    for athlete_name in athlete_names:
+        data = all_resemblance_data[athlete_name]
+
+        if model.lower() == "arcface":
+            scores = np.array(data["arcface_scores"])
+        elif model.lower() == "transface":
+            scores = np.array(data["transface_scores"])
+        else:
+            raise ValueError(f"Unknown model: {model}. Must be 'arcface' or 'transface'")
+
+        smoothed = smooth_scores(scores, smooth_window)
+        athlete_scores[athlete_name] = smoothed
+
+    # Get segments
+    segments_obj = segments_data.get("segments", [])
+    if isinstance(segments_obj, dict):
+        segments = segments_obj.get("segments", [])
+    else:
+        segments = segments_obj
+
+    # Assignment dictionary: segment_index -> athlete_name
+    assignments = {}
+    current_athlete = None
+
+    # Scan timeline left-to-right
+    for seg_idx, segment in enumerate(segments):
+        start_time = segment.get("start_time")
+
+        if start_time is None:
+            assignments[seg_idx] = current_athlete
+            continue
+
+        # Check if any athlete crosses threshold at or before this segment start
+        # Find the timestamp index closest to segment start
+        start_idx = np.searchsorted(timestamps, start_time)
+
+        # Look back a bit to catch threshold crossings just before the segment
+        # (within 5 seconds before segment start)
+        lookback_time = max(0, start_time - 5)
+        lookback_idx = np.searchsorted(timestamps, lookback_time)
+
+        # Check if any athlete crossed threshold in this window
+        crossed_athletes = []
+        for athlete_name in athlete_names:
+            scores = athlete_scores[athlete_name]
+            # Check scores in lookback window
+            window_scores = scores[lookback_idx : start_idx + 1] if start_idx < len(scores) else scores[lookback_idx:]
+            if len(window_scores) > 0 and np.any(window_scores >= threshold):
+                # Find the last crossing point in this window
+                crossing_indices = np.where(window_scores >= threshold)[0]
+                last_crossing = lookback_idx + crossing_indices[-1]
+                crossed_athletes.append((athlete_name, last_crossing))
+
+        # If athletes crossed threshold, assign to the most recent one
+        if crossed_athletes:
+            # Sort by crossing time (most recent first)
+            crossed_athletes.sort(key=lambda x: x[1], reverse=True)
+            current_athlete = crossed_athletes[0][0]
+
+        assignments[seg_idx] = current_athlete
+
+    return assignments
+
+
+def create_assigned_highlights_plot(
+    all_resemblance_data: Dict[str, Dict],
+    segments_data: Dict,
+    assignments_arcface: Dict[int, Optional[str]],
+    assignments_transface: Dict[int, Optional[str]],
+    athlete_colors: Dict[str, str],
+    output_path: Path,
+    threshold: float,
+) -> None:
+    """
+    Create a plot showing highlight segments colored by their assigned athlete
+    Shows both ArcFace and TransFace assignments in separate subplots
+
+    Args:
+        all_resemblance_data: Dictionary mapping target_name to resemblance data
+        segments_data: Video segments metadata
+        assignments_arcface: Dictionary mapping segment index to athlete name (ArcFace)
+        assignments_transface: Dictionary mapping segment index to athlete name (TransFace)
+        athlete_colors: Color mapping for athletes
+        output_path: Path to save plot
+        threshold: Similarity threshold
+    """
+    if not all_resemblance_data:
+        print("  Warning: No resemblance data to plot")
+        return
+
+    # Get video info
+    first_target = next(iter(all_resemblance_data.values()))
+    video_name = first_target["video"]
+    timestamps = np.array(first_target["timestamps_seconds"])
+    video_duration = timestamps[-1]
+
+    # Get segments
+    segments_obj = segments_data.get("segments", [])
+    if isinstance(segments_obj, dict):
+        segments = segments_obj.get("segments", [])
+    else:
+        segments = segments_obj
+
+    # Create figure with two subplots
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 10), dpi=150)
+    fig.patch.set_facecolor("white")
+
+    def format_time(seconds):
+        minutes = int(seconds // 60)
+        secs = int(seconds % 60)
+        return f"{minutes:02d}:{secs:02d}"
+
+    # Determine tick interval
+    if video_duration <= 60:
+        tick_interval = 5
+    elif video_duration <= 300:
+        tick_interval = 15
+    elif video_duration <= 600:
+        tick_interval = 30
+    else:
+        tick_interval = 60
+
+    tick_times = np.arange(0, video_duration + tick_interval, tick_interval)
+    tick_times = tick_times[tick_times <= video_duration]
+
+    # Helper function to plot assignments on an axis
+    def plot_assignments_on_axis(ax, assignments, model_name):
+        """Plot assigned segments on a single axis"""
+        # Draw assigned highlight segments
+        unassigned_segments = []
+        assigned_count = {}
+
+        for seg_idx, segment in enumerate(segments):
+            start_time = segment.get("start_time")
+            end_time = segment.get("end_time")
+
+            if start_time is None or end_time is None:
+                continue
+
+            athlete = assignments.get(seg_idx)
+
+            if athlete:
+                # Draw colored segment
+                color = athlete_colors.get(athlete, "#CCCCCC")
+                width = end_time - start_time
+
+                rect = patches.Rectangle(
+                    (start_time, 0),
+                    width,
+                    1,
+                    linewidth=2,
+                    edgecolor=color,
+                    facecolor=color,
+                    alpha=0.6,
+                    transform=ax.get_xaxis_transform(),
+                )
+                ax.add_patch(rect)
+
+                # Add segment number label
+                ax.text(
+                    start_time + width / 2,
+                    0.95,
+                    f"H{seg_idx + 1}",
+                    transform=ax.get_xaxis_transform(),
+                    ha="center",
+                    va="top",
+                    fontsize=8,
+                    fontweight="bold",
+                    bbox=dict(boxstyle="round,pad=0.3", facecolor=color, alpha=0.8, edgecolor="black"),
+                    color="white",
+                )
+
+                # Track assignment counts
+                assigned_count[athlete] = assigned_count.get(athlete, 0) + 1
+            else:
+                # Draw unassigned segment in gray
+                width = end_time - start_time
+
+                rect = patches.Rectangle(
+                    (start_time, 0),
+                    width,
+                    1,
+                    linewidth=2,
+                    edgecolor="#999999",
+                    facecolor="#CCCCCC",
+                    alpha=0.3,
+                    transform=ax.get_xaxis_transform(),
+                )
+                ax.add_patch(rect)
+
+                # Add segment number label
+                ax.text(
+                    start_time + width / 2,
+                    0.95,
+                    f"H{seg_idx + 1}",
+                    transform=ax.get_xaxis_transform(),
+                    ha="center",
+                    va="top",
+                    fontsize=8,
+                    fontweight="bold",
+                    bbox=dict(boxstyle="round,pad=0.3", facecolor="#CCCCCC", alpha=0.6, edgecolor="gray"),
+                    color="black",
+                )
+
+                unassigned_segments.append(seg_idx + 1)
+
+        # Axis formatting
+        ax.set_ylabel("", fontsize=14)
+        ax.set_title(f"Highlight Segments Assigned to Athletes ({model_name}) - {video_name}", fontsize=14, fontweight="bold", pad=15)
+        ax.set_ylim([0, 1])
+        ax.set_xlim([0, video_duration])
+        ax.set_xticks(tick_times)
+        ax.set_xticklabels([format_time(t) for t in tick_times], rotation=45, ha="right")
+        ax.set_yticks([])
+        ax.grid(True, axis="x", alpha=0.3, linestyle=":", linewidth=1)
+
+        # Create legend with athlete assignments
+        legend_elements = []
+        athlete_names = sorted(assigned_count.keys())
+        for athlete in athlete_names:
+            color = athlete_colors.get(athlete, "#CCCCCC")
+            count = assigned_count[athlete]
+            legend_elements.append(patches.Patch(facecolor=color, edgecolor="black", alpha=0.6, label=f"{athlete} ({count})"))
+
+        if unassigned_segments:
+            legend_elements.append(patches.Patch(facecolor="#CCCCCC", edgecolor="gray", alpha=0.3, label=f"Unassigned ({len(unassigned_segments)})"))
+
+        ax.legend(handles=legend_elements, loc="center left", bbox_to_anchor=(1.01, 0.5), fontsize=9, framealpha=0.9, title="Athlete (Segments)", title_fontsize=10)
+
+        return len(unassigned_segments), sum(assigned_count.values())
+
+    # Plot ArcFace assignments
+    unassigned_arc, assigned_arc = plot_assignments_on_axis(ax1, assignments_arcface, "ArcFace")
+
+    # Plot TransFace assignments
+    unassigned_trans, assigned_trans = plot_assignments_on_axis(ax2, assignments_transface, "TransFace")
+
+    # Set xlabel only on bottom plot
+    ax2.set_xlabel("Video Time (MM:SS)", fontsize=14, fontweight="bold")
+
+    # Add statistics
+    total_segments = len(segments)
+    stats_text = f"Total Segments: {total_segments}\n"
+    stats_text += f"ArcFace: {assigned_arc} assigned, {unassigned_arc} unassigned | "
+    stats_text += f"TransFace: {assigned_trans} assigned, {unassigned_trans} unassigned"
+    fig.text(0.5, 0.01, stats_text, ha="center", fontsize=10, bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5))
+
+    # Adjust layout
+    plt.tight_layout(rect=[0, 0.06, 0.85, 1])
+
+    # Save plot
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(str(output_path), bbox_inches="tight", facecolor="white")
+    plt.close()
+
+    print(f"  ✓ Created assigned highlights plot: {output_path.name}")
+    print(f"    ArcFace: {assigned_arc}/{total_segments} assigned | TransFace: {assigned_trans}/{total_segments} assigned")
+
+
 def create_combined_athletes_plot(
     all_resemblance_data: Dict[str, Dict],
     segments_data: Dict,
@@ -1176,9 +1470,94 @@ def run_final_with_highlights_mode(args):
             zoom=True,
         )
 
+        # Get athlete colors (need to use same color mapping as in combined plots)
+        import hashlib
+        import colorsys
+
+        def get_distinct_colors(names: List[str]) -> Dict[str, str]:
+            """Generate visually distinct colors for athletes"""
+            sorted_names = sorted(names)
+            n = len(sorted_names)
+
+            if n <= 12:
+                distinct_palette = [
+                    "#F3C300",
+                    "#875692",
+                    "#F38400",
+                    "#A1CAF1",
+                    "#BE0032",
+                    "#C2B280",
+                    "#008856",
+                    "#E68FAC",
+                    "#0067A5",
+                    "#F99379",
+                    "#604E97",
+                    "#F6A600",
+                    "#B3446C",
+                    "#DCD300",
+                    "#882D17",
+                    "#8DB600",
+                    "#654522",
+                    "#E25822",
+                    "#2B3D26",
+                ]
+
+                color_mapping = {}
+                used_indices = set()
+                for name in sorted_names:
+                    hash_val = int(hashlib.md5(name.encode()).hexdigest(), 16)
+                    for attempt in range(len(distinct_palette)):
+                        color_idx = (hash_val + attempt) % len(distinct_palette)
+                        if color_idx not in used_indices:
+                            color_mapping[name] = distinct_palette[color_idx]
+                            used_indices.add(color_idx)
+                            break
+                return color_mapping
+            else:
+                colors = {}
+                for i, name in enumerate(sorted_names):
+                    hue = i / n
+                    rgb = colorsys.hsv_to_rgb(hue, 0.8, 0.9)
+                    colors[name] = f"#{int(rgb[0]*255):02x}{int(rgb[1]*255):02x}{int(rgb[2]*255):02x}"
+                return colors
+
+        athlete_names = sorted(all_resemblance_data.keys())
+        athlete_colors = get_distinct_colors(athlete_names)
+
+        # Assign highlights to athletes for both ArcFace and TransFace
+        print("\n  Assigning highlight segments to athletes...")
+        assignments_arcface = assign_highlights_to_athletes(
+            all_resemblance_data=all_resemblance_data,
+            segments_data=segments_data,
+            threshold=args.threshold,
+            smooth_window=args.smooth_window,
+            model="arcface",
+        )
+
+        assignments_transface = assign_highlights_to_athletes(
+            all_resemblance_data=all_resemblance_data,
+            segments_data=segments_data,
+            threshold=args.threshold,
+            smooth_window=args.smooth_window,
+            model="transface",
+        )
+
+        # Create assigned highlights visualization
+        assigned_plot_path = combined_output_dir / f"highlights_assigned{suffix}.png"
+        create_assigned_highlights_plot(
+            all_resemblance_data=all_resemblance_data,
+            segments_data=segments_data,
+            assignments_arcface=assignments_arcface,
+            assignments_transface=assignments_transface,
+            athlete_colors=athlete_colors,
+            output_path=assigned_plot_path,
+            threshold=args.threshold,
+        )
+
         print(f"\nCombined plots saved to:")
         print(f"  - {combined_plot_path.relative_to(output_dir)}")
         print(f"  - {combined_plot_zoom_path.relative_to(output_dir)}")
+        print(f"  - {assigned_plot_path.relative_to(output_dir)}")
 
     # Final summary
     print("\n" + "=" * 80)
