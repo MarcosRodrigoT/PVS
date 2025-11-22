@@ -219,7 +219,8 @@ class PVSPipelineNew:
             # Call extract_all_faces.py script
             cmd = [sys.executable, "extract_all_faces.py", "--data-dir", self.data_dir, "--output-dir", self.cropped_faces_dir]
 
-            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+            # Run with real-time output streaming to show progress bars
+            result = subprocess.run(cmd, check=True, text=True)
 
             # Verify faces were extracted
             if video_faces_dir.exists():
@@ -232,10 +233,6 @@ class PVSPipelineNew:
 
         except subprocess.CalledProcessError as e:
             print(f"\nError running face detection: {e}")
-            if e.stdout:
-                print(f"STDOUT: {e.stdout}")
-            if e.stderr:
-                print(f"STDERR: {e.stderr}")
             return False
 
     def step3_embedding_extraction(self, video_name: str) -> bool:
@@ -299,7 +296,8 @@ class PVSPipelineNew:
                 self.transface_network,
             ]
 
-            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+            # Run with real-time output streaming to show progress bars
+            result = subprocess.run(cmd, check=True, text=True)
 
             # Verify embeddings were created
             if arcface_h5.exists() and transface_h5.exists():
@@ -311,10 +309,6 @@ class PVSPipelineNew:
 
         except subprocess.CalledProcessError as e:
             print(f"\nError running embedding extraction: {e}")
-            if e.stdout:
-                print(f"STDOUT: {e.stdout}")
-            if e.stderr:
-                print(f"STDERR: {e.stderr}")
             return False
 
     def step4_find_updated_targets(self, video_name: str) -> List[str]:
@@ -385,7 +379,8 @@ class PVSPipelineNew:
                     self.transface_network,
                 ]
 
-                result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+                # Run with real-time output streaming to show progress bars
+                result = subprocess.run(cmd, check=True, text=True)
 
                 if log_file.exists():
                     print(f"  ✓ Successfully processed {target_name}")
@@ -439,17 +434,14 @@ class PVSPipelineNew:
                 self.transface_network,
             ]
 
-            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+            # Run with real-time output streaming to show progress bars
+            result = subprocess.run(cmd, check=True, text=True)
 
             print(f"\n✓ Successfully extracted original target embeddings")
             return True
 
         except subprocess.CalledProcessError as e:
             print(f"\nError extracting original target embeddings: {e}")
-            if e.stdout:
-                print(f"STDOUT: {e.stdout}")
-            if e.stderr:
-                print(f"STDERR: {e.stderr}")
             return False
 
     def step4b_extract_updated_target_embeddings(self, video_name: str, target_names: List[str]) -> bool:
@@ -495,17 +487,14 @@ class PVSPipelineNew:
                 self.transface_network,
             ]
 
-            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+            # Run with real-time output streaming to show progress bars
+            result = subprocess.run(cmd, check=True, text=True)
 
             print(f"\n✓ Successfully extracted updated target embeddings")
             return True
 
         except subprocess.CalledProcessError as e:
             print(f"\nError extracting updated target embeddings: {e}")
-            if e.stdout:
-                print(f"STDOUT: {e.stdout}")
-            if e.stderr:
-                print(f"STDERR: {e.stderr}")
             return False
 
     def step5_compute_resemblance_curves(self, video_name: str, target_names: List[str]) -> bool:
@@ -556,7 +545,8 @@ class PVSPipelineNew:
             if self.use_updated_target:
                 cmd.append("--use-updated-target")
 
-            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+            # Run with real-time output streaming to show progress bars
+            result = subprocess.run(cmd, check=True, text=True)
 
             print(f"\n✓ Successfully computed resemblance curves")
             print(f"  Results saved to: {self.resemblance_results_dir}")
@@ -564,10 +554,6 @@ class PVSPipelineNew:
 
         except subprocess.CalledProcessError as e:
             print(f"\nError computing resemblance curves: {e}")
-            if e.stdout:
-                print(f"STDOUT: {e.stdout}")
-            if e.stderr:
-                print(f"STDERR: {e.stderr}")
             return False
 
     def _save_config_log(self, video_name: str, target_name: str, output_dir: Path):
@@ -693,7 +679,8 @@ class PVSPipelineNew:
                 cmd.append("--face-recognition-models")
                 cmd.extend(self.face_recognition_models)
 
-            result = subprocess.run(cmd, check=True, capture_output=True, text=True)
+            # Run with real-time output streaming to show progress bars
+            result = subprocess.run(cmd, check=True, text=True)
 
             print(f"\n✓ Successfully created final visualizations")
             print(f"  Results saved to: {self.output_dir}/{video_name}/{self.video_summarizer}/")
@@ -707,10 +694,6 @@ class PVSPipelineNew:
 
         except subprocess.CalledProcessError as e:
             print(f"\nError creating final visualizations: {e}")
-            if e.stdout:
-                print(f"STDOUT: {e.stdout}")
-            if e.stderr:
-                print(f"STDERR: {e.stderr}")
 
     def run(self, video_name: str, video_path: str):
         """
@@ -864,8 +847,10 @@ Examples:
         nargs="+",
         choices=["arcface", "transface"],
         default=None,
-        help="Face recognition models to use for highlight clip selection. Options: arcface, transface. Default: both models. "
-             "Results will be saved in separate folders (e.g., ArcFace_highlight_clips, TransFace_highlight_clips).",
+        help=(
+            "Face recognition models to use for highlight clip selection. Options: arcface, transface. Default: both models. "
+            "Results will be saved in separate folders (e.g., ArcFace_highlight_clips, TransFace_highlight_clips)."
+        ),
     )
 
     args = parser.parse_args()

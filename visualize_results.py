@@ -726,6 +726,7 @@ def create_combined_athletes_plot(
     output_path: Path,
     threshold: float = 0.6,
     smooth_window: int = 5,
+    zoom: bool = False,
 ) -> None:
     """
     Create combined resemblance curve plot showing all athletes together
@@ -736,6 +737,7 @@ def create_combined_athletes_plot(
         output_path: Path to save plot
         threshold: Similarity threshold
         smooth_window: Smoothing window size
+        zoom: If True, auto-scale y-axis to data range; if False, use [0, 1]
     """
     if not all_resemblance_data:
         print("  Warning: No resemblance data to plot")
@@ -745,25 +747,96 @@ def create_combined_athletes_plot(
     first_target = next(iter(all_resemblance_data.values()))
     video_name = first_target["video"]
 
-    # Generate consistent colors for athletes using a hash-based approach
-    # This ensures the same colors are used across runs and for both plots
+    # Generate distinct colors for athletes using Kelly's maximal contrast palette
     import hashlib
+    import colorsys
 
-    def get_color_for_athlete(athlete_name: str) -> str:
-        """Generate a consistent color for an athlete based on their name"""
-        # Use hash to generate a consistent hue value
-        hash_val = int(hashlib.md5(athlete_name.encode()).hexdigest(), 16)
-        hue = (hash_val % 360) / 360.0
+    def get_distinct_colors(names: List[str]) -> Dict[str, str]:
+        """Generate visually distinct colors for athletes"""
+        sorted_names = sorted(names)
+        n = len(sorted_names)
 
-        # Use HSV to RGB conversion for vibrant colors
-        import colorsys
+        # Use Kelly's 22 colors of maximum contrast for small n
+        if n <= 12:
+            distinct_palette = [
+                "#F3C300",  # vivid yellow
+                "#875692",  # strong purple
+                "#F38400",  # vivid orange
+                "#A1CAF1",  # very light blue
+                "#BE0032",  # vivid red
+                "#C2B280",  # grayish yellow
+                "#008856",  # vivid green
+                "#E68FAC",  # strong purplish pink
+                "#0067A5",  # strong blue
+                "#F99379",  # strong yellowish pink
+                "#604E97",  # strong violet
+                "#F6A600",  # vivid orange yellow
+                "#B3446C",  # strong purplish red
+                "#DCD300",  # vivid greenish yellow
+                "#882D17",  # strong reddish brown
+                "#8DB600",  # vivid yellowish green
+                "#654522",  # deep yellowish brown
+                "#E25822",  # vivid reddish orange
+                "#2B3D26",  # dark olive green
+            ]
 
-        rgb = colorsys.hsv_to_rgb(hue, 0.7, 0.9)
-        return f"#{int(rgb[0]*255):02x}{int(rgb[1]*255):02x}{int(rgb[2]*255):02x}"
+            # Use hash to deterministically assign colors
+            color_mapping = {}
+            used_indices = set()
+            for name in sorted_names:
+                hash_val = int(hashlib.md5(name.encode()).hexdigest(), 16)
+                for attempt in range(len(distinct_palette)):
+                    color_idx = (hash_val + attempt) % len(distinct_palette)
+                    if color_idx not in used_indices:
+                        color_mapping[name] = distinct_palette[color_idx]
+                        used_indices.add(color_idx)
+                        break
+            return color_mapping
+        else:
+            # For larger n, use evenly distributed hues
+            colors = {}
+            for i, name in enumerate(sorted_names):
+                hue = i / n
+                rgb = colorsys.hsv_to_rgb(hue, 0.8, 0.9)
+                colors[name] = f"#{int(rgb[0]*255):02x}{int(rgb[1]*255):02x}{int(rgb[2]*255):02x}"
+            return colors
 
     # Create color mapping for all athletes
     athlete_names = sorted(all_resemblance_data.keys())
-    athlete_colors = {name: get_color_for_athlete(name) for name in athlete_names}
+    athlete_colors = get_distinct_colors(athlete_names)
+
+    # Collect all smoothed scores for y-axis limits
+    all_arcface_smooth = []
+    all_transface_smooth = []
+    athlete_data = {}
+
+    for athlete_name in athlete_names:
+        data = all_resemblance_data[athlete_name]
+        arcface_scores = np.array(data["arcface_scores"])
+        transface_scores = np.array(data["transface_scores"])
+        arcface_smooth = smooth_scores(arcface_scores, smooth_window)
+        transface_smooth = smooth_scores(transface_scores, smooth_window)
+
+        athlete_data[athlete_name] = {"arcface_smooth": arcface_smooth, "transface_smooth": transface_smooth}
+
+        all_arcface_smooth.extend(arcface_smooth)
+        all_transface_smooth.extend(transface_smooth)
+
+    # Determine y-axis limits
+    if zoom:
+        arcface_min = min(all_arcface_smooth)
+        arcface_max = max(all_arcface_smooth)
+        transface_min = min(all_transface_smooth)
+        transface_max = max(all_transface_smooth)
+
+        # Add 5% padding
+        arcface_padding = (arcface_max - arcface_min) * 0.05
+        transface_padding = (transface_max - transface_min) * 0.05
+        arcface_ylim = [max(0, arcface_min - arcface_padding), min(1, arcface_max + arcface_padding)]
+        transface_ylim = [max(0, transface_min - transface_padding), min(1, transface_max + transface_padding)]
+    else:
+        arcface_ylim = [0, 1]
+        transface_ylim = [0, 1]
 
     # Create figure with two subplots
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 10), dpi=150)
@@ -833,53 +906,65 @@ def create_combined_athletes_plot(
                 )
 
     # Plot ArcFace curves for all athletes
+    athlete_lines = []
     for athlete_name in athlete_names:
-        data = all_resemblance_data[athlete_name]
-        arcface_scores = np.array(data["arcface_scores"])
-        arcface_scores_smooth = smooth_scores(arcface_scores, smooth_window)
-
+        arcface_smooth = athlete_data[athlete_name]["arcface_smooth"]
         color = athlete_colors[athlete_name]
-        ax1.plot(timestamps, arcface_scores_smooth, color=color, linewidth=2.0, alpha=0.8, label=athlete_name)
+        (line,) = ax1.plot(timestamps, arcface_smooth, color=color, linewidth=2.0, alpha=0.8)
+        athlete_lines.append((line, athlete_name))
 
     # Add threshold line and highlight segments to ArcFace plot
-    ax1.axhline(y=threshold, color="#F18F01", linestyle="--", linewidth=2, label=f"Threshold ({threshold})", alpha=0.7)
+    threshold_line = ax1.axhline(y=threshold, color="#F18F01", linestyle="--", linewidth=2, alpha=0.7)
     add_highlight_segments(ax1)
 
     ax1.set_ylabel("Resemblance Score", fontsize=14, fontweight="bold")
-    ax1.set_title(f"ArcFace Resemblance Curves - All Athletes in {video_name}", fontsize=16, fontweight="bold", pad=20)
+    title_suffix = " (Zoomed)" if zoom else ""
+    ax1.set_title(f"ArcFace Resemblance Curves - All Athletes in {video_name}{title_suffix}", fontsize=16, fontweight="bold", pad=20)
     ax1.grid(True, alpha=0.3, linestyle=":", linewidth=1)
-    ax1.set_ylim([0, 1])
+    ax1.set_ylim(arcface_ylim)
     ax1.set_xlim([timestamps[0], timestamps[-1]])
     ax1.set_xticks(tick_times)
     ax1.set_xticklabels([format_time(t) for t in tick_times], rotation=45, ha="right")
 
-    # Create legend outside plot area
-    ax1.legend(loc="upper left", bbox_to_anchor=(1.01, 1), fontsize=10, framealpha=0.9, ncol=1)
+    # Create internal legend for threshold and highlights
+    highlight_patch = patches.Patch(facecolor="red", edgecolor="red", alpha=0.15, linewidth=2)
+    ax1.legend(handles=[threshold_line, highlight_patch], labels=[f"Threshold ({threshold})", "Highlight Segment"], loc="upper right", fontsize=10, framealpha=0.9)
 
     # Plot TransFace curves for all athletes
     for athlete_name in athlete_names:
-        data = all_resemblance_data[athlete_name]
-        transface_scores = np.array(data["transface_scores"])
-        transface_scores_smooth = smooth_scores(transface_scores, smooth_window)
-
+        transface_smooth = athlete_data[athlete_name]["transface_smooth"]
         color = athlete_colors[athlete_name]
-        ax2.plot(timestamps, transface_scores_smooth, color=color, linewidth=2.0, alpha=0.8, label=athlete_name)
+        ax2.plot(timestamps, transface_smooth, color=color, linewidth=2.0, alpha=0.8)
 
     # Add threshold line and highlight segments to TransFace plot
-    ax2.axhline(y=threshold, color="#F18F01", linestyle="--", linewidth=2, label=f"Threshold ({threshold})", alpha=0.7)
+    threshold_line_ax2 = ax2.axhline(y=threshold, color="#F18F01", linestyle="--", linewidth=2, alpha=0.7)
     add_highlight_segments(ax2)
 
     ax2.set_xlabel("Video Time (MM:SS)", fontsize=14, fontweight="bold")
     ax2.set_ylabel("Resemblance Score", fontsize=14, fontweight="bold")
-    ax2.set_title(f"TransFace Resemblance Curves - All Athletes in {video_name}", fontsize=16, fontweight="bold", pad=20)
+    ax2.set_title(f"TransFace Resemblance Curves - All Athletes in {video_name}{title_suffix}", fontsize=16, fontweight="bold", pad=20)
     ax2.grid(True, alpha=0.3, linestyle=":", linewidth=1)
-    ax2.set_ylim([0, 1])
+    ax2.set_ylim(transface_ylim)
     ax2.set_xlim([timestamps[0], timestamps[-1]])
     ax2.set_xticks(tick_times)
     ax2.set_xticklabels([format_time(t) for t in tick_times], rotation=45, ha="right")
 
-    # Create legend outside plot area
-    ax2.legend(loc="upper left", bbox_to_anchor=(1.01, 1), fontsize=10, framealpha=0.9, ncol=1)
+    # Create internal legend for threshold and highlights
+    highlight_patch_ax2 = patches.Patch(facecolor="red", edgecolor="red", alpha=0.15, linewidth=2)
+    ax2.legend(handles=[threshold_line_ax2, highlight_patch_ax2], labels=[f"Threshold ({threshold})", "Highlight Segment"], loc="upper right", fontsize=10, framealpha=0.9)
+
+    # Create external legend for athletes (shared for both plots)
+    fig.legend(
+        [line for line, _ in athlete_lines],
+        [name for _, name in athlete_lines],
+        loc="center left",
+        bbox_to_anchor=(0.88, 0.5),
+        fontsize=10,
+        framealpha=0.9,
+        ncol=1,
+        title="Athletes",
+        title_fontsize=11,
+    )
 
     # Get segment count
     segments_obj = segments_data.get("segments", [])
@@ -899,7 +984,8 @@ def create_combined_athletes_plot(
     plt.savefig(str(output_path), bbox_inches="tight", facecolor="white")
     plt.close()
 
-    print(f"  ✓ Created combined athletes plot: {output_path.name}")
+    zoom_suffix = " (zoomed)" if zoom else ""
+    print(f"  ✓ Created combined athletes plot{zoom_suffix}: {output_path.name}")
 
 
 def run_final_with_highlights_mode(args):
@@ -1055,10 +1141,10 @@ def run_final_with_highlights_mode(args):
 
         successful += 1
 
-    # Create combined athletes plot
+    # Create combined athletes plots (normal and zoomed versions)
     if all_resemblance_data:
         print("\n" + "=" * 80)
-        print("CREATING COMBINED ATHLETES PLOT")
+        print("CREATING COMBINED ATHLETES PLOTS")
         print("=" * 80)
 
         # Create combined plot in video/model directory
@@ -1067,17 +1153,32 @@ def run_final_with_highlights_mode(args):
         combined_output_dir.mkdir(parents=True, exist_ok=True)
 
         suffix = "_updated" if args.use_updated_target else ""
-        combined_plot_path = combined_output_dir / f"all_athletes_combined{suffix}.png"
 
+        # Create normal version (full y-axis range [0, 1])
+        combined_plot_path = combined_output_dir / f"all_athletes_combined{suffix}.png"
         create_combined_athletes_plot(
             all_resemblance_data=all_resemblance_data,
             segments_data=segments_data,
             output_path=combined_plot_path,
             threshold=args.threshold,
             smooth_window=args.smooth_window,
+            zoom=False,
         )
 
-        print(f"\nCombined plot saved to: {combined_plot_path.relative_to(output_dir)}")
+        # Create zoomed version (auto-scaled y-axis)
+        combined_plot_zoom_path = combined_output_dir / f"all_athletes_combined{suffix}_zoom.png"
+        create_combined_athletes_plot(
+            all_resemblance_data=all_resemblance_data,
+            segments_data=segments_data,
+            output_path=combined_plot_zoom_path,
+            threshold=args.threshold,
+            smooth_window=args.smooth_window,
+            zoom=True,
+        )
+
+        print(f"\nCombined plots saved to:")
+        print(f"  - {combined_plot_path.relative_to(output_dir)}")
+        print(f"  - {combined_plot_zoom_path.relative_to(output_dir)}")
 
     # Final summary
     print("\n" + "=" * 80)
