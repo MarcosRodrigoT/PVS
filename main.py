@@ -30,6 +30,43 @@ import argparse
 from video_summarization import generate_highlights_sportclip, generate_highlights_qddetr
 
 
+def get_cuda_library_path() -> str:
+    """
+    Get the CUDA library path for onnxruntime-gpu compatibility
+
+    Returns the colon-separated library paths from nvidia pip packages,
+    or empty string if not found.
+    """
+    try:
+        # Base path for nvidia packages
+        base_path = os.path.join(sys.prefix, "lib", f"python{sys.version_info.major}.{sys.version_info.minor}", "site-packages", "nvidia")
+
+        # List of library directories to add
+        lib_dirs = [
+            "cublas/lib",
+            "cudnn/lib",
+            "cuda_runtime/lib",
+            "cuda_nvrtc/lib",
+            "curand/lib",
+            "cufft/lib",
+            "cusparse/lib",
+            "cusolver/lib",
+            "nvjitlink/lib",
+        ]
+
+        # Collect existing directories
+        paths = []
+        for lib_dir in lib_dirs:
+            full_path = os.path.join(base_path, lib_dir)
+            if os.path.exists(full_path):
+                paths.append(full_path)
+
+        return ":".join(paths)
+    except Exception as e:
+        print(f"Warning: Could not determine CUDA library path: {e}")
+        return ""
+
+
 class PVSPipelineNew:
     """Main pipeline orchestrator for Personalized Video Summarization (new approach)"""
 
@@ -83,6 +120,26 @@ class PVSPipelineNew:
         # Ensure key directories exist
         Path(self.target_faces_dir).mkdir(parents=True, exist_ok=True)
         Path(self.output_dir).mkdir(parents=True, exist_ok=True)
+
+        # Setup CUDA library path for onnxruntime-gpu
+        self.cuda_lib_path = get_cuda_library_path()
+
+    def _get_subprocess_env(self) -> dict:
+        """
+        Get environment variables for subprocess calls with CUDA library path
+
+        Returns:
+            Dictionary of environment variables with LD_LIBRARY_PATH configured
+        """
+        env = os.environ.copy()
+        if self.cuda_lib_path:
+            # Prepend CUDA library path to LD_LIBRARY_PATH
+            current_ld_path = env.get("LD_LIBRARY_PATH", "")
+            if current_ld_path:
+                env["LD_LIBRARY_PATH"] = f"{self.cuda_lib_path}:{current_ld_path}"
+            else:
+                env["LD_LIBRARY_PATH"] = self.cuda_lib_path
+        return env
 
     def step1_video_summarization(self, video_name: str, video_path: str) -> Optional[Dict]:
         """
@@ -220,7 +277,8 @@ class PVSPipelineNew:
             cmd = [sys.executable, "extract_all_faces.py", "--data-dir", self.data_dir, "--output-dir", self.cropped_faces_dir]
 
             # Run with real-time output streaming to show progress bars
-            result = subprocess.run(cmd, check=True, text=True)
+            # Use environment with CUDA library path for GPU support
+            result = subprocess.run(cmd, check=True, text=True, env=self._get_subprocess_env())
 
             # Verify faces were extracted
             if video_faces_dir.exists():
@@ -380,7 +438,8 @@ class PVSPipelineNew:
                 ]
 
                 # Run with real-time output streaming to show progress bars
-                result = subprocess.run(cmd, check=True, text=True)
+                # Use environment with CUDA library path for GPU support
+                result = subprocess.run(cmd, check=True, text=True, env=self._get_subprocess_env())
 
                 if log_file.exists():
                     print(f"  ✓ Successfully processed {target_name}")
@@ -435,7 +494,8 @@ class PVSPipelineNew:
             ]
 
             # Run with real-time output streaming to show progress bars
-            result = subprocess.run(cmd, check=True, text=True)
+            # Use environment with CUDA library path for GPU support
+            result = subprocess.run(cmd, check=True, text=True, env=self._get_subprocess_env())
 
             print(f"\n✓ Successfully extracted original target embeddings")
             return True
