@@ -41,6 +41,8 @@ The behavior of Step 4 depends on the `--use-updated-target` flag:
 - **ArcFace**: State-of-the-art CNN-based face recognition (via DeepFace)
 - **TransFace**: Transformer-based face recognition model
 
+**Independent Model Processing**: By default, ArcFace and TransFace models process highlight clips independently, creating separate folders for each model's results (`ArcFace_highlight_clips/` and `TransFace_highlight_clips/`). This allows you to compare which clips each model considers relevant to your target person. You can also choose to run only one model using the `--face-recognition-models` flag.
+
 ## Project Structure
 
 ```
@@ -106,10 +108,14 @@ PVS/
                 ├── <target>_updated.png        # Enhanced curve plot (with --use-updated-target)
                 ├── <target>.json               # Summary report
                 ├── <target>_updated.json       # Summary report (with --use-updated-target)
-                ├── config_log.txt              # Configuration parameters for this run
-                ├── highlight_clips/            # Relevant clips (without --use-updated-target)
+                ├── config_log.txt                      # Configuration parameters for this run
+                ├── ArcFace_highlight_clips/            # Clips selected by ArcFace model
                 │   └── clip_*.mp4
-                └── highlight_clips_updated/    # Relevant clips (with --use-updated-target)
+                ├── TransFace_highlight_clips/          # Clips selected by TransFace model
+                │   └── clip_*.mp4
+                ├── ArcFace_highlight_clips_updated/    # ArcFace clips (with --use-updated-target)
+                │   └── clip_*.mp4
+                └── TransFace_highlight_clips_updated/  # TransFace clips (with --use-updated-target)
                     └── clip_*.mp4
 ```
 
@@ -163,6 +169,28 @@ This performs:
 
 **Result**: Max similarity ~80-90% (comparing original target vs. video faces)
 **Output**: `resemblance_results/` and `results/<video>/<target>/`
+- Both ArcFace and TransFace create separate highlight clip folders
+
+**Selecting Specific Face Recognition Models:**
+```bash
+# Use only ArcFace model
+python main.py --video highjump_video1 \
+    --video-summarizer qddetr \
+    --qddetr-query "high jump moments" \
+    --face-recognition-models arcface
+
+# Use only TransFace model
+python main.py --video highjump_video1 \
+    --video-summarizer qddetr \
+    --qddetr-query "high jump moments" \
+    --face-recognition-models transface
+
+# Use both models (default behavior - can be omitted)
+python main.py --video highjump_video1 \
+    --video-summarizer qddetr \
+    --qddetr-query "high jump moments" \
+    --face-recognition-models arcface transface
+```
 
 **With `--use-updated-target` flag (finds best match first):**
 ```bash
@@ -499,34 +527,50 @@ python visualize_results.py --mode final_with_highlights --video highjump_video1
 
 # With updated target embeddings
 python visualize_results.py --mode final_with_highlights --video highjump_video1 --model sportclip --use-updated-target
+
+# Use only ArcFace model
+python visualize_results.py --mode final_with_highlights --video highjump_video1 --model sportclip --face-recognition-models arcface
+
+# Use only TransFace model
+python visualize_results.py --mode final_with_highlights --video highjump_video1 --model sportclip --face-recognition-models transface
 ```
 
 This script:
 - Creates enhanced resemblance curve plots with highlight segments marked on the timeline (red boxes labeled "H1", "H2", etc.)
-- Analyzes which highlight clips contain the target person (based on **raw** resemblance scores, not smoothed)
-- Copies only relevant highlight clips to `results/<video>/<model>/<target>/highlight_clips/` (or `highlight_clips_updated/` with `--use-updated-target`)
-- Generates a summary report with statistics
+- **Independently analyzes** which highlight clips contain the target person using ArcFace and TransFace models
+- Copies relevant clips to separate model-specific folders:
+  - `ArcFace_highlight_clips/` - Clips selected by ArcFace
+  - `TransFace_highlight_clips/` - Clips selected by TransFace
+  - With `--use-updated-target`: `ArcFace_highlight_clips_updated/` and `TransFace_highlight_clips_updated/`
+- Generates a summary report with statistics for both models
 - Creates a `config_log.txt` file documenting all configuration parameters
 
-**Important**: The script uses **raw (unsmoothed) scores** for filtering clips to avoid false negatives. Smoothing reduces peak values and can cause the system to miss clips where the target appears.
+**Important**:
+- Each face recognition model processes clips independently based on its own resemblance scores
+- The script uses **raw (unsmoothed) scores** for filtering clips to avoid false negatives
+- You can compare which clips each model considers relevant
 
 Output structure:
 ```
 results/
 └── highjump_video1/
-    └── sportclip/                    # Organized by video summarization model
+    └── sportclip/                                  # Organized by video summarization model
         └── barshim/
-            ├── barshim.png           # Enhanced curve plot
-            ├── barshim_updated.png   # Enhanced curve plot (with --use-updated-target)
-            ├── barshim.json          # Summary report
-            ├── barshim_updated.json  # Summary report (with --use-updated-target)
-            ├── config_log.txt        # Configuration parameters
-            ├── highlight_clips/      # Relevant clips (without --use-updated-target)
+            ├── barshim.png                         # Enhanced curve plot
+            ├── barshim_updated.png                 # Enhanced curve plot (with --use-updated-target)
+            ├── barshim.json                        # Summary report
+            ├── barshim_updated.json                # Summary report (with --use-updated-target)
+            ├── config_log.txt                      # Configuration parameters
+            ├── ArcFace_highlight_clips/            # Clips selected by ArcFace
             │   ├── clip_007.mp4
             │   └── clip_021.mp4
-            └── highlight_clips_updated/  # Relevant clips (with --use-updated-target)
-                ├── clip_007.mp4
-                └── clip_021.mp4
+            ├── TransFace_highlight_clips/          # Clips selected by TransFace
+            │   ├── clip_005.mp4
+            │   └── clip_021.mp4
+            ├── ArcFace_highlight_clips_updated/    # ArcFace clips (with --use-updated-target)
+            │   └── clip_*.mp4
+            └── TransFace_highlight_clips_updated/  # TransFace clips (with --use-updated-target)
+                └── clip_*.mp4
 ```
 
 The enhanced plot shows:
@@ -583,6 +627,7 @@ The enhanced plot shows:
 | `--resemblance-threshold` | `0.6` | Resemblance threshold for visualization |
 | `--smooth-window` | `5` | Smoothing window for resemblance curves |
 | `--use-updated-target` | `False` | **Enable face recognition workflow** (Steps 4-7). Without this flag, only video summarization and face data extraction (Steps 1-3) are performed. |
+| `--face-recognition-models` | `arcface transface` | Face recognition models to use for clip selection. Options: `arcface`, `transface`, or both. Each model creates separate highlight clip folders. |
 
 ### generate_video_summaries.py
 
@@ -672,6 +717,7 @@ The enhanced plot shows:
 | `--threshold` | `0.6` | Resemblance score threshold |
 | `--smooth-window` | `5` | Smoothing window size |
 | `--use-updated-target` | `False` | Use results from updated target embeddings (second pass). Reads files with '_updated' suffix |
+| `--face-recognition-models` | `arcface transface` | Face recognition models to use for clip selection. Options: `arcface`, `transface`, or both. Each model creates separate highlight clip folders. |
 
 ## Video Summarization Integration
 

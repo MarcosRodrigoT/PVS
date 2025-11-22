@@ -561,7 +561,8 @@ def copy_relevant_clips(
     arcface_scores_smooth: np.ndarray = None,
     transface_scores_smooth: np.ndarray = None,
     use_updated_target: bool = False,
-) -> List[str]:
+    face_recognition_models: List[str] = None,
+) -> Dict[str, List[str]]:
     """
     Copy highlight clips where target person appears to results directory
 
@@ -575,22 +576,34 @@ def copy_relevant_clips(
         arcface_scores_smooth: Pre-smoothed ArcFace scores (if None, uses raw scores)
         transface_scores_smooth: Pre-smoothed TransFace scores (if None, uses raw scores)
         use_updated_target: Whether using updated target (affects clips directory name)
+        face_recognition_models: List of models to use (e.g., ["arcface", "transface"]).
+                                 If None, defaults to both.
 
     Returns:
-        List of copied clip names
+        Dictionary mapping model name to list of copied clip names
     """
+    # Default to both models if not specified
+    if face_recognition_models is None:
+        face_recognition_models = ["arcface", "transface"]
+
+    # Normalize model names to lowercase
+    face_recognition_models = [m.lower() for m in face_recognition_models]
+
     model = segments_data.get("model", "sportclip")
     target_name = resemblance_data["target"]
 
     timestamps = np.array(resemblance_data["timestamps_seconds"])
 
     # Use pre-smoothed scores if provided, otherwise use raw scores
-    if arcface_scores_smooth is None or transface_scores_smooth is None:
+    if arcface_scores_smooth is None:
         arcface_scores = np.array(resemblance_data["arcface_scores"])
-        transface_scores = np.array(resemblance_data["transface_scores"])
-        avg_scores = (arcface_scores + transface_scores) / 2
     else:
-        avg_scores = (arcface_scores_smooth + transface_scores_smooth) / 2
+        arcface_scores = arcface_scores_smooth
+
+    if transface_scores_smooth is None:
+        transface_scores = np.array(resemblance_data["transface_scores"])
+    else:
+        transface_scores = transface_scores_smooth
 
     # Find source clips directory
     model_dir = "SportCLIP" if model == "sportclip" else "QD-DETR"
@@ -598,14 +611,10 @@ def copy_relevant_clips(
 
     if not clips_dir.exists():
         print(f"  Warning: Clips directory not found: {clips_dir}")
-        return []
+        return {}
 
-    # Create output directory (separate for original vs updated target)
-    clips_dirname = "highlight_clips_updated" if use_updated_target else "highlight_clips"
-    target_clips_dir = output_dir / clips_dirname
-    target_clips_dir.mkdir(parents=True, exist_ok=True)
-
-    copied_clips = []
+    # Dictionary to store copied clips per model
+    all_copied_clips = {}
 
     # Handle nested structure
     segments_obj = segments_data.get("segments", [])
@@ -614,33 +623,58 @@ def copy_relevant_clips(
     else:
         segments = segments_obj
 
-    for segment in segments:
-        clip_name = segment["clip_name"]
-        clip_path = clips_dir / clip_name
-
-        if not clip_path.exists():
-            print(f"  Warning: Clip not found: {clip_path}")
+    # Process each face recognition model independently
+    for face_model in face_recognition_models:
+        if face_model == "arcface":
+            scores = arcface_scores
+            model_name = "ArcFace"
+        elif face_model == "transface":
+            scores = transface_scores
+            model_name = "TransFace"
+        else:
+            print(f"  Warning: Unknown face recognition model: {face_model}")
             continue
 
-        # Use timing information from segment metadata
-        start_time = segment.get("start_time")
-        end_time = segment.get("end_time")
+        # Create model-specific output directory
+        suffix = "_updated" if use_updated_target else ""
+        clips_dirname = f"{model_name}_highlight_clips{suffix}"
+        target_clips_dir = output_dir / clips_dirname
+        target_clips_dir.mkdir(parents=True, exist_ok=True)
 
-        if start_time is not None and end_time is not None:
-            times = (start_time, end_time)
-            has_target = check_segment_overlap(times, timestamps, avg_scores, threshold)
+        copied_clips = []
 
-            if has_target:
-                # Copy clip to results
-                dest_path = target_clips_dir / clip_name
-                shutil.copy2(clip_path, dest_path)
-                copied_clips.append(clip_name)
-                print(f"  ✓ Copied clip: {clip_name}")
+        print(f"\n  Processing {model_name} model:")
 
-    return copied_clips
+        for segment in segments:
+            clip_name = segment["clip_name"]
+            clip_path = clips_dir / clip_name
+
+            if not clip_path.exists():
+                print(f"    Warning: Clip not found: {clip_path}")
+                continue
+
+            # Use timing information from segment metadata
+            start_time = segment.get("start_time")
+            end_time = segment.get("end_time")
+
+            if start_time is not None and end_time is not None:
+                times = (start_time, end_time)
+                has_target = check_segment_overlap(times, timestamps, scores, threshold)
+
+                if has_target:
+                    # Copy clip to results
+                    dest_path = target_clips_dir / clip_name
+                    shutil.copy2(clip_path, dest_path)
+                    copied_clips.append(clip_name)
+                    print(f"    ✓ Copied clip: {clip_name}")
+
+        all_copied_clips[face_model] = copied_clips
+        print(f"  {model_name}: Copied {len(copied_clips)} clip(s)")
+
+    return all_copied_clips
 
 
-def create_summary_report(target_name: str, video_name: str, resemblance_data: Dict, segments_data: Dict, copied_clips: List[str], output_path: Path, threshold: float):
+def create_summary_report(target_name: str, video_name: str, resemblance_data: Dict, segments_data: Dict, copied_clips: Dict[str, List[str]], output_path: Path, threshold: float):
     """
     Create a summary report JSON file
 
@@ -649,7 +683,7 @@ def create_summary_report(target_name: str, video_name: str, resemblance_data: D
         video_name: Video name
         resemblance_data: Resemblance curve data
         segments_data: Video segments metadata
-        copied_clips: List of copied clip names
+        copied_clips: Dictionary mapping model name to list of copied clip names
         output_path: Path to save report
         threshold: Resemblance threshold used
     """
@@ -669,8 +703,16 @@ def create_summary_report(target_name: str, video_name: str, resemblance_data: D
         "model": segments_data.get("model", "unknown"),
         "threshold": threshold,
         "total_highlight_segments": total_segments,
-        "relevant_highlight_segments": len(copied_clips),
-        "relevant_clips": copied_clips,
+        "relevant_clips_per_model": {
+            "arcface": {
+                "count": len(copied_clips.get("arcface", [])),
+                "clips": copied_clips.get("arcface", [])
+            },
+            "transface": {
+                "count": len(copied_clips.get("transface", [])),
+                "clips": copied_clips.get("transface", [])
+            }
+        },
         "resemblance_statistics": {
             "arcface": {"mean": float(np.mean(arcface_scores)), "max": float(np.max(arcface_scores)), "frames_above_threshold": int(np.sum(arcface_scores >= threshold))},
             "transface": {"mean": float(np.mean(transface_scores)), "max": float(np.max(transface_scores)), "frames_above_threshold": int(np.sum(transface_scores >= threshold))},
@@ -773,6 +815,11 @@ def run_final_with_highlights_mode(args):
 
         # Copy relevant clips first (needed for plot statistics)
         # Use the same smoothed scores that will be plotted
+        # Parse face recognition models from command line
+        face_models = None
+        if hasattr(args, 'face_recognition_models') and args.face_recognition_models:
+            face_models = args.face_recognition_models
+
         copied_clips = copy_relevant_clips(
             video_name=args.video,
             segments_data=segments_data,
@@ -783,7 +830,11 @@ def run_final_with_highlights_mode(args):
             arcface_scores_smooth=arcface_scores_smooth,
             transface_scores_smooth=transface_scores_smooth,
             use_updated_target=args.use_updated_target,
+            face_recognition_models=face_models,
         )
+
+        # Calculate total relevant clips across all models
+        total_relevant_clips = sum(len(clips) for clips in copied_clips.values())
 
         # Create enhanced plot with relevant segments count (with suffix if using updated target)
         # Note: plot function will apply smoothing internally, but we'll ignore returned values
@@ -794,7 +845,7 @@ def run_final_with_highlights_mode(args):
             output_path=plot_path,
             threshold=args.threshold,
             smooth_window=args.smooth_window,
-            relevant_segments_count=len(copied_clips),
+            relevant_segments_count=total_relevant_clips,
         )
 
         # Create summary report (with suffix if using updated target)
@@ -882,6 +933,13 @@ Examples:
         "--use-updated-target",
         action="store_true",
         help="[final_with_highlights] Use results from updated target embeddings (second pass). Reads files with '_updated' suffix.",
+    )
+    parser.add_argument(
+        "--face-recognition-models",
+        nargs="+",
+        choices=["arcface", "transface"],
+        default=None,
+        help="[final_with_highlights] Face recognition models to use for clip selection. Options: arcface, transface. Default: both models (arcface transface).",
     )
 
     # Common arguments

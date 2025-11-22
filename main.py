@@ -78,6 +78,7 @@ class PVSPipelineNew:
         self.similarity_threshold = self.config.get("similarity_threshold", 0.5)
         self.resemblance_threshold = self.config.get("resemblance_threshold", 0.6)
         self.smooth_window = self.config.get("smooth_window", 5)
+        self.face_recognition_models = self.config.get("face_recognition_models", None)
 
         # Ensure key directories exist
         Path(self.target_faces_dir).mkdir(parents=True, exist_ok=True)
@@ -687,6 +688,11 @@ class PVSPipelineNew:
             if self.use_updated_target:
                 cmd.append("--use-updated-target")
 
+            # Add face recognition models if specified
+            if self.face_recognition_models:
+                cmd.append("--face-recognition-models")
+                cmd.extend(self.face_recognition_models)
+
             result = subprocess.run(cmd, check=True, capture_output=True, text=True)
 
             print(f"\n✓ Successfully created final visualizations")
@@ -853,6 +859,14 @@ Examples:
         action="store_true",
         help="Perform second pass using updated target embeddings (should achieve 100%% similarity). Results saved with '_updated' suffix to avoid overwriting.",
     )
+    parser.add_argument(
+        "--face-recognition-models",
+        nargs="+",
+        choices=["arcface", "transface"],
+        default=None,
+        help="Face recognition models to use for highlight clip selection. Options: arcface, transface. Default: both models. "
+             "Results will be saved in separate folders (e.g., ArcFace_highlight_clips, TransFace_highlight_clips).",
+    )
 
     args = parser.parse_args()
 
@@ -908,6 +922,7 @@ Examples:
         "resemblance_threshold": args.resemblance_threshold,
         "smooth_window": args.smooth_window,
         "use_updated_target": args.use_updated_target,
+        "face_recognition_models": args.face_recognition_models,
     }
 
     # Initialize and run pipeline
