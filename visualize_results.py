@@ -25,6 +25,7 @@ import argparse
 
 # Use Agg backend for non-interactive plotting
 import matplotlib
+
 matplotlib.use("Agg")
 
 
@@ -704,14 +705,8 @@ def create_summary_report(target_name: str, video_name: str, resemblance_data: D
         "threshold": threshold,
         "total_highlight_segments": total_segments,
         "relevant_clips_per_model": {
-            "arcface": {
-                "count": len(copied_clips.get("arcface", [])),
-                "clips": copied_clips.get("arcface", [])
-            },
-            "transface": {
-                "count": len(copied_clips.get("transface", [])),
-                "clips": copied_clips.get("transface", [])
-            }
+            "arcface": {"count": len(copied_clips.get("arcface", [])), "clips": copied_clips.get("arcface", [])},
+            "transface": {"count": len(copied_clips.get("transface", [])), "clips": copied_clips.get("transface", [])},
         },
         "resemblance_statistics": {
             "arcface": {"mean": float(np.mean(arcface_scores)), "max": float(np.max(arcface_scores)), "frames_above_threshold": int(np.sum(arcface_scores >= threshold))},
@@ -723,6 +718,188 @@ def create_summary_report(target_name: str, video_name: str, resemblance_data: D
         json.dump(report, f, indent=2)
 
     print(f"  ✓ Created summary report: {output_path.name}")
+
+
+def create_combined_athletes_plot(
+    all_resemblance_data: Dict[str, Dict],
+    segments_data: Dict,
+    output_path: Path,
+    threshold: float = 0.6,
+    smooth_window: int = 5,
+) -> None:
+    """
+    Create combined resemblance curve plot showing all athletes together
+
+    Args:
+        all_resemblance_data: Dictionary mapping target_name to resemblance data
+        segments_data: Video segments metadata
+        output_path: Path to save plot
+        threshold: Similarity threshold
+        smooth_window: Smoothing window size
+    """
+    if not all_resemblance_data:
+        print("  Warning: No resemblance data to plot")
+        return
+
+    # Get video name from first target
+    first_target = next(iter(all_resemblance_data.values()))
+    video_name = first_target["video"]
+
+    # Generate consistent colors for athletes using a hash-based approach
+    # This ensures the same colors are used across runs and for both plots
+    import hashlib
+
+    def get_color_for_athlete(athlete_name: str) -> str:
+        """Generate a consistent color for an athlete based on their name"""
+        # Use hash to generate a consistent hue value
+        hash_val = int(hashlib.md5(athlete_name.encode()).hexdigest(), 16)
+        hue = (hash_val % 360) / 360.0
+
+        # Use HSV to RGB conversion for vibrant colors
+        import colorsys
+
+        rgb = colorsys.hsv_to_rgb(hue, 0.7, 0.9)
+        return f"#{int(rgb[0]*255):02x}{int(rgb[1]*255):02x}{int(rgb[2]*255):02x}"
+
+    # Create color mapping for all athletes
+    athlete_names = sorted(all_resemblance_data.keys())
+    athlete_colors = {name: get_color_for_athlete(name) for name in athlete_names}
+
+    # Create figure with two subplots
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 10), dpi=150)
+    fig.patch.set_facecolor("white")
+
+    def format_time(seconds):
+        minutes = int(seconds // 60)
+        secs = int(seconds % 60)
+        return f"{minutes:02d}:{secs:02d}"
+
+    # Get timestamps from first target (all should have same timestamps)
+    timestamps = np.array(first_target["timestamps_seconds"])
+    video_duration = timestamps[-1]
+
+    # Determine tick interval
+    if video_duration <= 60:
+        tick_interval = 5
+    elif video_duration <= 300:
+        tick_interval = 15
+    elif video_duration <= 600:
+        tick_interval = 30
+    else:
+        tick_interval = 60
+
+    tick_times = np.arange(0, video_duration + tick_interval, tick_interval)
+    tick_times = tick_times[tick_times <= video_duration]
+
+    # Helper function to add highlight segments to plot
+    def add_highlight_segments(ax, y_pos=0.95):
+        """Add highlight segment markers to the plot"""
+        segments_obj = segments_data.get("segments", [])
+        if isinstance(segments_obj, dict):
+            segments = segments_obj.get("segments", [])
+        else:
+            segments = segments_obj
+
+        for i, segment in enumerate(segments, 1):
+            start_time = segment.get("start_time")
+            end_time = segment.get("end_time")
+
+            if start_time is not None and end_time is not None:
+                width = end_time - start_time
+                rect = patches.Rectangle(
+                    (start_time, 0),
+                    width,
+                    1,
+                    linewidth=2,
+                    edgecolor="red",
+                    facecolor="red",
+                    alpha=0.15,
+                    transform=ax.get_xaxis_transform(),
+                    label="Highlight Segment" if i == 1 else "",
+                )
+                ax.add_patch(rect)
+
+                ax.text(
+                    start_time + width / 2,
+                    y_pos,
+                    f"H{i}",
+                    transform=ax.get_xaxis_transform(),
+                    ha="center",
+                    va="top",
+                    fontsize=9,
+                    fontweight="bold",
+                    bbox=dict(boxstyle="round,pad=0.3", facecolor="red", alpha=0.7, edgecolor="darkred"),
+                    color="white",
+                )
+
+    # Plot ArcFace curves for all athletes
+    for athlete_name in athlete_names:
+        data = all_resemblance_data[athlete_name]
+        arcface_scores = np.array(data["arcface_scores"])
+        arcface_scores_smooth = smooth_scores(arcface_scores, smooth_window)
+
+        color = athlete_colors[athlete_name]
+        ax1.plot(timestamps, arcface_scores_smooth, color=color, linewidth=2.0, alpha=0.8, label=athlete_name)
+
+    # Add threshold line and highlight segments to ArcFace plot
+    ax1.axhline(y=threshold, color="#F18F01", linestyle="--", linewidth=2, label=f"Threshold ({threshold})", alpha=0.7)
+    add_highlight_segments(ax1)
+
+    ax1.set_ylabel("Resemblance Score", fontsize=14, fontweight="bold")
+    ax1.set_title(f"ArcFace Resemblance Curves - All Athletes in {video_name}", fontsize=16, fontweight="bold", pad=20)
+    ax1.grid(True, alpha=0.3, linestyle=":", linewidth=1)
+    ax1.set_ylim([0, 1])
+    ax1.set_xlim([timestamps[0], timestamps[-1]])
+    ax1.set_xticks(tick_times)
+    ax1.set_xticklabels([format_time(t) for t in tick_times], rotation=45, ha="right")
+
+    # Create legend outside plot area
+    ax1.legend(loc="upper left", bbox_to_anchor=(1.01, 1), fontsize=10, framealpha=0.9, ncol=1)
+
+    # Plot TransFace curves for all athletes
+    for athlete_name in athlete_names:
+        data = all_resemblance_data[athlete_name]
+        transface_scores = np.array(data["transface_scores"])
+        transface_scores_smooth = smooth_scores(transface_scores, smooth_window)
+
+        color = athlete_colors[athlete_name]
+        ax2.plot(timestamps, transface_scores_smooth, color=color, linewidth=2.0, alpha=0.8, label=athlete_name)
+
+    # Add threshold line and highlight segments to TransFace plot
+    ax2.axhline(y=threshold, color="#F18F01", linestyle="--", linewidth=2, label=f"Threshold ({threshold})", alpha=0.7)
+    add_highlight_segments(ax2)
+
+    ax2.set_xlabel("Video Time (MM:SS)", fontsize=14, fontweight="bold")
+    ax2.set_ylabel("Resemblance Score", fontsize=14, fontweight="bold")
+    ax2.set_title(f"TransFace Resemblance Curves - All Athletes in {video_name}", fontsize=16, fontweight="bold", pad=20)
+    ax2.grid(True, alpha=0.3, linestyle=":", linewidth=1)
+    ax2.set_ylim([0, 1])
+    ax2.set_xlim([timestamps[0], timestamps[-1]])
+    ax2.set_xticks(tick_times)
+    ax2.set_xticklabels([format_time(t) for t in tick_times], rotation=45, ha="right")
+
+    # Create legend outside plot area
+    ax2.legend(loc="upper left", bbox_to_anchor=(1.01, 1), fontsize=10, framealpha=0.9, ncol=1)
+
+    # Get segment count
+    segments_obj = segments_data.get("segments", [])
+    if isinstance(segments_obj, dict):
+        num_segments = len(segments_obj.get("segments", []))
+    else:
+        num_segments = len(segments_obj)
+
+    stats_text = f"Athletes: {len(athlete_names)} | Highlight Segments: {num_segments} | Threshold: {threshold}"
+    fig.text(0.5, 0.01, stats_text, ha="center", fontsize=11, bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5))
+
+    # Adjust layout to make room for legend
+    plt.tight_layout(rect=[0, 0.04, 0.85, 1])
+
+    # Save plot
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(str(output_path), bbox_inches="tight", facecolor="white")
+    plt.close()
+
+    print(f"  ✓ Created combined athletes plot: {output_path.name}")
 
 
 def run_final_with_highlights_mode(args):
@@ -780,6 +957,7 @@ def run_final_with_highlights_mode(args):
 
     # Process each target
     successful = 0
+    all_resemblance_data = {}  # Collect all resemblance data for combined plot
 
     for target_dir in target_dirs:
         target_name = target_dir.name
@@ -801,6 +979,9 @@ def run_final_with_highlights_mode(args):
             print(f"  Error: Could not load resemblance data")
             continue
 
+        # Store resemblance data for combined plot
+        all_resemblance_data[target_name] = resemblance_data
+
         # Create output directory for this target
         # New structure: results/video/model/target
         model_dir_name = args.model  # "sportclip" or "qddetr"
@@ -817,7 +998,7 @@ def run_final_with_highlights_mode(args):
         # Use the same smoothed scores that will be plotted
         # Parse face recognition models from command line
         face_models = None
-        if hasattr(args, 'face_recognition_models') and args.face_recognition_models:
+        if hasattr(args, "face_recognition_models") and args.face_recognition_models:
             face_models = args.face_recognition_models
 
         copied_clips = copy_relevant_clips(
@@ -874,6 +1055,30 @@ def run_final_with_highlights_mode(args):
 
         successful += 1
 
+    # Create combined athletes plot
+    if all_resemblance_data:
+        print("\n" + "=" * 80)
+        print("CREATING COMBINED ATHLETES PLOT")
+        print("=" * 80)
+
+        # Create combined plot in video/model directory
+        model_dir_name = args.model
+        combined_output_dir = output_dir / args.video / model_dir_name
+        combined_output_dir.mkdir(parents=True, exist_ok=True)
+
+        suffix = "_updated" if args.use_updated_target else ""
+        combined_plot_path = combined_output_dir / f"all_athletes_combined{suffix}.png"
+
+        create_combined_athletes_plot(
+            all_resemblance_data=all_resemblance_data,
+            segments_data=segments_data,
+            output_path=combined_plot_path,
+            threshold=args.threshold,
+            smooth_window=args.smooth_window,
+        )
+
+        print(f"\nCombined plot saved to: {combined_plot_path.relative_to(output_dir)}")
+
     # Final summary
     print("\n" + "=" * 80)
     print("PROCESSING COMPLETE")
@@ -909,13 +1114,7 @@ Examples:
         """,
     )
 
-    parser.add_argument(
-        "--mode",
-        type=str,
-        choices=["resemblance_curves", "final_with_highlights"],
-        required=True,
-        help="Visualization mode"
-    )
+    parser.add_argument("--mode", type=str, choices=["resemblance_curves", "final_with_highlights"], required=True, help="Visualization mode")
 
     # Resemblance curves mode arguments
     parser.add_argument("--recognition-results", type=str, default="results/face_recognition_results.json", help="[resemblance_curves] Path to face recognition results JSON")
