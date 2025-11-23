@@ -592,7 +592,13 @@ def copy_relevant_clips(
     # Normalize model names to lowercase
     face_recognition_models = [m.lower() for m in face_recognition_models]
 
-    model = segments_data.get("model", "sportclip")
+    # Handle nested structure: model field might be in segments_data or segments_data["segments"]
+    segments_obj = segments_data.get("segments", [])
+    if isinstance(segments_obj, dict):
+        model = segments_obj.get("model", "sportclip")
+    else:
+        model = segments_data.get("model", "sportclip")
+
     target_name = resemblance_data["target"]
 
     timestamps = np.array(resemblance_data["timestamps_seconds"])
@@ -693,17 +699,19 @@ def create_summary_report(target_name: str, video_name: str, resemblance_data: D
     arcface_scores = np.array(resemblance_data["arcface_scores"])
     transface_scores = np.array(resemblance_data["transface_scores"])
 
-    # Get segment count (handle nested structure)
+    # Get segment count and model (handle nested structure)
     segments_obj = segments_data.get("segments", [])
     if isinstance(segments_obj, dict):
         total_segments = len(segments_obj.get("segments", []))
+        model = segments_obj.get("model", "unknown")
     else:
         total_segments = len(segments_obj)
+        model = segments_data.get("model", "unknown")
 
     report = {
         "target": target_name,
         "video": video_name,
-        "model": segments_data.get("model", "unknown"),
+        "model": model,
         "threshold": threshold,
         "total_highlight_segments": total_segments,
         "relevant_clips_per_model": {

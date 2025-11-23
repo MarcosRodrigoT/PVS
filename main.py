@@ -450,6 +450,9 @@ class PVSPipelineNew:
 
             try:
                 # Call find_updated_target.py script
+                # Pass video-specific output directory
+                video_updated_output_dir = Path(self.target_faces_updated_dir) / video_name
+
                 cmd = [
                     sys.executable,
                     "find_updated_target.py",
@@ -460,7 +463,7 @@ class PVSPipelineNew:
                     "--embeddings",
                     self.embeddings_dir,
                     "--output",
-                    self.target_faces_updated_dir,
+                    str(video_updated_output_dir),
                     "--video",
                     video_name,
                     "--threshold",
@@ -515,6 +518,8 @@ class PVSPipelineNew:
 
         # Use video-specific target faces directory
         video_target_faces_dir = Path(self.target_faces_dir) / video_name
+        # Use video-specific output directory for updated targets
+        video_updated_targets_dir = Path(self.target_faces_updated_dir) / video_name
 
         try:
             # Call unified extract_embeddings.py script with original_targets mode
@@ -525,6 +530,8 @@ class PVSPipelineNew:
                 "original_targets",
                 "--target-faces",
                 str(video_target_faces_dir),
+                "--output-dir",
+                str(video_updated_targets_dir),
                 "--transface-weight",
                 self.transface_weight,
                 "--transface-network",
@@ -570,13 +577,16 @@ class PVSPipelineNew:
 
         try:
             # Call unified extract_embeddings.py script with updated_targets mode
+            # Pass video-specific updated targets directory
+            video_updated_targets_dir = Path(self.target_faces_updated_dir) / video_name
+
             cmd = [
                 sys.executable,
                 "extract_embeddings.py",
                 "--mode",
                 "updated_targets",
                 "--updated-targets",
-                self.target_faces_updated_dir,
+                str(video_updated_targets_dir),
                 "--video",
                 video_name,
                 "--transface-weight",

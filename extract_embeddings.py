@@ -983,8 +983,9 @@ Examples:
     if args.mode == "video_faces":
         run_video_faces_mode(args)
     elif args.mode == "original_targets":
-        # Override output_dir for original_targets to save in target_faces_updated
-        args.output_dir = "target_faces_updated"
+        # Only set default output_dir if not explicitly provided
+        if args.output_dir == "cropped_faces_embeddings":  # Default value
+            args.output_dir = "target_faces_updated"
         run_original_targets_mode(args)
     elif args.mode == "updated_targets":
         if not args.video:
