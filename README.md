@@ -595,11 +595,14 @@ python visualize_results.py --mode final_with_highlights --video highjump_video1
 
 This script:
 - Creates enhanced resemblance curve plots with highlight segments marked on the timeline (red boxes labeled "H1", "H2", etc.)
+- Creates **combined athletes plots** showing all athletes' resemblance curves together (both normal and zoomed versions)
+- Creates **assigned highlights plot** (`highlights_assigned.png`) with color-coded segments by athlete, ground truth comparison, and evaluation metrics
 - **Independently analyzes** which highlight clips contain the target person using ArcFace and TransFace models
 - Copies relevant clips to separate model-specific folders:
   - `ArcFace_highlight_clips/` - Clips selected by ArcFace
   - `TransFace_highlight_clips/` - Clips selected by TransFace
   - With `--use-updated-target`: `ArcFace_highlight_clips_updated/` and `TransFace_highlight_clips_updated/`
+  - `highlights_assigned/<athlete>/{ArcFace,TransFace}/` - Clips organized by assigned athlete
 - Generates a summary report with statistics for both models
 - Creates a `config_log.txt` file documenting all configuration parameters
 
@@ -613,6 +616,21 @@ Output structure:
 results/
 └── highjump_video1/
     └── sportclip/                                  # Organized by video summarization model
+        ├── all_athletes_combined.png               # Combined plot of all athletes (normal scale)
+        ├── all_athletes_combined_zoom.png          # Combined plot of all athletes (zoomed scale)
+        ├── all_athletes_combined_updated.png       # Combined plot (with --use-updated-target)
+        ├── all_athletes_combined_updated_zoom.png  # Combined plot zoomed (with --use-updated-target)
+        ├── highlights_assigned.png                 # Highlight assignments with evaluation metrics
+        ├── highlights_assigned_updated.png         # Highlight assignments (with --use-updated-target)
+        ├── highlights_assigned/                    # Organized clips by assigned athlete
+        │   ├── athlete1/
+        │   │   ├── ArcFace/
+        │   │   │   └── clip_*.mp4
+        │   │   └── TransFace/
+        │   │       └── clip_*.mp4
+        │   └── athlete2/
+        │       ├── ArcFace/
+        │       └── TransFace/
         └── barshim/
             ├── barshim.png                         # Enhanced curve plot
             ├── barshim_updated.png                 # Enhanced curve plot (with --use-updated-target)
@@ -631,12 +649,28 @@ results/
                 └── clip_*.mp4
 ```
 
-The enhanced plot shows:
-- Raw and smoothed resemblance scores (both displayed for visualization)
-- **Red rectangular overlays** marking highlight segment positions on the timeline
-- **Red labels** ("H1", "H2", etc.) identifying each highlight
-- Threshold line and above-threshold regions
-- Summary statistics including number of highlight segments
+**Visualization outputs:**
+
+1. **Per-athlete enhanced plots** (`<athlete>.png`):
+   - Raw and smoothed resemblance scores (both displayed for visualization)
+   - **Red rectangular overlays** marking highlight segment positions on the timeline
+   - **Red labels** ("H1", "H2", etc.) identifying each highlight
+   - Threshold line and above-threshold regions
+   - Summary statistics including number of highlight segments
+
+2. **Combined athletes plots** (`all_athletes_combined.png` and `_zoom.png`):
+   - All athletes' resemblance curves displayed together in a single figure
+   - Two subplots: ArcFace (top) and TransFace (bottom)
+   - Color-coded by athlete using Kelly's 22 colors for maximum contrast
+   - Normal version: y-axis 0-1, Zoom version: auto-scaled to data range
+   - Separate legends: athletes (external) and threshold/highlights (internal)
+
+3. **Assigned highlights plot** (`highlights_assigned.png`):
+   - Timeline view showing which athlete was assigned to each highlight segment
+   - Three subplots: ArcFace assignments, TransFace assignments, Ground Truth (if available)
+   - Color-coded segments by athlete
+   - Evaluation table showing per-athlete metrics (GT, Pred, Corr, Precision)
+   - Uses IoU-based matching (threshold 0.3) to evaluate predictions against ground truth
 
 **Note**: Highlight segment timing is extracted directly from SportCLIP's or QD-DETR's event detection, ensuring accurate frame-level alignment with the original video.
 

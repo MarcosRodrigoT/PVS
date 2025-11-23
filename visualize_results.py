@@ -1061,24 +1061,15 @@ def create_assigned_highlights_plot(
         for seg_idx, segment in enumerate(segments):
             athlete = assignments.get(seg_idx)
             if athlete:
-                pred_segments.append({
-                    'start': segment.get('start_time'),
-                    'end': segment.get('end_time'),
-                    'athlete': athlete,
-                    'matched': False
-                })
+                pred_segments.append({"start": segment.get("start_time"), "end": segment.get("end_time"), "athlete": athlete, "matched": False})
 
         # Track ground truth segments
         gt_segments_by_athlete = {}
         for gt_seg in ground_truth_data:
-            athlete = gt_seg['athlete']
+            athlete = gt_seg["athlete"]
             if athlete not in gt_segments_by_athlete:
                 gt_segments_by_athlete[athlete] = []
-            gt_segments_by_athlete[athlete].append({
-                'start': gt_seg['start_time'],
-                'end': gt_seg['end_time'],
-                'matched': False
-            })
+            gt_segments_by_athlete[athlete].append({"start": gt_seg["start_time"], "end": gt_seg["end_time"], "matched": False})
 
         # Compute IoU and match segments
         def compute_iou(seg1_start, seg1_end, seg2_start, seg2_end):
@@ -1095,24 +1086,23 @@ def create_assigned_highlights_plot(
         matched_pairs = []
 
         for pred_seg in pred_segments:
-            if pred_seg['athlete'] not in gt_segments_by_athlete:
+            if pred_seg["athlete"] not in gt_segments_by_athlete:
                 continue
 
             best_iou = 0
             best_gt_idx = None
 
             # Find best matching ground truth segment for this athlete
-            for gt_idx, gt_seg in enumerate(gt_segments_by_athlete[pred_seg['athlete']]):
-                iou = compute_iou(pred_seg['start'], pred_seg['end'],
-                                 gt_seg['start'], gt_seg['end'])
+            for gt_idx, gt_seg in enumerate(gt_segments_by_athlete[pred_seg["athlete"]]):
+                iou = compute_iou(pred_seg["start"], pred_seg["end"], gt_seg["start"], gt_seg["end"])
                 if iou >= iou_threshold and iou > best_iou:
                     best_iou = iou
                     best_gt_idx = gt_idx
 
             if best_gt_idx is not None:
-                matched_pairs.append((pred_seg, gt_segments_by_athlete[pred_seg['athlete']][best_gt_idx]))
-                pred_seg['matched'] = True
-                gt_segments_by_athlete[pred_seg['athlete']][best_gt_idx]['matched'] = True
+                matched_pairs.append((pred_seg, gt_segments_by_athlete[pred_seg["athlete"]][best_gt_idx]))
+                pred_seg["matched"] = True
+                gt_segments_by_athlete[pred_seg["athlete"]][best_gt_idx]["matched"] = True
 
         # Compute stats per athlete
         all_athletes = set(gt_segments_by_athlete.keys()) | set(assignments.values())
@@ -1121,15 +1111,10 @@ def create_assigned_highlights_plot(
                 continue
 
             gt_count = len(gt_segments_by_athlete.get(athlete, []))
-            pred_count = sum(1 for seg in pred_segments if seg['athlete'] == athlete)
-            correct_count = sum(1 for seg in pred_segments
-                              if seg['athlete'] == athlete and seg['matched'])
+            pred_count = sum(1 for seg in pred_segments if seg["athlete"] == athlete)
+            correct_count = sum(1 for seg in pred_segments if seg["athlete"] == athlete and seg["matched"])
 
-            athlete_stats[athlete] = {
-                'gt': gt_count,
-                'pred': pred_count,
-                'correct': correct_count
-            }
+            athlete_stats[athlete] = {"gt": gt_count, "pred": pred_count, "correct": correct_count}
 
         return athlete_stats
 
@@ -1210,19 +1195,19 @@ def create_assigned_highlights_plot(
 
             # Build table rows
             for athlete in all_athletes:
-                arc_stats = eval_arcface.get(athlete, {'gt': 0, 'pred': 0, 'correct': 0})
-                trans_stats = eval_transface.get(athlete, {'gt': 0, 'pred': 0, 'correct': 0})
+                arc_stats = eval_arcface.get(athlete, {"gt": 0, "pred": 0, "correct": 0})
+                trans_stats = eval_transface.get(athlete, {"gt": 0, "pred": 0, "correct": 0})
 
-                gt_count = arc_stats['gt']  # Same for both models
+                gt_count = arc_stats["gt"]  # Same for both models
 
                 # ArcFace stats
-                arc_pred = arc_stats['pred']
-                arc_corr = arc_stats['correct']
+                arc_pred = arc_stats["pred"]
+                arc_corr = arc_stats["correct"]
                 arc_prec = f"{(arc_corr/arc_pred*100):.1f}%" if arc_pred > 0 else "  -  "
 
                 # TransFace stats
-                trans_pred = trans_stats['pred']
-                trans_corr = trans_stats['correct']
+                trans_pred = trans_stats["pred"]
+                trans_corr = trans_stats["correct"]
                 trans_prec = f"{(trans_corr/trans_pred*100):.1f}%" if trans_pred > 0 else "  -  "
 
                 # Format row
@@ -1231,8 +1216,7 @@ def create_assigned_highlights_plot(
             table_text += "─" * 90 + "\n"
             table_text += f"Total: {total_segments} segments | Ground Truth: {gt_segments} segments | IoU threshold: 0.3"
 
-            fig.text(0.5, 0.01, table_text, ha="center", fontsize=8, family='monospace',
-                    bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5), verticalalignment='bottom')
+            fig.text(0.5, 0.01, table_text, ha="center", fontsize=8, family="monospace", bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5), verticalalignment="bottom")
         else:
             # Fallback to simple stats if no evaluation data
             stats_text = f"Total Segments: {total_segments} | Ground Truth Segments: {gt_segments}\n"
