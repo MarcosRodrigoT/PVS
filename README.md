@@ -133,8 +133,12 @@ PVS/
 │   ├── sportclip_summarizer.py   # SportCLIP integration
 │   ├── qddetr_summarizer.py      # QD-DETR integration
 │   └── qddetr_wrapper.py         # QD-DETR wrapper script
-├── data/                         # Input videos
-├── target_faces/                 # Place target person face images here
+├── data/                         # Input videos and ground truth CSV files
+├── target_faces/                 # Target person face images (organized by video)
+│   ├── <video_name>/             # One directory per video
+│   │   ├── athlete1.jpg
+│   │   └── athlete2.jpg
+│   └── ...
 ├── video_summaries/              # Organized video summaries (cached)
 │   ├── SportCLIP/                # SportCLIP summaries
 │   │   └── <video_name>/
@@ -153,22 +157,24 @@ PVS/
 ├── cropped_faces_embeddings/     # Face embeddings in HDF5 format (cached, shared)
 │   ├── ArcFace/                  # ArcFace embeddings (<video>.h5)
 │   └── TransFace/                # TransFace embeddings (<video>.h5)
-├── target_faces_updated/         # Updated target faces (best matches)
-│   └── <target_name>/            # One directory per target
-│       ├── face_crop.jpg                         # Cropped face from original target
-│       ├── target_arcface_embedding.npy          # Embedding from original target
-│       ├── target_transface_embedding.npy        # Embedding from original target
-│       ├── face_crop_arcface_updated.jpg         # Best matching face from video (ArcFace)
-│       ├── face_crop_transface_updated.jpg       # Best matching face from video (TransFace)
-│       ├── updated_target_arcface_embedding.npy  # Embedding from updated target (with --use-updated-target)
-│       ├── updated_target_transface_embedding.npy # Embedding from updated target (with --use-updated-target)
-│       └── <target>_log.txt                      # Match details
-├── resemblance_results/          # Resemblance curve analysis
-│   └── <target_name>/            # One directory per target
-│       ├── <target>.png          # Resemblance curve plot
-│       ├── <target>_updated.png  # Resemblance curve plot (with --use-updated-target)
-│       ├── <target>.json         # Resemblance data
-│       └── <target>_updated.json # Resemblance data (with --use-updated-target)
+├── target_faces_updated/         # Updated target faces (best matches, organized by video)
+│   └── <video_name>/             # One directory per video
+│       └── <target_name>/        # One directory per target
+│           ├── face_crop.jpg                         # Cropped face from original target
+│           ├── target_arcface_embedding.npy          # Embedding from original target
+│           ├── target_transface_embedding.npy        # Embedding from original target
+│           ├── face_crop_arcface_updated.jpg         # Best matching face from video (ArcFace)
+│           ├── face_crop_transface_updated.jpg       # Best matching face from video (TransFace)
+│           ├── updated_target_arcface_embedding.npy  # Embedding from updated target (with --use-updated-target)
+│           ├── updated_target_transface_embedding.npy # Embedding from updated target (with --use-updated-target)
+│           └── <target>_log.txt                      # Match details
+├── resemblance_results/          # Resemblance curve analysis (organized by video)
+│   └── <video_name>/             # One directory per video
+│       └── <target_name>/        # One directory per target
+│           ├── <target>.png          # Resemblance curve plot
+│           ├── <target>_updated.png  # Resemblance curve plot (with --use-updated-target)
+│           ├── <target>.json         # Resemblance data
+│           └── <target>_updated.json # Resemblance data (with --use-updated-target)
 └── results/                      # Final results directory (organized by video → model → target)
     └── <video_name>/
         └── <model>/              # "sportclip" or "qddetr"
@@ -195,10 +201,21 @@ PVS/
 pip install -r requirements.txt
 ```
 
-2. Place target face images in the `target_faces/` directory:
+2. Organize target face images in video-specific subdirectories within `target_faces/`:
+   - Create a subdirectory for each video: `target_faces/<video_name>/`
+   - Place athlete images in the corresponding video directory
    - Supported formats: .jpg, .png, .jpeg
-   - One or more face images per target person
    - Clear, frontal face images work best
+   - Example structure:
+     ```
+     target_faces/
+     ├── highjump_video1/
+     │   ├── barshim.jpg
+     │   └── starc.jpg
+     └── javelin_video1/
+         ├── athlete1.jpg
+         └── athlete2.jpg
+     ```
 
 3. Place input videos in `data/`:
    - Supported formats: .mp4, .avi, .mov, .mkv

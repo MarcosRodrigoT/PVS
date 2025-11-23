@@ -412,15 +412,22 @@ class PVSPipelineNew:
         print("STEP 4: FIND UPDATED TARGET FACES")
         print("=" * 80)
 
-        # Find all targets
-        target_faces_dir = Path(self.target_faces_dir)
-        target_images = list(target_faces_dir.glob("*.jpg")) + list(target_faces_dir.glob("*.png")) + list(target_faces_dir.glob("*.jpeg"))
+        # Find all targets for this specific video
+        video_target_faces_dir = Path(self.target_faces_dir) / video_name
 
-        if not target_images:
-            print(f"\nWarning: No target faces found in {target_faces_dir}")
+        if not video_target_faces_dir.exists():
+            print(f"\nWarning: No target faces directory found for {video_name}")
+            print(f"  Expected location: {video_target_faces_dir}")
+            print(f"  Please create the directory and add target face images for this video.")
             return []
 
-        print(f"\nFound {len(target_images)} target(s):")
+        target_images = list(video_target_faces_dir.glob("*.jpg")) + list(video_target_faces_dir.glob("*.png")) + list(video_target_faces_dir.glob("*.jpeg"))
+
+        if not target_images:
+            print(f"\nWarning: No target faces found in {video_target_faces_dir}")
+            return []
+
+        print(f"\nFound {len(target_images)} target(s) for {video_name}:")
         for img in target_images:
             print(f"  - {img.stem}")
 
@@ -428,7 +435,8 @@ class PVSPipelineNew:
 
         for target_img in target_images:
             target_name = target_img.stem
-            target_output_dir = Path(self.target_faces_updated_dir) / target_name
+            # Updated targets are organized by video name and then by target name
+            target_output_dir = Path(self.target_faces_updated_dir) / video_name / target_name
             log_file = target_output_dir / f"{target_name}_log.txt"
 
             # Check if already processed
@@ -446,7 +454,7 @@ class PVSPipelineNew:
                     sys.executable,
                     "find_updated_target.py",
                     "--target-faces",
-                    self.target_faces_dir,
+                    str(video_target_faces_dir),
                     "--cropped-faces",
                     self.cropped_faces_dir,
                     "--embeddings",
@@ -480,14 +488,15 @@ class PVSPipelineNew:
         print(f"\n✓ Processed {len(successful_targets)}/{len(target_images)} targets")
         return successful_targets
 
-    def step4_extract_original_target_embeddings(self, target_names: List[str]) -> bool:
+    def step4_extract_original_target_embeddings(self, video_name: str, target_names: List[str]) -> bool:
         """
         Step 4 (Alternative): Extract Embeddings from Original Target Faces
 
-        This step extracts embeddings directly from the original target images in target_faces/.
+        This step extracts embeddings directly from the original target images in target_faces/<video_name>/.
         Used when --use-updated-target is NOT set (first pass only).
 
         Args:
+            video_name: Video name (without extension)
             target_names: List of target names to process
 
         Returns:
@@ -504,6 +513,9 @@ class PVSPipelineNew:
         print(f"\nExtracting embeddings from original target faces for {len(target_names)} target(s)...")
         print("Note: Using original target images (not updated from video)")
 
+        # Use video-specific target faces directory
+        video_target_faces_dir = Path(self.target_faces_dir) / video_name
+
         try:
             # Call unified extract_embeddings.py script with original_targets mode
             cmd = [
@@ -512,7 +524,7 @@ class PVSPipelineNew:
                 "--mode",
                 "original_targets",
                 "--target-faces",
-                self.target_faces_dir,
+                str(video_target_faces_dir),
                 "--transface-weight",
                 self.transface_weight,
                 "--transface-network",
@@ -610,17 +622,21 @@ class PVSPipelineNew:
         try:
             # Call compute_resemblance_curve.py script
             # This will process all targets automatically
+            # Pass video-specific updated targets path
+            video_updated_targets_dir = Path(self.target_faces_updated_dir) / video_name
+            video_resemblance_results_dir = Path(self.resemblance_results_dir) / video_name
+
             cmd = [
                 sys.executable,
                 "compute_resemblance_curve.py",
                 "--video",
                 video_name,
                 "--updated-targets",
-                self.target_faces_updated_dir,
+                str(video_updated_targets_dir),
                 "--embeddings",
                 self.embeddings_dir,
                 "--output",
-                self.resemblance_results_dir,
+                str(video_resemblance_results_dir),
                 "--threshold",
                 str(self.resemblance_threshold),
                 "--smooth-window",
@@ -735,6 +751,9 @@ class PVSPipelineNew:
 
         try:
             # Call unified visualize_results.py script with final_with_highlights mode
+            # Pass video-specific resemblance results path
+            video_resemblance_results_dir = Path(self.resemblance_results_dir) / video_name
+
             cmd = [
                 sys.executable,
                 "visualize_results.py",
@@ -747,7 +766,7 @@ class PVSPipelineNew:
                 "--video-summaries",
                 self.video_summaries_dir,
                 "--resemblance-results",
-                self.resemblance_results_dir,
+                str(video_resemblance_results_dir),
                 "--output",
                 self.output_dir,
                 "--threshold",
@@ -827,17 +846,24 @@ class PVSPipelineNew:
                 print("\nWarning: Updated target embedding extraction failed.")
         else:
             # Without --use-updated-target, we'll use original target faces directly
-            # Get target names from target_faces/ directory
-            target_faces_dir = Path(self.target_faces_dir)
-            target_images = list(target_faces_dir.glob("*.jpg")) + list(target_faces_dir.glob("*.png")) + list(target_faces_dir.glob("*.jpeg"))
+            # Get target names from video-specific target_faces/<video_name>/ directory
+            video_target_faces_dir = Path(self.target_faces_dir) / video_name
+
+            if not video_target_faces_dir.exists():
+                print(f"\nWarning: No target faces directory found for {video_name}")
+                print(f"  Expected location: {video_target_faces_dir}")
+                print(f"  Please create the directory and add target face images for this video.")
+                return
+
+            target_images = list(video_target_faces_dir.glob("*.jpg")) + list(video_target_faces_dir.glob("*.png")) + list(video_target_faces_dir.glob("*.jpeg"))
             target_names = [img.stem for img in target_images]
 
             if not target_names:
-                print("\nWarning: No target faces found in target_faces/")
+                print(f"\nWarning: No target faces found in {video_target_faces_dir}")
                 return
 
             # Extract embeddings from original target faces
-            success = self.step4_extract_original_target_embeddings(target_names)
+            success = self.step4_extract_original_target_embeddings(video_name, target_names)
             if not success:
                 print("\nWarning: Original target embedding extraction failed.")
                 return
