@@ -12,6 +12,7 @@ This script:
 import os
 import sys
 import json
+import time
 import numpy as np
 import h5py
 import cv2
@@ -20,6 +21,7 @@ from typing import List, Dict, Tuple, Optional
 from tqdm import tqdm
 import argparse
 from datetime import datetime
+from timing import TimingTracker
 
 # Use tf-keras for compatibility with DeepFace (Keras 2 API)
 os.environ["TF_USE_LEGACY_KERAS"] = "1"
@@ -524,7 +526,17 @@ Examples:
         print("Please run extract_all_faces.py first.")
         return
 
+    # Get number of frames from embeddings file for normalization
+    arcface_h5_path = embeddings_dir / "ArcFace" / f"{video_name}.h5"
+    num_frames = 0
+    if arcface_h5_path.exists():
+        with h5py.File(str(arcface_h5_path), "r") as f:
+            num_frames = len(f.keys())
+
     for target_img in target_images:
+        # Track timing for target finding (per target)
+        target_start = time.time()
+
         log_file = process_target_face(
             target_image_path=target_img,
             cropped_faces_dir=cropped_faces_dir,
@@ -538,7 +550,24 @@ Examples:
             top_k_matches=args.top_k,
         )
 
+        # Save timing data
         if log_file:
+            target_duration = time.time() - target_start
+            tracker = TimingTracker(log_file="results/timing_log_aggregate.json")
+            tracker.timings.append(
+                {
+                    "component": "Target Finding",
+                    "duration_seconds": round(target_duration, 4),
+                    "cpu_percent": 0,
+                    "memory_mb": 0,
+                    "memory_delta_mb": 0,
+                    "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "video_name": video_name,
+                    "num_targets": 1,  # Per target
+                    "num_frames": num_frames,
+                }
+            )
+            tracker.save(output_dir="results")
             log_files.append(log_file)
 
     # Summary

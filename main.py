@@ -28,6 +28,7 @@ import argparse
 
 # Import existing modules
 from video_summarization import generate_highlights_sportclip, generate_highlights_qddetr
+from timing import TimingTracker
 
 
 def get_cuda_library_path() -> str:
@@ -124,6 +125,9 @@ class PVSPipelineNew:
         # Setup CUDA library path for onnxruntime-gpu
         self.cuda_lib_path = get_cuda_library_path()
 
+        # Initialize timing tracker (aggregate log for all runs)
+        self.timing_tracker = TimingTracker(log_file=str(Path(self.output_dir) / "timing_log_aggregate.json"))
+
     def _get_subprocess_env(self) -> dict:
         """
         Get environment variables for subprocess calls with CUDA library path
@@ -158,6 +162,11 @@ class PVSPipelineNew:
         print("\n" + "=" * 80)
         print(f"STEP 1: VIDEO SUMMARIZATION ({self.video_summarizer.upper()})")
         print("=" * 80)
+
+        # Track timing for video summarization
+        import time
+
+        step_start_time = time.time()
 
         # Determine output directory
         model_dir = "SportCLIP" if self.video_summarizer == "sportclip" else "QD-DETR"
@@ -233,6 +242,23 @@ class PVSPipelineNew:
 
             print(f"\n✓ Generated {len(clip_paths)} highlight clips with timing information")
             print(f"  Saved to: {video_output_dir}")
+
+            # Save timing data for video summarization
+            step_duration = time.time() - step_start_time
+            tracker = TimingTracker(log_file=str(Path(self.output_dir) / "timing_log_aggregate.json"))
+            tracker.timings.append(
+                {
+                    "component": "Video Summarization",
+                    "duration_seconds": round(step_duration, 4),
+                    "cpu_percent": 0,
+                    "memory_mb": 0,
+                    "memory_delta_mb": 0,
+                    "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "video_name": video_name,
+                    "method": self.video_summarizer,
+                }
+            )
+            tracker.save(output_dir=self.output_dir)
 
             return segments_data
 
@@ -776,12 +802,14 @@ class PVSPipelineNew:
             return
 
         # Step 2: Face Detection
-        if not self.step2_face_detection(video_name):
+        success = self.step2_face_detection(video_name)
+        if not success:
             print("\nError: Face detection failed. Aborting pipeline.")
             return
 
         # Step 3: Embedding Extraction
-        if not self.step3_embedding_extraction(video_name):
+        success = self.step3_embedding_extraction(video_name)
+        if not success:
             print("\nError: Embedding extraction failed. Aborting pipeline.")
             return
 
@@ -794,7 +822,8 @@ class PVSPipelineNew:
                 return
 
             # Step 4b: Extract Updated Target Embeddings (second pass)
-            if not self.step4b_extract_updated_target_embeddings(video_name, target_names):
+            success = self.step4b_extract_updated_target_embeddings(video_name, target_names)
+            if not success:
                 print("\nWarning: Updated target embedding extraction failed.")
         else:
             # Without --use-updated-target, we'll use original target faces directly
@@ -808,16 +837,49 @@ class PVSPipelineNew:
                 return
 
             # Extract embeddings from original target faces
-            if not self.step4_extract_original_target_embeddings(target_names):
+            success = self.step4_extract_original_target_embeddings(target_names)
+            if not success:
                 print("\nWarning: Original target embedding extraction failed.")
                 return
 
         # Step 5: Compute Resemblance Curves (always runs)
-        if not self.step5_compute_resemblance_curves(video_name, target_names):
+        success = self.step5_compute_resemblance_curves(video_name, target_names)
+        if not success:
             print("\nWarning: Resemblance curve computation failed.")
 
         # Step 6: Create Final Visualization (always runs)
         self.step6_create_final_visualization(video_name, segments_data, target_names)
+
+        # Save timing data and print summary
+        self.timing_tracker.save(output_dir=self.output_dir)
+        self.timing_tracker.print_summary(title=f"Timing Summary - {video_name}")
+
+        # ALWAYS generate timing analysis (automatic)
+        print("\nGenerating timing analysis...")
+        try:
+            import timing
+
+            timing_output_dir = Path(self.output_dir) / "timing_analysis"
+            timing_output_dir.mkdir(parents=True, exist_ok=True)
+
+            aggregate_log = Path(self.output_dir) / "timing_log_aggregate.json"
+            if aggregate_log.exists():
+                df = timing.load_timing_log(str(aggregate_log))
+                normalized_df = timing.normalize_timing_data(df)
+
+                if not normalized_df.empty:
+                    stats = timing.compute_statistics(normalized_df)
+
+                    # Generate outputs
+                    timing.generate_markdown_table(stats, str(timing_output_dir / "timing_summary.md"))
+                    timing.create_bar_chart(stats, str(timing_output_dir / "timing_bar_chart.png"))
+                    timing.create_comparison_table(stats, str(timing_output_dir / "timing_comparison.md"))
+
+                    print(f"✓ Timing analysis saved to: {timing_output_dir}")
+                else:
+                    print("⚠ No valid timing data for analysis yet")
+        except Exception as e:
+            print(f"⚠ Warning: Could not generate timing analysis: {e}")
 
         print("\n" + "#" * 80)
         print("# PIPELINE COMPLETE")
@@ -832,6 +894,7 @@ class PVSPipelineNew:
             print(f"  - Target embeddings (from original): {self.target_faces_updated_dir}/")
         print(f"  - Resemblance curves: {self.resemblance_results_dir}/")
         print(f"  - Final output: {self.output_dir}/{video_name}/{self.video_summarizer}/")
+        print(f"  - Timing log: {self.timing_tracker.log_file}")
 
 
 def main():

@@ -22,6 +22,8 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from collections import defaultdict
 import argparse
+import time
+from timing import TimingTracker
 
 # Use Agg backend for non-interactive plotting
 import matplotlib
@@ -1839,6 +1841,8 @@ def run_final_with_highlights_mode(args):
         if hasattr(args, "face_recognition_models") and args.face_recognition_models:
             face_models = args.face_recognition_models
 
+        # Track timing for copying highlight clips
+        copy_start = time.time()
         copied_clips = copy_relevant_clips(
             video_name=args.video,
             segments_data=segments_data,
@@ -1851,9 +1855,29 @@ def run_final_with_highlights_mode(args):
             use_updated_target=args.use_updated_target,
             face_recognition_models=face_models,
         )
+        copy_duration = time.time() - copy_start
+
+        # Save timing for copy operation
+        tracker = TimingTracker(log_file="results/timing_log_aggregate.json")
+        tracker.timings.append(
+            {
+                "component": "Copy Highlight Clips",
+                "duration_seconds": round(copy_duration, 4),
+                "cpu_percent": 0,
+                "memory_mb": 0,
+                "memory_delta_mb": 0,
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "video_name": args.video,
+                "num_targets": 1,
+            }
+        )
+        tracker.save(output_dir="results")
 
         # Calculate total relevant clips across all models
         total_relevant_clips = sum(len(clips) for clips in copied_clips.values())
+
+        # Track timing for visualization creation
+        viz_start = time.time()
 
         # Create enhanced plot with relevant segments count (with suffix if using updated target)
         # Note: plot function will apply smoothing internally, but we'll ignore returned values
@@ -1879,6 +1903,23 @@ def run_final_with_highlights_mode(args):
             threshold=args.threshold,
         )
 
+        viz_duration = time.time() - viz_start
+
+        # Save timing for visualization
+        tracker.timings.append(
+            {
+                "component": "Visualization",
+                "duration_seconds": round(viz_duration, 4),
+                "cpu_percent": 0,
+                "memory_mb": 0,
+                "memory_delta_mb": 0,
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "video_name": args.video,
+                "num_targets": 1,
+            }
+        )
+        tracker.save(output_dir="results")
+
         # Get total segments count (handle nested structure)
         segments_obj = segments_data.get("segments", [])
         if isinstance(segments_obj, dict):
@@ -1898,6 +1939,9 @@ def run_final_with_highlights_mode(args):
         print("\n" + "=" * 80)
         print("CREATING COMBINED ATHLETES PLOTS")
         print("=" * 80)
+
+        # Track timing for combined plots
+        combined_viz_start = time.time()
 
         # Create combined plot in video/model directory
         model_dir_name = args.model
@@ -2051,6 +2095,25 @@ def run_final_with_highlights_mode(args):
         print(f"  - {combined_plot_zoom_path.relative_to(output_dir)}")
         print(f"  - {assigned_plot_path.relative_to(output_dir)}")
         print(f"  - {assigned_instant_plot_path.relative_to(output_dir)}")
+
+        combined_viz_duration = time.time() - combined_viz_start
+
+        # Save timing for combined visualization (all athletes plots)
+        num_targets = len(all_resemblance_data)
+        tracker = TimingTracker(log_file="results/timing_log_aggregate.json")
+        tracker.timings.append(
+            {
+                "component": "Visualization",
+                "duration_seconds": round(combined_viz_duration, 4),
+                "cpu_percent": 0,
+                "memory_mb": 0,
+                "memory_delta_mb": 0,
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "video_name": args.video,
+                "num_targets": num_targets,
+            }
+        )
+        tracker.save(output_dir="results")
 
     # Final summary
     print("\n" + "=" * 80)

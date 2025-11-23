@@ -15,6 +15,7 @@ Features:
 import os
 import sys
 import json
+import time
 import numpy as np
 import h5py
 import cv2
@@ -22,6 +23,7 @@ from pathlib import Path
 from typing import List, Dict, Set, Optional
 from tqdm import tqdm
 import argparse
+from timing import TimingTracker
 
 # Use tf-keras for compatibility with DeepFace (Keras 2 API)
 os.environ["TF_USE_LEGACY_KERAS"] = "1"
@@ -477,8 +479,28 @@ def process_arcface_embeddings(video_faces: Dict[str, List[str]], output_dir: Pa
 
         output_path = output_dir / f"{video_name}.h5"
 
+        # Track timing for ArcFace embedding extraction
+        arcface_start = time.time()
+
         # Extract and save progressively
         num_extracted = extract_arcface_embeddings_progressive(image_paths=face_paths, output_path=output_path, gpu_id=gpu_id)
+
+        # Save timing
+        arcface_duration = time.time() - arcface_start
+        tracker = TimingTracker(log_file="results/timing_log_aggregate.json")
+        tracker.timings.append(
+            {
+                "component": "Face Embedding (ArcFace)",
+                "duration_seconds": round(arcface_duration, 4),
+                "cpu_percent": 0,
+                "memory_mb": 0,
+                "memory_delta_mb": 0,
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "video_name": video_name,
+                "num_faces": num_extracted,
+            }
+        )
+        tracker.save(output_dir="results")
 
         processed_faces += num_extracted
         print(f"  Total embeddings in {output_path.name}: {num_extracted}")
@@ -517,10 +539,30 @@ def process_transface_embeddings(video_faces: Dict[str, List[str]], output_dir: 
 
         output_path = output_dir / f"{video_name}.h5"
 
+        # Track timing for TransFace embedding extraction
+        transface_start = time.time()
+
         # Extract and save progressively
         num_extracted = extract_transface_embeddings_progressive(
             image_paths=face_paths, output_path=output_path, transface_weight=transface_weight, transface_network=transface_network, batch_size=batch_size
         )
+
+        # Save timing
+        transface_duration = time.time() - transface_start
+        tracker = TimingTracker(log_file="results/timing_log_aggregate.json")
+        tracker.timings.append(
+            {
+                "component": "Face Embedding (TransFace)",
+                "duration_seconds": round(transface_duration, 4),
+                "cpu_percent": 0,
+                "memory_mb": 0,
+                "memory_delta_mb": 0,
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "video_name": video_name,
+                "num_faces": num_extracted,
+            }
+        )
+        tracker.save(output_dir="results")
 
         processed_faces += num_extracted
         print(f"  Total embeddings in {output_path.name}: {num_extracted}")
@@ -701,11 +743,31 @@ def run_original_targets_mode(args):
     successful = 0
     failed = 0
 
+    # Track timing for original target embeddings
+    target_emb_start = time.time()
+
     for target_img in target_images:
         if process_original_target_face(target_img, output_dir, face_detector, args.transface_weight, args.transface_network):
             successful += 1
         else:
             failed += 1
+
+    # Save timing
+    if successful > 0:
+        target_emb_duration = time.time() - target_emb_start
+        tracker = TimingTracker(log_file="results/timing_log_aggregate.json")
+        tracker.timings.append(
+            {
+                "component": "Target Embedding (Original)",
+                "duration_seconds": round(target_emb_duration, 4),
+                "cpu_percent": 0,
+                "memory_mb": 0,
+                "memory_delta_mb": 0,
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "num_targets": successful,
+            }
+        )
+        tracker.save(output_dir="results")
 
     # Summary
     print("\n" + "=" * 80)
@@ -811,6 +873,9 @@ def run_updated_targets_mode(args):
     successful = 0
     failed = 0
 
+    # Track timing for updated target embeddings
+    updated_emb_start = time.time()
+
     for target_dir in target_dirs:
         target_name = target_dir.name
 
@@ -824,6 +889,24 @@ def run_updated_targets_mode(args):
             successful += 1
         else:
             failed += 1
+
+    # Save timing
+    if successful > 0:
+        updated_emb_duration = time.time() - updated_emb_start
+        tracker = TimingTracker(log_file="results/timing_log_aggregate.json")
+        tracker.timings.append(
+            {
+                "component": "Target Embedding (Updated)",
+                "duration_seconds": round(updated_emb_duration, 4),
+                "cpu_percent": 0,
+                "memory_mb": 0,
+                "memory_delta_mb": 0,
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "video_name": video_name,
+                "num_targets": successful,
+            }
+        )
+        tracker.save(output_dir="results")
 
     # Summary
     print("\n" + "=" * 80)

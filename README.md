@@ -328,7 +328,7 @@ Options:
 ./run_with_cuda.sh python extract_all_faces.py --data-dir /path/to/videos --output-dir /path/to/output
 ```
 
-**Why the wrapper?** The system has CUDA 13.0, but `onnxruntime-gpu` needs CUDA 12.x libraries. The wrapper script automatically sets up the library path to use CUDA 12 libraries from pip packages. See [QUICK_START.md](QUICK_START.md) for details.
+**Why the wrapper?** The system has CUDA 13.0, but `onnxruntime-gpu` needs CUDA 12.x libraries. The wrapper script automatically sets up the library path to use CUDA 12 libraries from pip packages.
 
 Output structure:
 ```
@@ -900,8 +900,6 @@ Filenames have been simplified to remove redundant video names:
 - Separate `highlight_clips/` and `highlight_clips_updated/` directories prevent overwrites
 - Each target directory includes a `config_log.txt` with all configuration parameters
 
-See [REORGANIZATION_SUMMARY.md](REORGANIZATION_SUMMARY.md) for complete details.
-
 ## Performance Notes
 
 - Face extraction with GPU: ~40-100 frames/second (using run_with_cuda.sh wrapper)
@@ -909,6 +907,97 @@ See [REORGANIZATION_SUMMARY.md](REORGANIZATION_SUMMARY.md) for complete details.
 - GPU acceleration available for embedding extraction
 - HDF5 storage format handles 400k+ embeddings efficiently
 - Progressive saving prevents memory issues with large videos
+
+### Computational Cost Tracking
+
+The pipeline automatically tracks timing information for all major components to help analyze computational costs for research papers. When you run `main.py`, timing data is collected and analyzed automatically.
+
+**Components Tracked:**
+
+1. **Video Summarization** - Time to generate highlight clips (normalized per video)
+2. **Face Detection** - Time to detect faces in video frames (normalized per frame)
+3. **Face Embedding (ArcFace)** - Time to extract ArcFace embeddings (normalized per face)
+4. **Face Embedding (TransFace)** - Time to extract TransFace embeddings (normalized per face)
+5. **Target Finding** - Time to find best matching face in video (normalized per target×frame)
+6. **Target Embedding (Original)** - Time to extract embeddings from original target images (normalized per target)
+7. **Target Embedding (Updated)** - Time to extract embeddings from updated target faces (normalized per target)
+8. **Resemblance Computation** - Time to compute resemblance curves (normalized per target×face)
+9. **Visualization** - Time to create plots and visualizations (normalized per target)
+10. **Copy Highlight Clips** - Time to copy relevant video clips (normalized per target)
+
+**Normalization by Natural Units:**
+
+Timing measurements are normalized by the natural unit of work for each component:
+
+- **s/video**: One-time costs (Video Summarization)
+- **ms/frame**: Per-frame operations (Face Detection)
+- **ms/face**: Per-face operations (Face Embedding)
+- **ms/target**: Per-target operations (Target Embedding)
+- **μs/(target×frame)**: Per-target per-frame operations (Target Finding)
+- **μs/(target×face)**: Per-target per-face operations (Resemblance Computation)
+
+This normalization allows for fair comparison across videos of different lengths and with different numbers of faces/targets.
+
+**Output Files:**
+
+Timing data is automatically saved to:
+
+```
+results/
+├── timing_log_aggregate.json              # Combined log from all runs
+├── timing_log_<video>_<timestamp>.json   # Per-run logs
+└── timing_analysis/                       # Generated automatically after each run
+    ├── timing_summary.md                  # Markdown table with statistics
+    ├── timing_bar_chart.png               # Bar chart visualization (300 DPI)
+    └── timing_comparison.md               # Estimated times for different video lengths
+```
+
+**Timing Analysis Outputs:**
+
+1. **Summary Table** (`timing_summary.md`):
+   - Mean, median, std dev, min, max for each component
+   - Times normalized by appropriate units (ms/frame, ms/face, etc.)
+   - Ready for inclusion in research papers
+
+2. **Bar Chart** (`timing_bar_chart.png`):
+   - Visual comparison of component timings
+   - Error bars showing standard deviation
+   - Publication-quality 300 DPI resolution
+
+3. **Comparison Table** (`timing_comparison.md`):
+   - Estimated processing times for different video lengths
+   - Projections for 1min, 5min, 10min, 30min, 60min videos
+   - Helps plan computational requirements
+
+**Example Usage:**
+
+```bash
+# Run pipeline - timing tracked automatically
+python main.py --video highjump_video1 \
+    --video-summarizer qddetr \
+    --qddetr-query "high jump moments"
+
+# Timing analysis generated automatically in results/timing_analysis/
+# - No additional flags needed
+# - Works across multiple runs and videos
+# - Aggregates statistics from all executions
+```
+
+**Multi-Run Aggregation:**
+
+The system automatically aggregates timing data across multiple runs:
+- Run the pipeline on different videos multiple times
+- Statistics are computed across all runs
+- Provides robust timing estimates with variance information
+- Each run is logged separately with timestamp for debugging
+
+**Implementation Details:**
+
+- Timing tracking is integrated directly into each pipeline component
+- Uses high-precision `time.time()` for measurements
+- Saves timing data progressively (doesn't require pipeline completion)
+- Timing analysis is generated automatically at the end of each `main.py` run
+- Uses pandas for statistical analysis and matplotlib for visualization
 
 ## Troubleshooting
 
@@ -924,7 +1013,7 @@ See [REORGANIZATION_SUMMARY.md](REORGANIZATION_SUMMARY.md) for complete details.
 ./run_with_cuda.sh python extract_all_faces.py --min-face-size 50
 ```
 
-The wrapper automatically adds CUDA 12 libraries (installed via pip) to the library search path. See [QUICK_START.md](QUICK_START.md) for details and alternative solutions.
+The wrapper automatically adds CUDA 12 libraries (installed via pip) to the library search path.
 
 **Verification**: You should see `Applied providers: ['CUDAExecutionProvider', 'CPUExecutionProvider']` in the output instead of falling back to CPU only.
 

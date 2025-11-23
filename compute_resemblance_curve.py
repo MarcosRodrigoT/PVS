@@ -11,6 +11,7 @@ This script:
 import os
 import sys
 import json
+import time
 import numpy as np
 import h5py
 import cv2
@@ -22,6 +23,7 @@ import argparse
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from datetime import datetime, timedelta
+from timing import TimingTracker
 
 # Use Agg backend for non-interactive plotting
 import matplotlib
@@ -465,6 +467,9 @@ Examples:
         print(f"PROCESSING TARGET {i+1}/{len(target_dirs)}: {target_name}")
         print("=" * 80)
 
+        # Track timing for resemblance computation (per target)
+        resemblance_start = time.time()
+
         # Load updated target embeddings
         print("\nLoading target embeddings...")
         arcface_emb = load_updated_target_embedding(target_dir, "arcface", use_updated=args.use_updated_target)
@@ -543,6 +548,25 @@ Examples:
         print(f"    - Frames with faces: {len(timestamps)}")
         print(f"    - ArcFace max: {np.max(arcface_scores):.3f}")
         print(f"    - TransFace max: {np.max(transface_scores):.3f}")
+
+        # Save timing data for resemblance computation
+        resemblance_duration = time.time() - resemblance_start
+        num_faces = len(timestamps)  # Number of face embeddings compared
+        tracker = TimingTracker(log_file="results/timing_log_aggregate.json")
+        tracker.timings.append(
+            {
+                "component": "Resemblance Computation",
+                "duration_seconds": round(resemblance_duration, 4),
+                "cpu_percent": 0,
+                "memory_mb": 0,
+                "memory_delta_mb": 0,
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "video_name": video_name,
+                "num_targets": 1,  # Per target
+                "num_faces": num_faces,
+            }
+        )
+        tracker.save(output_dir="results")
 
         successful_targets += 1
 

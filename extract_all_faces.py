@@ -7,10 +7,12 @@ Processes every frame of every video and saves:
 
 import cv2
 import os
+import time
 from pathlib import Path
 from typing import List
 from insightface.app import FaceAnalysis
 from tqdm import tqdm
+from timing import TimingTracker
 
 
 class FullVideoFaceExtractor:
@@ -119,6 +121,9 @@ class FullVideoFaceExtractor:
         frame_number = start_frame
         total_faces_extracted = 0
 
+        # Track timing for face detection
+        detection_start_time = time.time()
+
         # Progress bar for frames
         remaining_frames = total_frames - start_frame
         with tqdm(total=remaining_frames, desc=f"  Extracting faces", unit="frame", initial=0) as pbar:
@@ -188,6 +193,27 @@ class FullVideoFaceExtractor:
                 pbar.update(1)
 
         cap.release()
+
+        # Calculate timing
+        detection_duration = time.time() - detection_start_time
+        frames_processed = frame_number - start_frame
+
+        # Save timing data
+        tracker = TimingTracker(log_file="results/timing_log_aggregate.json")
+        tracker.timings.append(
+            {
+                "component": "Face Detection",
+                "duration_seconds": round(detection_duration, 4),
+                "cpu_percent": 0,
+                "memory_mb": 0,
+                "memory_delta_mb": 0,
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "video_name": video_name,
+                "num_frames": frames_processed,
+                "num_faces": total_faces_extracted,
+            }
+        )
+        tracker.save(output_dir="results")
 
         # Save metadata for this video immediately
         with open(metadata_path, "w") as f:
