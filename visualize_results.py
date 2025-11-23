@@ -906,8 +906,9 @@ def create_assigned_highlights_plot(
                 ground_truth_data = None
 
     # Create figure with two or three subplots depending on ground truth availability
+    # Slightly taller figure to accommodate evaluation table
     if ground_truth_data:
-        fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(16, 10), dpi=150)
+        fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(16, 12), dpi=150)
     else:
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 10), dpi=150)
     fig.patch.set_facecolor("white")
@@ -1036,6 +1037,106 @@ def create_assigned_highlights_plot(
 
         return len(unassigned_segments), sum(assigned_count.values())
 
+    # Evaluate assignments against ground truth if available
+    def evaluate_assignments(assignments, ground_truth_data, segments):
+        """
+        Evaluate predicted assignments against ground truth using IoU-based matching
+
+        Matching approach:
+        - For each predicted segment, find all overlapping ground truth segments
+        - Use Intersection over Union (IoU) >= 0.3 as matching criterion
+        - A match is correct if IoU >= 0.3 AND athlete names match
+        - Handle many-to-many relationships by tracking best matches
+
+        Returns:
+            Dict mapping athlete name to (gt_count, pred_count, correct_count)
+        """
+        if not ground_truth_data:
+            return {}
+
+        athlete_stats = {}
+
+        # Convert assignments to time-based segments
+        pred_segments = []
+        for seg_idx, segment in enumerate(segments):
+            athlete = assignments.get(seg_idx)
+            if athlete:
+                pred_segments.append({
+                    'start': segment.get('start_time'),
+                    'end': segment.get('end_time'),
+                    'athlete': athlete,
+                    'matched': False
+                })
+
+        # Track ground truth segments
+        gt_segments_by_athlete = {}
+        for gt_seg in ground_truth_data:
+            athlete = gt_seg['athlete']
+            if athlete not in gt_segments_by_athlete:
+                gt_segments_by_athlete[athlete] = []
+            gt_segments_by_athlete[athlete].append({
+                'start': gt_seg['start_time'],
+                'end': gt_seg['end_time'],
+                'matched': False
+            })
+
+        # Compute IoU and match segments
+        def compute_iou(seg1_start, seg1_end, seg2_start, seg2_end):
+            """Compute Intersection over Union for two time segments"""
+            intersection_start = max(seg1_start, seg2_start)
+            intersection_end = min(seg1_end, seg2_end)
+            intersection = max(0, intersection_end - intersection_start)
+
+            union = (seg1_end - seg1_start) + (seg2_end - seg2_start) - intersection
+            return intersection / union if union > 0 else 0
+
+        # Match predicted segments to ground truth
+        iou_threshold = 0.3
+        matched_pairs = []
+
+        for pred_seg in pred_segments:
+            if pred_seg['athlete'] not in gt_segments_by_athlete:
+                continue
+
+            best_iou = 0
+            best_gt_idx = None
+
+            # Find best matching ground truth segment for this athlete
+            for gt_idx, gt_seg in enumerate(gt_segments_by_athlete[pred_seg['athlete']]):
+                iou = compute_iou(pred_seg['start'], pred_seg['end'],
+                                 gt_seg['start'], gt_seg['end'])
+                if iou >= iou_threshold and iou > best_iou:
+                    best_iou = iou
+                    best_gt_idx = gt_idx
+
+            if best_gt_idx is not None:
+                matched_pairs.append((pred_seg, gt_segments_by_athlete[pred_seg['athlete']][best_gt_idx]))
+                pred_seg['matched'] = True
+                gt_segments_by_athlete[pred_seg['athlete']][best_gt_idx]['matched'] = True
+
+        # Compute stats per athlete
+        all_athletes = set(gt_segments_by_athlete.keys()) | set(assignments.values())
+        for athlete in all_athletes:
+            if athlete is None:
+                continue
+
+            gt_count = len(gt_segments_by_athlete.get(athlete, []))
+            pred_count = sum(1 for seg in pred_segments if seg['athlete'] == athlete)
+            correct_count = sum(1 for seg in pred_segments
+                              if seg['athlete'] == athlete and seg['matched'])
+
+            athlete_stats[athlete] = {
+                'gt': gt_count,
+                'pred': pred_count,
+                'correct': correct_count
+            }
+
+        return athlete_stats
+
+    # Evaluate both models
+    eval_arcface = evaluate_assignments(assignments_arcface, ground_truth_data, segments) if ground_truth_data else {}
+    eval_transface = evaluate_assignments(assignments_transface, ground_truth_data, segments) if ground_truth_data else {}
+
     # Plot ArcFace assignments
     unassigned_arc, assigned_arc = plot_assignments_on_axis(ax1, assignments_arcface, "ArcFace")
 
@@ -1092,13 +1193,52 @@ def create_assigned_highlights_plot(
 
         ax3.legend(handles=legend_elements, loc="center left", bbox_to_anchor=(1.01, 0.5), fontsize=9, framealpha=0.9, title="Athlete (Segments)", title_fontsize=10)
 
-        # Add statistics including ground truth
+        # Add statistics including ground truth and evaluation table
         total_segments = len(segments)
         gt_segments = len(ground_truth_data)
-        stats_text = f"Total Segments: {total_segments} | Ground Truth Segments: {gt_segments}\n"
-        stats_text += f"ArcFace: {assigned_arc} assigned, {unassigned_arc} unassigned | "
-        stats_text += f"TransFace: {assigned_trans} assigned, {unassigned_trans} unassigned"
-        fig.text(0.5, 0.01, stats_text, ha="center", fontsize=10, bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5))
+
+        # Create evaluation table if we have ground truth
+        if eval_arcface or eval_transface:
+            # Get all athletes
+            all_athletes = sorted(set(list(eval_arcface.keys()) + list(eval_transface.keys())))
+
+            # Build table header
+            table_text = "Evaluation Results:\n"
+            table_text += "─" * 90 + "\n"
+            table_text += f"{'Athlete':<15} │ {'GT':<4} │ ArcFace: {'Pred':<4} {'Corr':<4} {'Prec':<6} │ TransFace: {'Pred':<4} {'Corr':<4} {'Prec':<6}\n"
+            table_text += "─" * 90 + "\n"
+
+            # Build table rows
+            for athlete in all_athletes:
+                arc_stats = eval_arcface.get(athlete, {'gt': 0, 'pred': 0, 'correct': 0})
+                trans_stats = eval_transface.get(athlete, {'gt': 0, 'pred': 0, 'correct': 0})
+
+                gt_count = arc_stats['gt']  # Same for both models
+
+                # ArcFace stats
+                arc_pred = arc_stats['pred']
+                arc_corr = arc_stats['correct']
+                arc_prec = f"{(arc_corr/arc_pred*100):.1f}%" if arc_pred > 0 else "  -  "
+
+                # TransFace stats
+                trans_pred = trans_stats['pred']
+                trans_corr = trans_stats['correct']
+                trans_prec = f"{(trans_corr/trans_pred*100):.1f}%" if trans_pred > 0 else "  -  "
+
+                # Format row
+                table_text += f"{athlete:<15} │ {gt_count:<4} │          {arc_pred:<4} {arc_corr:<4} {arc_prec:<6} │           {trans_pred:<4} {trans_corr:<4} {trans_prec:<6}\n"
+
+            table_text += "─" * 90 + "\n"
+            table_text += f"Total: {total_segments} segments | Ground Truth: {gt_segments} segments | IoU threshold: 0.3"
+
+            fig.text(0.5, 0.01, table_text, ha="center", fontsize=8, family='monospace',
+                    bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5), verticalalignment='bottom')
+        else:
+            # Fallback to simple stats if no evaluation data
+            stats_text = f"Total Segments: {total_segments} | Ground Truth Segments: {gt_segments}\n"
+            stats_text += f"ArcFace: {assigned_arc} assigned, {unassigned_arc} unassigned | "
+            stats_text += f"TransFace: {assigned_trans} assigned, {unassigned_trans} unassigned"
+            fig.text(0.5, 0.01, stats_text, ha="center", fontsize=10, bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5))
     else:
         # Set xlabel only on bottom plot (ax2)
         ax2.set_xlabel("Video Time (MM:SS)", fontsize=14, fontweight="bold")
@@ -1110,8 +1250,15 @@ def create_assigned_highlights_plot(
         stats_text += f"TransFace: {assigned_trans} assigned, {unassigned_trans} unassigned"
         fig.text(0.5, 0.01, stats_text, ha="center", fontsize=10, bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5))
 
-    # Adjust layout
-    plt.tight_layout(rect=[0, 0.06, 0.85, 1])
+    # Adjust layout - more bottom space for evaluation table
+    # Calculate dynamic bottom margin based on number of athletes
+    if ground_truth_data and (eval_arcface or eval_transface):
+        num_athletes = len(set(list(eval_arcface.keys()) + list(eval_transface.keys())))
+        # Base margin + additional space per athlete (approximately 0.012 per athlete)
+        bottom_margin = 0.12 + (num_athletes * 0.012)
+        plt.tight_layout(rect=[0, bottom_margin, 0.85, 1])
+    else:
+        plt.tight_layout(rect=[0, 0.06, 0.85, 1])
 
     # Save plot
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1120,6 +1267,59 @@ def create_assigned_highlights_plot(
 
     print(f"  ✓ Created assigned highlights plot: {output_path.name}")
     print(f"    ArcFace: {assigned_arc}/{total_segments} assigned | TransFace: {assigned_trans}/{total_segments} assigned")
+
+    # Copy assigned clips to organized directory structure
+    # Structure: results/<video>/<model>/highlights_assigned/<athlete>/{ArcFace,TransFace}/
+    import shutil
+
+    highlights_assigned_dir = output_path.parent / "highlights_assigned"
+
+    # Get all unique athletes from both assignments
+    all_assigned_athletes = set()
+    for athlete in assignments_arcface.values():
+        if athlete:
+            all_assigned_athletes.add(athlete)
+    for athlete in assignments_transface.values():
+        if athlete:
+            all_assigned_athletes.add(athlete)
+
+    # Copy clips for each athlete
+    clips_copied = {"ArcFace": 0, "TransFace": 0}
+
+    for athlete in sorted(all_assigned_athletes):
+        # Create athlete directories
+        athlete_arcface_dir = highlights_assigned_dir / athlete / "ArcFace"
+        athlete_transface_dir = highlights_assigned_dir / athlete / "TransFace"
+        athlete_arcface_dir.mkdir(parents=True, exist_ok=True)
+        athlete_transface_dir.mkdir(parents=True, exist_ok=True)
+
+        # Copy ArcFace clips
+        for seg_idx, assigned_athlete in assignments_arcface.items():
+            if assigned_athlete == athlete and seg_idx < len(segments):
+                segment = segments[seg_idx]
+                clip_path = segment.get("clip_path")
+                if clip_path:
+                    source = Path("video_summaries") / clip_path
+                    if source.exists():
+                        dest = athlete_arcface_dir / source.name
+                        shutil.copy2(source, dest)
+                        clips_copied["ArcFace"] += 1
+
+        # Copy TransFace clips
+        for seg_idx, assigned_athlete in assignments_transface.items():
+            if assigned_athlete == athlete and seg_idx < len(segments):
+                segment = segments[seg_idx]
+                clip_path = segment.get("clip_path")
+                if clip_path:
+                    source = Path("video_summaries") / clip_path
+                    if source.exists():
+                        dest = athlete_transface_dir / source.name
+                        shutil.copy2(source, dest)
+                        clips_copied["TransFace"] += 1
+
+    if clips_copied["ArcFace"] > 0 or clips_copied["TransFace"] > 0:
+        print(f"  ✓ Copied assigned clips to: {highlights_assigned_dir.relative_to(Path.cwd())}")
+        print(f"    ArcFace: {clips_copied['ArcFace']} clips | TransFace: {clips_copied['TransFace']} clips")
 
 
 def create_combined_athletes_plot(

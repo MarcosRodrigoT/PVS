@@ -43,6 +43,64 @@ The behavior of Step 4 depends on the `--use-updated-target` flag:
 
 **Independent Model Processing**: By default, ArcFace and TransFace models process highlight clips independently, creating separate folders for each model's results (`ArcFace_highlight_clips/` and `TransFace_highlight_clips/`). This allows you to compare which clips each model considers relevant to your target person. You can also choose to run only one model using the `--face-recognition-models` flag.
 
+### Highlight Assignment and Evaluation
+
+The pipeline includes an automated highlight-to-athlete assignment system that determines which athlete appears in each highlight segment:
+
+**Assignment Algorithm:**
+- Scans the video timeline from left to right
+- For each highlight segment, looks back 5 seconds before the segment starts
+- Assigns the segment to the first athlete whose resemblance score crosses the threshold
+- Processes ArcFace and TransFace independently (no averaging of scores)
+- Creates visualization showing assigned highlights color-coded by athlete
+
+**Evaluation Against Ground Truth:**
+
+When ground truth annotations are available (CSV files in `data/<video>_identity.csv`), the system evaluates assignment accuracy using IoU-based matching:
+
+1. **Intersection over Union (IoU) Matching:**
+   - For each predicted segment, computes IoU with all ground truth segments of the same athlete
+   - IoU = (Overlap Duration) / (Total Duration Covered by Both Segments)
+   - Uses IoU threshold of 0.3 to determine if segments match
+
+2. **Many-to-Many Matching:**
+   - Handles cases where one predicted segment overlaps multiple ground truth segments
+   - Handles cases where one ground truth segment overlaps multiple predicted segments
+   - Uses best-match strategy: each predicted segment matches to the ground truth segment with highest IoU
+
+3. **Correctness Criteria:**
+   - A prediction is considered **correct** if:
+     - IoU ≥ 0.3 with a ground truth segment
+     - The athlete names match (case-insensitive)
+
+4. **Evaluation Metrics:**
+   - **GT**: Number of ground truth segments for each athlete
+   - **Pred**: Number of predicted segments assigned to each athlete
+   - **Corr**: Number of correctly matched predictions (IoU ≥ 0.3 and same athlete)
+   - **Prec**: Precision = Correct / Predicted (percentage of predictions that are correct)
+
+The evaluation results are displayed in a table at the bottom of the `highlights_assigned.png` plot, showing per-athlete metrics for both ArcFace and TransFace models.
+
+**Organized Clip Output:**
+
+Assigned clips are automatically copied to an organized directory structure:
+```
+results/<video>/<model>/highlights_assigned/
+├── <athlete1>/
+│   ├── ArcFace/
+│   │   ├── clip_001.mp4
+│   │   └── clip_007.mp4
+│   └── TransFace/
+│       ├── clip_001.mp4
+│       └── clip_005.mp4
+├── <athlete2>/
+│   ├── ArcFace/
+│   └── TransFace/
+└── ...
+```
+
+This structure makes it easy to review which clips were assigned to each athlete by each face recognition model.
+
 ## Project Structure
 
 ```
