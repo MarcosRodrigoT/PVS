@@ -1403,6 +1403,22 @@ def create_assigned_highlights_plot(
 
     highlights_assigned_dir = output_path.parent / "highlights_assigned"
 
+    # Get video summarization model and video name from segments_data
+    # Handle nested structure: segments_data might have "segments" as dict with nested "model"
+    if isinstance(segments_obj, dict):
+        model_name = segments_obj.get("model", "unknown")
+        video_name_from_segments = segments_obj.get("video_name", video_name)
+    else:
+        model_name = segments_data.get("model", "unknown")
+        video_name_from_segments = segments_data.get("video_name", video_name)
+
+    # Map model name to directory name
+    model_dir_map = {"sportclip": "SportCLIP", "qddetr": "QD-DETR"}
+    model_dir = model_dir_map.get(model_name.lower(), model_name)
+
+    # Construct base path for video summaries
+    video_summaries_base = Path("video_summaries") / model_dir / video_name_from_segments
+
     # Get all unique athletes from both assignments
     all_assigned_athletes = set()
     for athlete in assignments_arcface.values():
@@ -1428,7 +1444,7 @@ def create_assigned_highlights_plot(
                 segment = segments[seg_idx]
                 clip_path = segment.get("clip_path")
                 if clip_path:
-                    source = Path("video_summaries") / clip_path
+                    source = video_summaries_base / clip_path
                     if source.exists():
                         dest = athlete_arcface_dir / source.name
                         shutil.copy2(source, dest)
@@ -1440,14 +1456,19 @@ def create_assigned_highlights_plot(
                 segment = segments[seg_idx]
                 clip_path = segment.get("clip_path")
                 if clip_path:
-                    source = Path("video_summaries") / clip_path
+                    source = video_summaries_base / clip_path
                     if source.exists():
                         dest = athlete_transface_dir / source.name
                         shutil.copy2(source, dest)
                         clips_copied["TransFace"] += 1
 
     if clips_copied["ArcFace"] > 0 or clips_copied["TransFace"] > 0:
-        print(f"  ✓ Copied assigned clips to: {highlights_assigned_dir.relative_to(Path.cwd())}")
+        # Convert to absolute path if needed, then make relative to current directory
+        if highlights_assigned_dir.is_absolute():
+            display_path = highlights_assigned_dir.relative_to(Path.cwd())
+        else:
+            display_path = highlights_assigned_dir
+        print(f"  ✓ Copied assigned clips to: {display_path}")
         print(f"    ArcFace: {clips_copied['ArcFace']} clips | TransFace: {clips_copied['TransFace']} clips")
 
 
