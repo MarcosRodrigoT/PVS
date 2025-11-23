@@ -1193,7 +1193,15 @@ def create_assigned_highlights_plot(
             table_text += f"{'Athlete':<15} │ {'GT':<4} │ ArcFace: {'Pred':<4} {'Corr':<4} {'Prec':<6} │ TransFace: {'Pred':<4} {'Corr':<4} {'Prec':<6}\n"
             table_text += "─" * 90 + "\n"
 
-            # Build table rows
+            # Build table rows and track totals
+            total_gt = 0
+            total_arc_pred = 0
+            total_arc_corr = 0
+            total_trans_pred = 0
+            total_trans_corr = 0
+            arc_prec_values = []
+            trans_prec_values = []
+
             for athlete in all_athletes:
                 arc_stats = eval_arcface.get(athlete, {"gt": 0, "pred": 0, "correct": 0})
                 trans_stats = eval_transface.get(athlete, {"gt": 0, "pred": 0, "correct": 0})
@@ -1203,16 +1211,47 @@ def create_assigned_highlights_plot(
                 # ArcFace stats
                 arc_pred = arc_stats["pred"]
                 arc_corr = arc_stats["correct"]
-                arc_prec = f"{(arc_corr/arc_pred*100):.1f}%" if arc_pred > 0 else "  -  "
+                # Show 0% if athlete has ground truth but no predictions, "-" if no ground truth
+                if arc_pred > 0:
+                    arc_prec = f"{(arc_corr/arc_pred*100):.1f}%"
+                    arc_prec_values.append(arc_corr / arc_pred * 100)
+                elif gt_count > 0:
+                    arc_prec = " 0.0%"
+                    arc_prec_values.append(0.0)
+                else:
+                    arc_prec = "  -  "
 
                 # TransFace stats
                 trans_pred = trans_stats["pred"]
                 trans_corr = trans_stats["correct"]
-                trans_prec = f"{(trans_corr/trans_pred*100):.1f}%" if trans_pred > 0 else "  -  "
+                # Show 0% if athlete has ground truth but no predictions, "-" if no ground truth
+                if trans_pred > 0:
+                    trans_prec = f"{(trans_corr/trans_pred*100):.1f}%"
+                    trans_prec_values.append(trans_corr / trans_pred * 100)
+                elif gt_count > 0:
+                    trans_prec = " 0.0%"
+                    trans_prec_values.append(0.0)
+                else:
+                    trans_prec = "  -  "
+
+                # Update totals
+                total_gt += gt_count
+                total_arc_pred += arc_pred
+                total_arc_corr += arc_corr
+                total_trans_pred += trans_pred
+                total_trans_corr += trans_corr
 
                 # Format row
                 table_text += f"{athlete:<15} │ {gt_count:<4} │          {arc_pred:<4} {arc_corr:<4} {arc_prec:<6} │           {trans_pred:<4} {trans_corr:<4} {trans_prec:<6}\n"
 
+            # Add summary row
+            table_text += "─" * 90 + "\n"
+            avg_arc_prec = f"{(sum(arc_prec_values)/len(arc_prec_values)):.1f}%" if arc_prec_values else "  -  "
+            avg_trans_prec = f"{(sum(trans_prec_values)/len(trans_prec_values)):.1f}%" if trans_prec_values else "  -  "
+            table_text += (
+                f"{'AVERAGE/TOTAL':<15} │ {total_gt:<4} │          {total_arc_pred:<4} {total_arc_corr:<4} {avg_arc_prec:<6} │          "
+                f" {total_trans_pred:<4} {total_trans_corr:<4} {avg_trans_prec:<6}\n"
+            )
             table_text += "─" * 90 + "\n"
             table_text += f"Total: {total_segments} segments | Ground Truth: {gt_segments} segments | IoU threshold: 0.3"
 
@@ -1238,8 +1277,8 @@ def create_assigned_highlights_plot(
     # Calculate dynamic bottom margin based on number of athletes
     if ground_truth_data and (eval_arcface or eval_transface):
         num_athletes = len(set(list(eval_arcface.keys()) + list(eval_transface.keys())))
-        # Base margin + additional space per athlete (approximately 0.012 per athlete)
-        bottom_margin = 0.12 + (num_athletes * 0.012)
+        # Base margin + additional space per athlete + space for summary row (approximately 0.012 per row)
+        bottom_margin = 0.12 + ((num_athletes + 1) * 0.012)
         plt.tight_layout(rect=[0, bottom_margin, 0.85, 1])
     else:
         plt.tight_layout(rect=[0, 0.06, 0.85, 1])
