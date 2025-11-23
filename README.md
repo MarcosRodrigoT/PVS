@@ -45,14 +45,25 @@ The behavior of Step 4 depends on the `--use-updated-target` flag:
 
 ### Highlight Assignment and Evaluation
 
-The pipeline includes an automated highlight-to-athlete assignment system that determines which athlete appears in each highlight segment:
+The pipeline includes two automated highlight-to-athlete assignment methods that determine which athlete appears in each highlight segment:
 
-**Assignment Algorithm:**
+**Method 1: Sequential Assignment (Default - `highlights_assigned.png`)**
 - Scans the video timeline from left to right
 - For each highlight segment, looks back 5 seconds before the segment starts
 - Assigns the segment to the first athlete whose resemblance score crosses the threshold
+- All subsequent highlights are assigned to that athlete until another athlete is identified
+- **Use case**: Works well when athletes are shown in close-up shots before their performance
 - Processes ArcFace and TransFace independently (no averaging of scores)
 - Creates visualization showing assigned highlights color-coded by athlete
+
+**Method 2: Instant Assignment with Temporal Expansion (`highlights_instant_assigned.png`)**
+- Evaluates each highlight segment independently based on direct temporal overlap
+- For each highlight, checks if any athlete's resemblance score exceeds the threshold during that segment's time window
+- **Temporal expansion**: Extends the search window by 3 seconds on each side to account for face occlusion during performance
+- Assigns to the athlete with the highest average score above threshold when multiple candidates exist
+- **Use case**: Better handles cases where athletes are not identified before their performance, or when recognition fails
+- Processes ArcFace and TransFace independently
+- Creates a separate visualization for comparison with Method 1
 
 **Evaluation Against Ground Truth:**
 
@@ -620,8 +631,10 @@ results/
         ├── all_athletes_combined_zoom.png          # Combined plot of all athletes (zoomed scale)
         ├── all_athletes_combined_updated.png       # Combined plot (with --use-updated-target)
         ├── all_athletes_combined_updated_zoom.png  # Combined plot zoomed (with --use-updated-target)
-        ├── highlights_assigned.png                 # Highlight assignments with evaluation metrics
+        ├── highlights_assigned.png                 # Highlight assignments (sequential method) with evaluation metrics
         ├── highlights_assigned_updated.png         # Highlight assignments (with --use-updated-target)
+        ├── highlights_instant_assigned.png         # Highlight assignments (instant method with temporal expansion)
+        ├── highlights_instant_assigned_updated.png # Instant assignments (with --use-updated-target)
         ├── highlights_assigned/                    # Organized clips by assigned athlete
         │   ├── athlete1/
         │   │   ├── ArcFace/
@@ -665,12 +678,15 @@ results/
    - Normal version: y-axis 0-1, Zoom version: auto-scaled to data range
    - Separate legends: athletes (external) and threshold/highlights (internal)
 
-3. **Assigned highlights plot** (`highlights_assigned.png`):
+3. **Assigned highlights plots** (`highlights_assigned.png` and `highlights_instant_assigned.png`):
    - Timeline view showing which athlete was assigned to each highlight segment
    - Three subplots: ArcFace assignments, TransFace assignments, Ground Truth (if available)
    - Color-coded segments by athlete
    - Evaluation table showing per-athlete metrics (GT, Pred, Corr, Precision)
    - Uses IoU-based matching (threshold 0.3) to evaluate predictions against ground truth
+   - **Two assignment methods generated**:
+     - `highlights_assigned.png`: Sequential assignment (assigns subsequent highlights to identified athlete)
+     - `highlights_instant_assigned.png`: Instant assignment with 3-second temporal expansion (independent segment evaluation)
 
 **Note**: Highlight segment timing is extracted directly from SportCLIP's or QD-DETR's event detection, ensuring accurate frame-level alignment with the original video.
 

@@ -819,6 +819,112 @@ def assign_highlights_to_athletes(
     return assignments
 
 
+def assign_highlights_to_athletes_instant(
+    all_resemblance_data: Dict[str, Dict],
+    segments_data: Dict,
+    threshold: float,
+    smooth_window: int,
+    model: str = "arcface",
+    temporal_expansion: float = 3.0,
+) -> Dict[int, Optional[str]]:
+    """
+    Assign each highlight segment to an athlete based on instant overlap with resemblance curves
+
+    Algorithm: For each highlight segment, check if any athlete's resemblance score exceeds
+    the threshold during that segment's time window (with optional temporal expansion).
+    If multiple athletes exceed threshold, assign to the one with highest average score.
+
+    Args:
+        all_resemblance_data: Dictionary mapping target_name to resemblance data
+        segments_data: Video segments metadata
+        threshold: Similarity threshold
+        smooth_window: Smoothing window size
+        model: Which model to use for assignment ("arcface" or "transface")
+        temporal_expansion: Seconds to expand on each side of segment (default: 3.0)
+                           This helps catch athletes even when face is occluded during performance
+
+    Returns:
+        Dictionary mapping segment index to assigned athlete name (or None if unassigned)
+    """
+    if not all_resemblance_data:
+        return {}
+
+    # Get timestamps from first target
+    first_target = next(iter(all_resemblance_data.values()))
+    timestamps = np.array(first_target["timestamps_seconds"])
+
+    # Get sorted athlete names (consistent ordering)
+    athlete_names = sorted(all_resemblance_data.keys())
+
+    # Compute smoothed scores for all athletes using the specified model
+    athlete_scores = {}
+    for athlete_name in athlete_names:
+        data = all_resemblance_data[athlete_name]
+
+        if model.lower() == "arcface":
+            scores = np.array(data["arcface_scores"])
+        elif model.lower() == "transface":
+            scores = np.array(data["transface_scores"])
+        else:
+            raise ValueError(f"Unknown model: {model}. Must be 'arcface' or 'transface'")
+
+        smoothed = smooth_scores(scores, smooth_window)
+        athlete_scores[athlete_name] = smoothed
+
+    # Get segments
+    segments_obj = segments_data.get("segments", [])
+    if isinstance(segments_obj, dict):
+        segments = segments_obj.get("segments", [])
+    else:
+        segments = segments_obj
+
+    # Assignment dictionary: segment_index -> athlete_name
+    assignments = {}
+
+    # Process each segment independently
+    for seg_idx, segment in enumerate(segments):
+        start_time = segment.get("start_time")
+        end_time = segment.get("end_time")
+
+        if start_time is None or end_time is None:
+            assignments[seg_idx] = None
+            continue
+
+        # Expand temporal window
+        expanded_start = max(0, start_time - temporal_expansion)
+        expanded_end = end_time + temporal_expansion
+
+        # Find timestamp indices for this segment window
+        start_idx = np.searchsorted(timestamps, expanded_start)
+        end_idx = np.searchsorted(timestamps, expanded_end)
+
+        # Check each athlete's scores in this window
+        candidate_athletes = []
+        for athlete_name in athlete_names:
+            scores = athlete_scores[athlete_name]
+
+            # Get scores in this window
+            window_scores = scores[start_idx:end_idx]
+
+            if len(window_scores) > 0 and np.any(window_scores >= threshold):
+                # Calculate average score above threshold
+                above_threshold_scores = window_scores[window_scores >= threshold]
+                avg_score = np.mean(above_threshold_scores)
+                max_score = np.max(window_scores)
+
+                candidate_athletes.append((athlete_name, avg_score, max_score))
+
+        # Assign to athlete with highest average score above threshold
+        if candidate_athletes:
+            # Sort by average score (descending), then by max score
+            candidate_athletes.sort(key=lambda x: (x[1], x[2]), reverse=True)
+            assignments[seg_idx] = candidate_athletes[0][0]
+        else:
+            assignments[seg_idx] = None
+
+    return assignments
+
+
 def create_assigned_highlights_plot(
     all_resemblance_data: Dict[str, Dict],
     segments_data: Dict,
@@ -1886,10 +1992,44 @@ def run_final_with_highlights_mode(args):
             video_name_arg=args.video,
         )
 
+        # Assign highlights using instant assignment method (with temporal expansion)
+        print("\n  Assigning highlight segments to athletes (instant method with temporal expansion)...")
+        assignments_arcface_instant = assign_highlights_to_athletes_instant(
+            all_resemblance_data=all_resemblance_data,
+            segments_data=segments_data,
+            threshold=args.threshold,
+            smooth_window=args.smooth_window,
+            model="arcface",
+            temporal_expansion=3.0,  # Expand 3 seconds on each side
+        )
+
+        assignments_transface_instant = assign_highlights_to_athletes_instant(
+            all_resemblance_data=all_resemblance_data,
+            segments_data=segments_data,
+            threshold=args.threshold,
+            smooth_window=args.smooth_window,
+            model="transface",
+            temporal_expansion=3.0,  # Expand 3 seconds on each side
+        )
+
+        # Create instant assigned highlights visualization
+        assigned_instant_plot_path = combined_output_dir / f"highlights_instant_assigned{suffix}.png"
+        create_assigned_highlights_plot(
+            all_resemblance_data=all_resemblance_data,
+            segments_data=segments_data,
+            assignments_arcface=assignments_arcface_instant,
+            assignments_transface=assignments_transface_instant,
+            athlete_colors=athlete_colors,
+            output_path=assigned_instant_plot_path,
+            threshold=args.threshold,
+            video_name_arg=args.video,
+        )
+
         print(f"\nCombined plots saved to:")
         print(f"  - {combined_plot_path.relative_to(output_dir)}")
         print(f"  - {combined_plot_zoom_path.relative_to(output_dir)}")
         print(f"  - {assigned_plot_path.relative_to(output_dir)}")
+        print(f"  - {assigned_instant_plot_path.relative_to(output_dir)}")
 
     # Final summary
     print("\n" + "=" * 80)
