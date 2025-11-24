@@ -109,6 +109,7 @@ class PVSPipelineNew:
         self.qddetr_feat_dirs = self.config.get("qddetr_feat_dirs", None)
         self.qddetr_text_feat_dir = self.config.get("qddetr_text_feat_dir", None)
         self.qddetr_annotation_path = self.config.get("qddetr_annotation_path", None)
+        self.qddetr_vid_name = self.config.get("qddetr_vid_name", None)
 
         # Face recognition config
         self.transface_weight = self.config.get("transface_weight", "/home/mrt/Projects/TransFace/work_dirs/glint360k_vit_l/glint360k_model_TransFace_L.pt")
@@ -214,8 +215,11 @@ class PVSPipelineNew:
                 if not self.qddetr_query:
                     raise ValueError("qddetr_query must be provided")
 
+                # Use qddetr_vid_name if provided, otherwise use video_name
+                qddetr_lookup_name = self.qddetr_vid_name if self.qddetr_vid_name else video_name
+
                 clip_paths, segments_metadata = generate_highlights_qddetr(
-                    video_name=video_name,
+                    video_name=qddetr_lookup_name,
                     query=self.qddetr_query,
                     output_dir=str(video_output_dir),
                     video_path=video_path,
@@ -987,6 +991,7 @@ Examples:
     parser.add_argument("--qddetr-feat-dirs", nargs="+", default=None, help="Video feature directories for QD-DETR")
     parser.add_argument("--qddetr-text-feat-dir", type=str, default=None, help="Text feature directory for QD-DETR")
     parser.add_argument("--qddetr-annotation-path", type=str, default=None, help="Path to QD-DETR annotation JSONL file")
+    parser.add_argument("--qddetr-vid-name", type=str, default=None, help="Video name as it appears in QD-DETR annotation file (if different from --video)")
 
     # Face recognition parameters
     parser.add_argument(
@@ -1059,6 +1064,7 @@ Examples:
         "qddetr_feat_dirs": args.qddetr_feat_dirs,
         "qddetr_text_feat_dir": args.qddetr_text_feat_dir,
         "qddetr_annotation_path": args.qddetr_annotation_path,
+        "qddetr_vid_name": args.qddetr_vid_name,
         # Face recognition config
         "transface_weight": args.transface_weight,
         "transface_network": args.transface_network,

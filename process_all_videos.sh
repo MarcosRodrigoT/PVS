@@ -62,9 +62,49 @@ VIDEOS=(
 # ============================================================================
 SMOOTH_WINDOW=200
 
+# QD-DETR Feature directories (required for QD-DETR processing)
+QDDETR_FEAT_DIRS="/mnt/Data/mrt/QD-DETR/olympic/slowfast_features /mnt/Data/mrt/QD-DETR/olympic/clip_features"
+QDDETR_TEXT_FEAT_DIR="/mnt/Data/mrt/QD-DETR/olympic/clip_text_features_generic"
+QDDETR_ANNOTATION_PATH="/home/mrt/Projects/QD-DETR/data/OlympicHighlights_annotations/olympic_highlights_train_generic.jsonl"
+
 # ============================================================================
 # DO NOT EDIT BELOW THIS LINE
 # ============================================================================
+
+# Function to convert video name to annotation format
+# e.g., "highjump_video1" -> "High Jump_video1"
+convert_to_annotation_name() {
+    local video_name=$1
+    # Extract sport name and video number
+    if [[ $video_name =~ ^([a-z]+)_(video[0-9]+)$ ]]; then
+        sport="${BASH_REMATCH[1]}"
+        video_num="${BASH_REMATCH[2]}"
+
+        # Convert sport name to proper format
+        case "$sport" in
+            "highjump")
+                echo "High Jump_${video_num}"
+                ;;
+            "longjump")
+                echo "Long Jump_${video_num}"
+                ;;
+            "polevault")
+                echo "Pole Vault_${video_num}"
+                ;;
+            "javelin")
+                echo "Javelin_${video_num}"
+                ;;
+            "100m")
+                echo "100m_${video_num}"
+                ;;
+            *)
+                echo "$video_name"  # Return as-is if no match
+                ;;
+        esac
+    else
+        echo "$video_name"  # Return as-is if pattern doesn't match
+    fi
+}
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -145,6 +185,11 @@ for entry in "${VIDEOS[@]}"; do
     fi
     qddetr_query_text=$(cat "$qddetr_query" | tr -d '\n')
 
+    # Convert video name to annotation format for QD-DETR lookup
+    annotation_video_name=$(convert_to_annotation_name "$video_name")
+    echo "Annotation lookup name: $annotation_video_name"
+    echo ""
+
     # Track if any mode fails for this video
     video_failed=false
 
@@ -191,7 +236,7 @@ for entry in "${VIDEOS[@]}"; do
 
     # ========== Mode 3: QD-DETR WITH --use-updated-target ==========
     echo -e "${GREEN}>>> Mode 3/4: QD-DETR WITH --use-updated-target${NC}"
-    echo "Command: python main.py --video $video_name --video-summarizer qddetr --qddetr-query \"$qddetr_query_text\" --smooth-window $SMOOTH_WINDOW --use-updated-target"
+    echo "Command: python main.py --video $video_name --video-summarizer qddetr --qddetr-query \"$qddetr_query_text\" --smooth-window $SMOOTH_WINDOW --use-updated-target --qddetr-feat-dirs $QDDETR_FEAT_DIRS --qddetr-text-feat-dir $QDDETR_TEXT_FEAT_DIR --qddetr-annotation-path $QDDETR_ANNOTATION_PATH --qddetr-vid-name \"$annotation_video_name\""
     echo ""
 
     if python main.py \
@@ -199,7 +244,11 @@ for entry in "${VIDEOS[@]}"; do
         --video-summarizer qddetr \
         --qddetr-query "$qddetr_query_text" \
         --smooth-window "$SMOOTH_WINDOW" \
-        --use-updated-target 2>&1 | tee -a "$LOG_FILE"; then
+        --use-updated-target \
+        --qddetr-feat-dirs $QDDETR_FEAT_DIRS \
+        --qddetr-text-feat-dir "$QDDETR_TEXT_FEAT_DIR" \
+        --qddetr-annotation-path "$QDDETR_ANNOTATION_PATH" \
+        --qddetr-vid-name "$annotation_video_name" 2>&1 | tee -a "$LOG_FILE"; then
         echo -e "${GREEN}✓ Mode 3/4 completed successfully${NC}" | tee -a "$LOG_FILE"
     else
         echo -e "${RED}✗ Mode 3/4 failed for $video_name${NC}" | tee -a "$LOG_FILE"
@@ -212,14 +261,18 @@ for entry in "${VIDEOS[@]}"; do
 
     # ========== Mode 4: QD-DETR WITHOUT --use-updated-target ==========
     echo -e "${GREEN}>>> Mode 4/4: QD-DETR WITHOUT --use-updated-target${NC}"
-    echo "Command: python main.py --video $video_name --video-summarizer qddetr --qddetr-query \"$qddetr_query_text\" --smooth-window $SMOOTH_WINDOW"
+    echo "Command: python main.py --video $video_name --video-summarizer qddetr --qddetr-query \"$qddetr_query_text\" --smooth-window $SMOOTH_WINDOW --qddetr-feat-dirs $QDDETR_FEAT_DIRS --qddetr-text-feat-dir $QDDETR_TEXT_FEAT_DIR --qddetr-annotation-path $QDDETR_ANNOTATION_PATH --qddetr-vid-name \"$annotation_video_name\""
     echo ""
 
     if python main.py \
         --video "$video_name" \
         --video-summarizer qddetr \
         --qddetr-query "$qddetr_query_text" \
-        --smooth-window "$SMOOTH_WINDOW" 2>&1 | tee -a "$LOG_FILE"; then
+        --smooth-window "$SMOOTH_WINDOW" \
+        --qddetr-feat-dirs $QDDETR_FEAT_DIRS \
+        --qddetr-text-feat-dir "$QDDETR_TEXT_FEAT_DIR" \
+        --qddetr-annotation-path "$QDDETR_ANNOTATION_PATH" \
+        --qddetr-vid-name "$annotation_video_name" 2>&1 | tee -a "$LOG_FILE"; then
         echo -e "${GREEN}✓ Mode 4/4 completed successfully${NC}" | tee -a "$LOG_FILE"
     else
         echo -e "${RED}✗ Mode 4/4 failed for $video_name${NC}" | tee -a "$LOG_FILE"
