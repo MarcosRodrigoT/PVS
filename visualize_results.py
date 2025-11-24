@@ -1316,8 +1316,8 @@ def create_assigned_highlights_plot(
             table_text = "Evaluation Results:\n"
             table_text += "─" * table_width + "\n"
             table_text += (
-                f"{'Athlete':<{athlete_col_width}} │ {'GT':<4} │ ArcFace: {'Pred':<4} {'Corr':<4} {'P':<6} {'R':<6} {'F':<6} │ TransFace:"
-                f" {'Pred':<4} {'Corr':<4} {'P':<6} {'R':<6} {'F':<6}\n"
+                f"{'Athlete':<{athlete_col_width}} │ {'GT':<4} │ ArcFace: {'Pred':<4} {'Corr':<4} {'R':<6} {'P':<6} {'F':<6} │ TransFace:"
+                f" {'Pred':<4} {'Corr':<4} {'R':<6} {'P':<6} {'F':<6}\n"
             )
             table_text += "─" * table_width + "\n"
 
@@ -1417,8 +1417,8 @@ def create_assigned_highlights_plot(
 
                 # Format row
                 table_text += (
-                    f"{athlete:<{athlete_col_width}} │ {gt_count:<4} │          {arc_pred:<4} {arc_corr:<4} {arc_prec:<6} {arc_rec:<6} {arc_f1:<6} │          "
-                    f" {trans_pred:<4} {trans_corr:<4} {trans_prec:<6} {trans_rec:<6} {trans_f1:<6}\n"
+                    f"{athlete:<{athlete_col_width}} │ {gt_count:<4} │          {arc_pred:<4} {arc_corr:<4} {arc_rec:<6} {arc_prec:<6} {arc_f1:<6} │          "
+                    f" {trans_pred:<4} {trans_corr:<4} {trans_rec:<6} {trans_prec:<6} {trans_f1:<6}\n"
                 )
 
             # Add summary row with recalculated metrics from totals
@@ -1468,8 +1468,8 @@ def create_assigned_highlights_plot(
 
             table_text += (
                 f"{'TOTAL':<{athlete_col_width}} │ {total_gt:<4} │         "
-                f" {total_arc_pred:<4} {total_arc_corr:<4} {total_arc_prec_str:<6} {total_arc_rec_str:<6} {total_arc_f1_str:<6} │          "
-                f" {total_trans_pred:<4} {total_trans_corr:<4} {total_trans_prec_str:<6} {total_trans_rec_str:<6} {total_trans_f1_str:<6}\n"
+                f" {total_arc_pred:<4} {total_arc_corr:<4} {total_arc_rec_str:<6} {total_arc_prec_str:<6} {total_arc_f1_str:<6} │          "
+                f" {total_trans_pred:<4} {total_trans_corr:<4} {total_trans_rec_str:<6} {total_trans_prec_str:<6} {total_trans_f1_str:<6}\n"
             )
             table_text += "─" * table_width + "\n"
             table_text += f"Total: {total_segments} segments | Ground Truth: {gt_segments} segments | IoU threshold: 0.3"
