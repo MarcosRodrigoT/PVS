@@ -1303,11 +1303,20 @@ def create_assigned_highlights_plot(
             # Get all athletes
             all_athletes = sorted(set(list(eval_arcface.keys()) + list(eval_transface.keys())))
 
+            # Calculate dynamic column width for athlete names
+            max_athlete_len = max(len(athlete) for athlete in all_athletes) if all_athletes else 7
+            max_athlete_len = max(max_athlete_len, len("AVERAGE/TOTAL"), len("Athlete"))
+            athlete_col_width = max_athlete_len + 1  # Add 1 for spacing
+
+            # Calculate total table width dynamically
+            # athlete_col_width + " │ " (3) + "GT  " (4) + " │ " (3) + "ArcFace: " (9) + metrics (30) + " │ " (3) + "TransFace: " (11) + metrics (30)
+            table_width = athlete_col_width + 3 + 4 + 3 + 9 + 30 + 3 + 11 + 30
+
             # Build table header
             table_text = "Evaluation Results:\n"
-            table_text += "─" * 90 + "\n"
-            table_text += f"{'Athlete':<15} │ {'GT':<4} │ ArcFace: {'Pred':<4} {'Corr':<4} {'Prec':<6} │ TransFace: {'Pred':<4} {'Corr':<4} {'Prec':<6}\n"
-            table_text += "─" * 90 + "\n"
+            table_text += "─" * table_width + "\n"
+            table_text += f"{'Athlete':<{athlete_col_width}} │ {'GT':<4} │ ArcFace: {'Pred':<4} {'Corr':<4} {'Prec':<6} {'Rec':<6} {'F1':<6} │ TransFace: {'Pred':<4} {'Corr':<4} {'Prec':<6} {'Rec':<6} {'F1':<6}\n"
+            table_text += "─" * table_width + "\n"
 
             # Build table rows and track totals
             total_gt = 0
@@ -1317,6 +1326,10 @@ def create_assigned_highlights_plot(
             total_trans_corr = 0
             arc_prec_values = []
             trans_prec_values = []
+            arc_rec_values = []
+            trans_rec_values = []
+            arc_f1_values = []
+            trans_f1_values = []
 
             for athlete in all_athletes:
                 arc_stats = eval_arcface.get(athlete, {"gt": 0, "pred": 0, "correct": 0})
@@ -1328,27 +1341,69 @@ def create_assigned_highlights_plot(
                 arc_pred = arc_stats["pred"]
                 arc_corr = arc_stats["correct"]
                 # Show 0% if athlete has ground truth but no predictions, "-" if no ground truth
-                if arc_pred > 0:
-                    arc_prec = f"{(arc_corr/arc_pred*100):.1f}%"
-                    arc_prec_values.append(arc_corr / arc_pred * 100)
-                elif gt_count > 0:
-                    arc_prec = " 0.0%"
-                    arc_prec_values.append(0.0)
-                else:
+                if gt_count == 0:
+                    # No ground truth for this athlete
                     arc_prec = "  -  "
+                    arc_rec = "  -  "
+                    arc_f1 = "  -  "
+                else:
+                    # Calculate precision
+                    if arc_pred > 0:
+                        prec_val = arc_corr / arc_pred * 100
+                        arc_prec = f"{prec_val:.1f}%"
+                        arc_prec_values.append(prec_val)
+                    else:
+                        prec_val = 0.0
+                        arc_prec = " 0.0%"
+                        arc_prec_values.append(0.0)
+
+                    # Calculate recall
+                    rec_val = arc_corr / gt_count * 100
+                    arc_rec = f"{rec_val:.1f}%"
+                    arc_rec_values.append(rec_val)
+
+                    # Calculate F1-score
+                    if prec_val + rec_val > 0:
+                        f1_val = 2 * (prec_val * rec_val) / (prec_val + rec_val)
+                        arc_f1 = f"{f1_val:.1f}%"
+                        arc_f1_values.append(f1_val)
+                    else:
+                        arc_f1 = " 0.0%"
+                        arc_f1_values.append(0.0)
 
                 # TransFace stats
                 trans_pred = trans_stats["pred"]
                 trans_corr = trans_stats["correct"]
                 # Show 0% if athlete has ground truth but no predictions, "-" if no ground truth
-                if trans_pred > 0:
-                    trans_prec = f"{(trans_corr/trans_pred*100):.1f}%"
-                    trans_prec_values.append(trans_corr / trans_pred * 100)
-                elif gt_count > 0:
-                    trans_prec = " 0.0%"
-                    trans_prec_values.append(0.0)
-                else:
+                if gt_count == 0:
+                    # No ground truth for this athlete
                     trans_prec = "  -  "
+                    trans_rec = "  -  "
+                    trans_f1 = "  -  "
+                else:
+                    # Calculate precision
+                    if trans_pred > 0:
+                        prec_val = trans_corr / trans_pred * 100
+                        trans_prec = f"{prec_val:.1f}%"
+                        trans_prec_values.append(prec_val)
+                    else:
+                        prec_val = 0.0
+                        trans_prec = " 0.0%"
+                        trans_prec_values.append(0.0)
+
+                    # Calculate recall
+                    rec_val = trans_corr / gt_count * 100
+                    trans_rec = f"{rec_val:.1f}%"
+                    trans_rec_values.append(rec_val)
+
+                    # Calculate F1-score
+                    if prec_val + rec_val > 0:
+                        f1_val = 2 * (prec_val * rec_val) / (prec_val + rec_val)
+                        trans_f1 = f"{f1_val:.1f}%"
+                        trans_f1_values.append(f1_val)
+                    else:
+                        trans_f1 = " 0.0%"
+                        trans_f1_values.append(0.0)
 
                 # Update totals
                 total_gt += gt_count
@@ -1358,20 +1413,27 @@ def create_assigned_highlights_plot(
                 total_trans_corr += trans_corr
 
                 # Format row
-                table_text += f"{athlete:<15} │ {gt_count:<4} │          {arc_pred:<4} {arc_corr:<4} {arc_prec:<6} │           {trans_pred:<4} {trans_corr:<4} {trans_prec:<6}\n"
+                table_text += f"{athlete:<{athlete_col_width}} │ {gt_count:<4} │          {arc_pred:<4} {arc_corr:<4} {arc_prec:<6} {arc_rec:<6} {arc_f1:<6} │           {trans_pred:<4} {trans_corr:<4} {trans_prec:<6} {trans_rec:<6} {trans_f1:<6}\n"
 
             # Add summary row
-            table_text += "─" * 90 + "\n"
+            table_text += "─" * table_width + "\n"
             avg_arc_prec = f"{(sum(arc_prec_values)/len(arc_prec_values)):.1f}%" if arc_prec_values else "  -  "
             avg_trans_prec = f"{(sum(trans_prec_values)/len(trans_prec_values)):.1f}%" if trans_prec_values else "  -  "
+            avg_arc_rec = f"{(sum(arc_rec_values)/len(arc_rec_values)):.1f}%" if arc_rec_values else "  -  "
+            avg_trans_rec = f"{(sum(trans_rec_values)/len(trans_rec_values)):.1f}%" if trans_rec_values else "  -  "
+            avg_arc_f1 = f"{(sum(arc_f1_values)/len(arc_f1_values)):.1f}%" if arc_f1_values else "  -  "
+            avg_trans_f1 = f"{(sum(trans_f1_values)/len(trans_f1_values)):.1f}%" if trans_f1_values else "  -  "
             table_text += (
-                f"{'AVERAGE/TOTAL':<15} │ {total_gt:<4} │          {total_arc_pred:<4} {total_arc_corr:<4} {avg_arc_prec:<6} │          "
-                f" {total_trans_pred:<4} {total_trans_corr:<4} {avg_trans_prec:<6}\n"
+                f"{'AVERAGE/TOTAL':<{athlete_col_width}} │ {total_gt:<4} │          {total_arc_pred:<4} {total_arc_corr:<4} {avg_arc_prec:<6} {avg_arc_rec:<6} {avg_arc_f1:<6} │          "
+                f" {total_trans_pred:<4} {total_trans_corr:<4} {avg_trans_prec:<6} {avg_trans_rec:<6} {avg_trans_f1:<6}\n"
             )
-            table_text += "─" * 90 + "\n"
+            table_text += "─" * table_width + "\n"
             table_text += f"Total: {total_segments} segments | Ground Truth: {gt_segments} segments | IoU threshold: 0.3"
 
-            fig.text(0.5, 0.01, table_text, ha="center", fontsize=8, family="monospace", bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5), verticalalignment="bottom")
+            # Center the table accounting for the legend taking 15% of the right side (rect=[0, bottom_margin, 0.85, 1])
+            # The available space is from 0 to 0.85, so the center is at 0.425
+            table_center_x = 0.85 / 2  # Center of the available plot area
+            fig.text(table_center_x, 0.01, table_text, ha="center", fontsize=8, family="monospace", bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5), verticalalignment="bottom")
         else:
             # Fallback to simple stats if no evaluation data
             stats_text = f"Total Segments: {total_segments} | Ground Truth Segments: {gt_segments}\n"
