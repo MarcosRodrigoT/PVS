@@ -1315,7 +1315,10 @@ def create_assigned_highlights_plot(
             # Build table header
             table_text = "Evaluation Results:\n"
             table_text += "─" * table_width + "\n"
-            table_text += f"{'Athlete':<{athlete_col_width}} │ {'GT':<4} │ ArcFace: {'Pred':<4} {'Corr':<4} {'Prec':<6} {'Rec':<6} {'F1':<6} │ TransFace: {'Pred':<4} {'Corr':<4} {'Prec':<6} {'Rec':<6} {'F1':<6}\n"
+            table_text += (
+                f"{'Athlete':<{athlete_col_width}} │ {'GT':<4} │ ArcFace: {'Pred':<4} {'Corr':<4} {'P':<6} {'R':<6} {'F':<6} │ TransFace:"
+                f" {'Pred':<4} {'Corr':<4} {'P':<6} {'R':<6} {'F':<6}\n"
+            )
             table_text += "─" * table_width + "\n"
 
             # Build table rows and track totals
@@ -1413,19 +1416,60 @@ def create_assigned_highlights_plot(
                 total_trans_corr += trans_corr
 
                 # Format row
-                table_text += f"{athlete:<{athlete_col_width}} │ {gt_count:<4} │          {arc_pred:<4} {arc_corr:<4} {arc_prec:<6} {arc_rec:<6} {arc_f1:<6} │           {trans_pred:<4} {trans_corr:<4} {trans_prec:<6} {trans_rec:<6} {trans_f1:<6}\n"
+                table_text += (
+                    f"{athlete:<{athlete_col_width}} │ {gt_count:<4} │          {arc_pred:<4} {arc_corr:<4} {arc_prec:<6} {arc_rec:<6} {arc_f1:<6} │          "
+                    f" {trans_pred:<4} {trans_corr:<4} {trans_prec:<6} {trans_rec:<6} {trans_f1:<6}\n"
+                )
 
-            # Add summary row
+            # Add summary row with recalculated metrics from totals
             table_text += "─" * table_width + "\n"
-            avg_arc_prec = f"{(sum(arc_prec_values)/len(arc_prec_values)):.1f}%" if arc_prec_values else "  -  "
-            avg_trans_prec = f"{(sum(trans_prec_values)/len(trans_prec_values)):.1f}%" if trans_prec_values else "  -  "
-            avg_arc_rec = f"{(sum(arc_rec_values)/len(arc_rec_values)):.1f}%" if arc_rec_values else "  -  "
-            avg_trans_rec = f"{(sum(trans_rec_values)/len(trans_rec_values)):.1f}%" if trans_rec_values else "  -  "
-            avg_arc_f1 = f"{(sum(arc_f1_values)/len(arc_f1_values)):.1f}%" if arc_f1_values else "  -  "
-            avg_trans_f1 = f"{(sum(trans_f1_values)/len(trans_f1_values)):.1f}%" if trans_f1_values else "  -  "
+
+            # Calculate ArcFace total metrics
+            if total_arc_pred > 0:
+                total_arc_prec = total_arc_corr / total_arc_pred * 100
+                total_arc_prec_str = f"{total_arc_prec:.1f}%"
+            else:
+                total_arc_prec = 0.0
+                total_arc_prec_str = " 0.0%"
+
+            if total_gt > 0:
+                total_arc_rec = total_arc_corr / total_gt * 100
+                total_arc_rec_str = f"{total_arc_rec:.1f}%"
+            else:
+                total_arc_rec = 0.0
+                total_arc_rec_str = " 0.0%"
+
+            if total_arc_prec + total_arc_rec > 0:
+                total_arc_f1 = 2 * (total_arc_prec * total_arc_rec) / (total_arc_prec + total_arc_rec)
+                total_arc_f1_str = f"{total_arc_f1:.1f}%"
+            else:
+                total_arc_f1_str = " 0.0%"
+
+            # Calculate TransFace total metrics
+            if total_trans_pred > 0:
+                total_trans_prec = total_trans_corr / total_trans_pred * 100
+                total_trans_prec_str = f"{total_trans_prec:.1f}%"
+            else:
+                total_trans_prec = 0.0
+                total_trans_prec_str = " 0.0%"
+
+            if total_gt > 0:
+                total_trans_rec = total_trans_corr / total_gt * 100
+                total_trans_rec_str = f"{total_trans_rec:.1f}%"
+            else:
+                total_trans_rec = 0.0
+                total_trans_rec_str = " 0.0%"
+
+            if total_trans_prec + total_trans_rec > 0:
+                total_trans_f1 = 2 * (total_trans_prec * total_trans_rec) / (total_trans_prec + total_trans_rec)
+                total_trans_f1_str = f"{total_trans_f1:.1f}%"
+            else:
+                total_trans_f1_str = " 0.0%"
+
             table_text += (
-                f"{'AVERAGE/TOTAL':<{athlete_col_width}} │ {total_gt:<4} │          {total_arc_pred:<4} {total_arc_corr:<4} {avg_arc_prec:<6} {avg_arc_rec:<6} {avg_arc_f1:<6} │          "
-                f" {total_trans_pred:<4} {total_trans_corr:<4} {avg_trans_prec:<6} {avg_trans_rec:<6} {avg_trans_f1:<6}\n"
+                f"{'TOTAL':<{athlete_col_width}} │ {total_gt:<4} │         "
+                f" {total_arc_pred:<4} {total_arc_corr:<4} {total_arc_prec_str:<6} {total_arc_rec_str:<6} {total_arc_f1_str:<6} │          "
+                f" {total_trans_pred:<4} {total_trans_corr:<4} {total_trans_prec_str:<6} {total_trans_rec_str:<6} {total_trans_f1_str:<6}\n"
             )
             table_text += "─" * table_width + "\n"
             table_text += f"Total: {total_segments} segments | Ground Truth: {gt_segments} segments | IoU threshold: 0.3"
@@ -1433,7 +1477,9 @@ def create_assigned_highlights_plot(
             # Center the table accounting for the legend taking 15% of the right side (rect=[0, bottom_margin, 0.85, 1])
             # The available space is from 0 to 0.85, so the center is at 0.425
             table_center_x = 0.85 / 2  # Center of the available plot area
-            fig.text(table_center_x, 0.01, table_text, ha="center", fontsize=8, family="monospace", bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5), verticalalignment="bottom")
+            fig.text(
+                table_center_x, 0.01, table_text, ha="center", fontsize=8, family="monospace", bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5), verticalalignment="bottom"
+            )
         else:
             # Fallback to simple stats if no evaluation data
             stats_text = f"Total Segments: {total_segments} | Ground Truth Segments: {gt_segments}\n"
