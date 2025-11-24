@@ -94,7 +94,11 @@ class TimingTracker:
 
         os.makedirs(output_dir, exist_ok=True)
 
-        # Save to aggregate log (all runs combined)
+        # Create timing_logs subdirectory for per-run logs
+        timing_logs_dir = os.path.join(output_dir, "timing_logs")
+        os.makedirs(timing_logs_dir, exist_ok=True)
+
+        # Save to aggregate log (all runs combined) - keep in main results directory
         aggregate_log = os.path.join(output_dir, "timing_log_aggregate.json")
         existing_data = []
         if os.path.exists(aggregate_log):
@@ -111,10 +115,10 @@ class TimingTracker:
         with open(aggregate_log, "w") as f:
             json.dump(existing_data, f, indent=2)
 
-        # Also save per-run log with timestamp
+        # Save per-run log with timestamp in timing_logs subdirectory
         timestamp = time.strftime("%Y%m%d_%H%M%S")
         video_name = self.timings[0].get("video_name", "unknown") if self.timings else "unknown"
-        per_run_log = os.path.join(output_dir, f"timing_log_{video_name}_{timestamp}.json")
+        per_run_log = os.path.join(timing_logs_dir, f"timing_log_{video_name}_{timestamp}.json")
         with open(per_run_log, "w") as f:
             json.dump(self.timings, f, indent=2)
 
