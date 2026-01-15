@@ -9,7 +9,8 @@ import os
 import json
 import subprocess
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Dict, Tuple
+import cv2
 
 
 def generate_highlights(
@@ -31,7 +32,7 @@ def generate_highlights(
     feat_dirs: Optional[List[str]] = None,
     text_feat_dir: Optional[str] = None,
     annotation_path: Optional[str] = None,
-) -> List[str]:
+) -> Tuple[List[str], List[Dict]]:
     """
     Generate video highlights using QD-DETR framework.
 
@@ -62,7 +63,8 @@ def generate_highlights(
         annotation_path: Path to QD-DETR annotation JSONL file (required for Olympic videos)
 
     Returns:
-        List of paths to generated highlight videos
+        Tuple of (list of paths to highlight videos, list of segment metadata dicts)
+        Each segment metadata dict contains: start_frame, end_frame, start_time, end_time, clip_path
 
     Raises:
         FileNotFoundError: If video file, checkpoint, or QD-DETR project not found
@@ -90,6 +92,7 @@ def generate_highlights(
 
         # Find the sample index for this video/query in the annotation file
         import sys
+
         sys.path.insert(0, str(qddetr_path))
         from utils.basic_utils import load_jsonl
 
@@ -108,10 +111,7 @@ def generate_highlights(
     # Get Python executable from QD-DETR virtual environment
     qddetr_python = qddetr_path / "venv" / "bin" / "python"
     if not qddetr_python.exists():
-        raise FileNotFoundError(
-            f"QD-DETR virtual environment not found: {qddetr_python}\n"
-            f"Please ensure QD-DETR venv exists at {qddetr_path}/venv/"
-        )
+        raise FileNotFoundError(f"QD-DETR virtual environment not found: {qddetr_python}\nPlease ensure QD-DETR venv exists at {qddetr_path}/venv/")
 
     # Get wrapper script path (in same directory as this file)
     wrapper_script = Path(__file__).parent / "qddetr_wrapper.py"
@@ -127,25 +127,44 @@ def generate_highlights(
 
     # Build command to run wrapper script with QD-DETR environment
     # IMPORTANT: Use absolute paths since subprocess runs from QD-DETR directory
-    cmd = [
-        str(qddetr_python),
-        str(wrapper_script),
-        "--annotation-path", str(Path(annotation_path).resolve()),
-        "--sample-idx", str(sample_idx),
-        "--video-path", str(Path(video_path).resolve()),
-        "--output-dir", str(output_path.resolve()),
-        "--ckpt-path", str(Path(qddetr_ckpt_path).resolve()),
-        "--feat-dirs"] + [str(Path(d).resolve()) for d in feat_dirs] + [
-        "--text-feat-dir", str(Path(text_feat_dir).resolve()),
-        "--temp-dir", str(Path(temp_dir).resolve()),
-        "--device", device,
-        "--context-window", str(context_window),
-        "--instant-divisor", str(instant_divisor),
-        "--closing-divisor", str(closing_divisor),
-        "--min-duration", str(min_duration_frames),
-        "--min-area", str(min_area),
-        "--expansion-mode", expansion_mode,
-    ]
+    cmd = (
+        [
+            str(qddetr_python),
+            str(wrapper_script),
+            "--annotation-path",
+            str(Path(annotation_path).resolve()),
+            "--sample-idx",
+            str(sample_idx),
+            "--video-path",
+            str(Path(video_path).resolve()),
+            "--output-dir",
+            str(output_path.resolve()),
+            "--ckpt-path",
+            str(Path(qddetr_ckpt_path).resolve()),
+            "--feat-dirs",
+        ]
+        + [str(Path(d).resolve()) for d in feat_dirs]
+        + [
+            "--text-feat-dir",
+            str(Path(text_feat_dir).resolve()),
+            "--temp-dir",
+            str(Path(temp_dir).resolve()),
+            "--device",
+            device,
+            "--context-window",
+            str(context_window),
+            "--instant-divisor",
+            str(instant_divisor),
+            "--closing-divisor",
+            str(closing_divisor),
+            "--min-duration",
+            str(min_duration_frames),
+            "--min-area",
+            str(min_area),
+            "--expansion-mode",
+            expansion_mode,
+        ]
+    )
 
     # Run QD-DETR wrapper script
     print("\n[QD-DETR] Running wrapper script with QD-DETR environment...")
@@ -180,4 +199,71 @@ def generate_highlights(
     if not highlight_videos:
         print("⚠ Warning: No highlight videos were generated")
 
-    return highlight_videos
+    # Extract timing information from events_filtered.json
+    events_file = output_path / "events_filtered.json"
+    segments_metadata = []
+
+    if events_file.exists():
+        try:
+            with open(events_file, "r") as f:
+                events_data = json.load(f)
+
+            for event_id_str, event_info in sorted(events_data.items(), key=lambda x: int(x[0])):
+                event_id = int(event_id_str)
+                # Find corresponding video path by matching event ID in filename
+                # Event IDs are not consecutive, so we can't use them as array indices
+                video_file = None
+                expected_suffix = f"highlight_{event_id:03d}.mp4"
+                for vid_path in highlight_videos:
+                    if vid_path.endswith(expected_suffix):
+                        video_file = vid_path
+                        break
+                clip_name = Path(video_file).name if video_file else expected_suffix
+
+                segments_metadata.append(
+                    {
+                        "segment_id": event_id + 1,
+                        "clip_path": clip_name,
+                        "clip_name": clip_name,
+                        "start_frame": event_info.get("start_frame"),
+                        "end_frame": event_info.get("end_frame"),
+                        "start_time": event_info.get("start_time"),
+                        "end_time": event_info.get("end_time"),
+                        "duration_frames": event_info.get("duration_frames"),
+                        "duration_seconds": event_info.get("duration_seconds"),
+                    }
+                )
+
+            print(f"✓ Extracted timing for {len(segments_metadata)} segments")
+        except Exception as e:
+            print(f"Warning: Could not load timing information: {e}")
+            # Fallback without timing
+            for i, video_file in enumerate(highlight_videos):
+                segments_metadata.append(
+                    {
+                        "segment_id": i + 1,
+                        "clip_path": str(Path(video_file).name),
+                        "clip_name": str(Path(video_file).name),
+                        "start_frame": None,
+                        "end_frame": None,
+                        "start_time": None,
+                        "end_time": None,
+                    }
+                )
+    else:
+        print(f"Warning: events_filtered.json not found")
+        # Fallback without timing
+        for i, video_file in enumerate(highlight_videos):
+            segments_metadata.append(
+                {
+                    "segment_id": i + 1,
+                    "clip_path": str(Path(video_file).name),
+                    "clip_name": str(Path(video_file).name),
+                    "start_frame": None,
+                    "end_frame": None,
+                    "start_time": None,
+                    "end_time": None,
+                }
+            )
+
+    return highlight_videos, segments_metadata

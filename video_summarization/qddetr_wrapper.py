@@ -108,6 +108,7 @@ def main():
     parser.add_argument("--min-duration", type=int, default=15, help="Minimum event duration in frames")
     parser.add_argument("--min-area", type=float, default=15.0, help="Minimum event area threshold")
     parser.add_argument("--expansion-mode", default="duplication", choices=["duplication", "interpolation"], help="Clip-to-frame expansion mode")
+    parser.add_argument("--fps", type=float, default=None, help="Video FPS (if not provided, will be detected from video file)")
 
     args = parser.parse_args()
 
@@ -136,6 +137,22 @@ def main():
     print(f"  Video: {video_name}")
     print(f"  Query: {query}")
 
+    # Get video FPS if not provided
+    if args.fps is None:
+        print(f"  Detecting FPS from video file...")
+        import cv2
+        cap = cv2.VideoCapture(args.video_path)
+        video_fps = cap.get(cv2.CAP_PROP_FPS)
+        cap.release()
+        if video_fps > 0:
+            print(f"  Detected FPS: {video_fps:.2f}")
+        else:
+            print(f"  Warning: Could not detect FPS, using default 25.0")
+            video_fps = 25.0
+    else:
+        video_fps = args.fps
+        print(f"  Using provided FPS: {video_fps:.2f}")
+
     # Setup directories
     output_path = Path(args.output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
@@ -150,6 +167,24 @@ def main():
     # Calculate derived parameters
     instant_window = int(args.context_window / args.instant_divisor)
     closing_kernel = int(args.context_window / args.closing_divisor + 1)
+
+    # Create temporary symbolic link so QD-DETR can find the video by annotation name
+    # This is needed because video files use lowercase names (e.g., highjump_video2.mp4)
+    # but annotations use formatted names (e.g., "High Jump_video2")
+    video_dir = Path(args.video_path).parent
+    actual_video_filename = Path(args.video_path).name
+    annotation_video_path = video_dir / f"{video_name}.mp4"
+    symlink_created = False
+
+    if not annotation_video_path.exists() and Path(args.video_path).exists():
+        # Create symlink
+        try:
+            annotation_video_path.symlink_to(actual_video_filename)
+            symlink_created = True
+            print(f"  Created temporary symlink: {annotation_video_path.name} -> {actual_video_filename}")
+        except Exception as e:
+            print(f"  Warning: Could not create symlink: {e}")
+            print(f"  FPS detection may use default value")
 
     # Step 1: Run QD-DETR saliency processing
     print("\n[1/3] Running QD-DETR saliency score processing...")
@@ -224,8 +259,39 @@ def main():
     with open(results_file, "w") as f:
         json.dump({"highlight_videos": highlight_videos}, f, indent=2)
 
+    # Save events with timing information for downstream processing
+    events_file = output_path / "events_filtered.json"
+    fps = results["fps"]
+    events_json = {}
+    for event_id, event_data in results["events_filtered"].items():
+        frames = event_data["frames"]
+        if frames:
+            start_frame = min(frames)
+            end_frame = max(frames)
+            events_json[str(event_id)] = {
+                "frames": frames,
+                "start_frame": int(start_frame),
+                "end_frame": int(end_frame),
+                "start_time": float(start_frame / fps),
+                "end_time": float(end_frame / fps),
+                "duration_frames": len(frames),
+                "duration_seconds": float(len(frames) / fps)
+            }
+
+    with open(events_file, "w") as f:
+        json.dump(events_json, f, indent=2)
+
     print(f"\n✓ QD-DETR wrapper completed successfully")
     print(f"  Results saved to: {results_file}")
+    print(f"  Events timing saved to: {events_file}")
+
+    # Cleanup: Remove temporary symlink if we created it
+    if symlink_created and annotation_video_path.exists():
+        try:
+            annotation_video_path.unlink()
+            print(f"  Cleaned up temporary symlink")
+        except Exception as e:
+            print(f"  Warning: Could not remove symlink: {e}")
 
 
 if __name__ == "__main__":
