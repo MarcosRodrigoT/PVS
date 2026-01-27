@@ -1,0 +1,1867 @@
+Start time: mar 25 nov 2025 21:32:34 CET
+
+################################################################################
+# PERSONALIZED VIDEO SUMMARIZATION PIPELINE - NEW APPROACH
+################################################################################
+
+Processing: longjump_video5
+Video path: data/longjump_video5.mp4
+
+================================================================================
+STEP 1: VIDEO SUMMARIZATION (QDDETR)
+================================================================================
+
+Processing longjump_video5 with QDDETR...
+
+Running QD-DETR pipeline on: Long Jump_video5
+Query: Highlights include the powerful sprint approach, the precise single-foot take-off from the board, the extended flight through the air, and the deep landing in the sand pit.
+Found video 'Long Jump_video5' at sample index 19 in annotation file
+
+[QD-DETR] Running wrapper script with QD-DETR environment...
+
+QD-DETR Wrapper: Processing sample 19
+  Video: Long Jump_video5
+  Query: highlight moments in this sports video
+  Detecting FPS from video file...
+  Detected FPS: 23.98
+
+[1/3] Running QD-DETR saliency score processing...
+  - Using pre-extracted features from: ['/mnt/Data/mrt/QD-DETR/olympic/slowfast_features', '/mnt/Data/mrt/QD-DETR/olympic/clip_features']
+  - Loading QD-DETR model (checkpoint: model_best.ckpt)...
+Loading trained model from: /home/mrt/Projects/QD-DETR/results/OlympicHighlights-exp-2025_09_25_11_22_34/model_best.ckpt
+  - Loading dataset with pre-extracted features...
+  - Dataset loaded with 25 samples
+  - Processing saliency scores for sample 19...
+Processing video: Long Jump_video5
+Query: highlight moments in this sports video
+Duration: 1707 seconds
+================================================================================
+QD-DETR Saliency Score Postprocessing (FRAME LEVEL)
+================================================================================
+Checkpoint: /home/mrt/Projects/QD-DETR/results/OlympicHighlights-exp-2025_09_25_11_22_34/model_best.ckpt
+Annotation path: /home/mrt/Projects/QD-DETR/data/OlympicHighlights_annotations/olympic_highlights_train_generic.jsonl
+Feature directories: ['/mnt/Data/mrt/QD-DETR/olympic/slowfast_features', '/mnt/Data/mrt/QD-DETR/olympic/clip_features']
+Text feature directory: /mnt/Data/mrt/QD-DETR/olympic/clip_text_features_generic
+Sample index: 19
+Device: cuda:0
+Output directory: /home/mrt/Projects/PVS/video_summaries/QD-DETR/longjump_video5/temp
+Video base path: /home/mrt/Projects/PVS/data
+Ground truth base path: 
+
+Postprocessing parameters (all in FRAMES):
+  Context window: 600 frames
+  Instant divisor: 10
+  Instant window: 60 frames
+  Closing divisor: 10
+  Closing kernel: 61 frames
+  Min duration: 15 frames
+  Min area: 15.0
+  Expansion mode: duplication
+  Clip length: 2 seconds
+  Draw plots: False
+================================================================================
+
+[33m================================================================================
+Processing: Long Jump_video5
+Query: highlight moments in this sports video
+================================================================================[0m
+
+Video FPS: 23.98
+Saliency score range: [-15.4228, -12.1280]
+Normalized to: [0.0, 1.0]
+Expanded from 854 clips to 40992 frames (48 frames/clip)
+[33mWarning: Ground truth CSV not found: Long Jump/ground_truth/video5_processed.csv[0m
+[33mFalling back to continuous ground truth from annotations[0m
+
+[31m----------- Events detected -----------
+########### Event 0 ###########
+- Length: 431
+- Area:   0.54
+########### Event 1 ###########
+- Length: 139
+- Area:   0.80
+########### Event 2 ###########
+- Length: 119
+- Area:   0.75
+########### Event 3 ###########
+- Length: 159
+- Area:   6.65
+########### Event 4 ###########
+- Length: 94
+- Area:   4.92
+########### Event 5 ###########
+- Length: 78
+- Area:   1.86
+########### Event 6 ###########
+- Length: 260
+- Area:   10.81
+########### Event 7 ###########
+- Length: 98
+- Area:   18.32
+########### Event 8 ###########
+- Length: 260
+- Area:   103.17
+########### Event 9 ###########
+- Length: 368
+- Area:   109.94
+########### Event 10 ###########
+- Length: 241
+- Area:   95.81
+########### Event 11 ###########
+- Length: 413
+- Area:   77.49
+########### Event 12 ###########
+- Length: 138
+- Area:   32.25
+########### Event 13 ###########
+- Length: 158
+- Area:   38.36
+########### Event 14 ###########
+- Length: 97
+- Area:   3.49
+########### Event 15 ###########
+- Length: 218
+- Area:   74.16
+########### Event 16 ###########
+- Length: 528
+- Area:   63.84
+########### Event 17 ###########
+- Length: 11
+- Area:   0.11
+########### Event 18 ###########
+- Length: 257
+- Area:   97.95
+########### Event 19 ###########
+- Length: 531
+- Area:   98.20
+########### Event 20 ###########
+- Length: 96
+- Area:   1.59
+########### Event 21 ###########
+- Length: 234
+- Area:   81.93
+########### Event 22 ###########
+- Length: 134
+- Area:   36.07
+########### Event 23 ###########
+- Length: 339
+- Area:   68.88
+########### Event 24 ###########
+- Length: 247
+- Area:   89.65
+########### Event 25 ###########
+- Length: 192
+- Area:   40.61
+########### Event 26 ###########
+- Length: 118
+- Area:   3.91
+########### Event 27 ###########
+- Length: 252
+- Area:   50.52
+########### Event 28 ###########
+- Length: 115
+- Area:   25.40
+########### Event 29 ###########
+- Length: 204
+- Area:   87.89
+########### Event 30 ###########
+- Length: 131
+- Area:   42.68
+########### Event 31 ###########
+- Length: 245
+- Area:   66.46
+########### Event 32 ###########
+- Length: 228
+- Area:   68.10
+########### Event 33 ###########
+- Length: 268
+- Area:   92.55
+########### Event 34 ###########
+- Length: 178
+- Area:   44.30
+########### Event 35 ###########
+- Length: 341
+- Area:   65.11
+########### Event 36 ###########
+- Length: 109
+- Area:   21.12
+########### Event 37 ###########
+- Length: 237
+- Area:   87.43
+########### Event 38 ###########
+- Length: 208
+- Area:   92.46
+########### Event 39 ###########
+- Length: 205
+- Area:   102.03
+########### Event 40 ###########
+- Length: 284
+- Area:   65.87
+########### Event 41 ###########
+- Length: 46
+- Area:   1.03
+########### Event 42 ###########
+- Length: 123
+- Area:   0.36
+########### Event 43 ###########
+- Length: 207
+- Area:   90.26
+########### Event 44 ###########
+- Length: 241
+- Area:   100.01
+########### Event 45 ###########
+- Length: 81
+- Area:   1.47
+########### Event 46 ###########
+- Length: 85
+- Area:   1.61
+########### Event 47 ###########
+- Length: 79
+- Area:   1.08
+########### Event 48 ###########
+- Length: 87
+- Area:   0.69
+########### Event 49 ###########
+- Length: 176
+- Area:   0.57
+########### Event 50 ###########
+- Length: 156
+- Area:   1.49
+########### Event 51 ###########
+- Length: 263
+- Area:   106.94
+########### Event 52 ###########
+- Length: 143
+- Area:   52.96
+########### Event 53 ###########
+- Length: 240
+- Area:   59.00
+########### Event 54 ###########
+- Length: 37
+- Area:   0.74
+########### Event 55 ###########
+- Length: 259
+- Area:   54.91
+########### Event 56 ###########
+- Length: 61
+- Area:   0.50
+########### Event 57 ###########
+- Length: 262
+- Area:   105.83
+########### Event 58 ###########
+- Length: 388
+- Area:   105.75
+########### Event 59 ###########
+- Length: 139
+- Area:   1.08
+########### Event 60 ###########
+- Length: 339
+- Area:   63.85
+########### Event 61 ###########
+- Length: 273
+- Area:   24.28
+########### Event 62 ###########
+- Length: 162
+- Area:   48.03
+########### Event 63 ###########
+- Length: 92
+- Area:   6.39
+########### Event 64 ###########
+- Length: 232
+- Area:   90.18
+########### Event 65 ###########
+- Length: 158
+- Area:   45.71
+########### Event 66 ###########
+- Length: 230
+- Area:   51.93
+########### Event 67 ###########
+- Length: 209
+- Area:   32.69
+########### Event 68 ###########
+- Length: 241
+- Area:   95.98
+########### Event 69 ###########
+- Length: 183
+- Area:   62.69
+########### Event 70 ###########
+- Length: 191
+- Area:   64.69
+########### Event 71 ###########
+- Length: 90
+- Area:   19.35
+########### Event 72 ###########
+- Length: 214
+- Area:   95.76
+########### Event 73 ###########
+- Length: 203
+- Area:   64.47
+########### Event 74 ###########
+- Length: 162
+- Area:   50.94
+########### Event 75 ###########
+- Length: 13
+- Area:   0.02
+########### Event 76 ###########
+- Length: 178
+- Area:   12.25
+########### Event 77 ###########
+- Length: 242
+- Area:   100.38
+########### Event 78 ###########
+- Length: 432
+- Area:   115.57
+########### Event 79 ###########
+- Length: 78
+- Area:   0.12
+########### Event 80 ###########
+- Length: 261
+- Area:   1.54
+########### Event 81 ###########
+- Length: 36
+- Area:   0.04
+########### Event 82 ###########
+- Length: 191
+- Area:   0.78
+########### Event 83 ###########
+- Length: 92
+- Area:   0.65
+########### Event 84 ###########
+- Length: 39
+- Area:   0.07
+########### Event 85 ###########
+- Length: 182
+- Area:   2.88
+########### Event 86 ###########
+- Length: 117
+- Area:   0.57
+########### Event 87 ###########
+- Length: 260
+- Area:   1.04
+########### Event 88 ###########
+- Length: 156
+- Area:   0.31
+########### Event 89 ###########
+- Length: 7
+- Area:   0.00
+########### Event 90 ###########
+- Length: 683
+- Area:   2.23
+########### Event 91 ###########
+- Length: 263
+- Area:   0.58
+[0m
+[32m----------- Events after filtering by duration -----------
+########### Event 0 ###########
+- Length: 431
+- Area:   0.54
+########### Event 1 ###########
+- Length: 139
+- Area:   0.80
+########### Event 2 ###########
+- Length: 119
+- Area:   0.75
+########### Event 3 ###########
+- Length: 159
+- Area:   6.65
+########### Event 4 ###########
+- Length: 94
+- Area:   4.92
+########### Event 5 ###########
+- Length: 78
+- Area:   1.86
+########### Event 6 ###########
+- Length: 260
+- Area:   10.81
+########### Event 7 ###########
+- Length: 98
+- Area:   18.32
+########### Event 8 ###########
+- Length: 260
+- Area:   103.17
+########### Event 9 ###########
+- Length: 368
+- Area:   109.94
+########### Event 10 ###########
+- Length: 241
+- Area:   95.81
+########### Event 11 ###########
+- Length: 413
+- Area:   77.49
+########### Event 12 ###########
+- Length: 138
+- Area:   32.25
+########### Event 13 ###########
+- Length: 158
+- Area:   38.36
+########### Event 14 ###########
+- Length: 97
+- Area:   3.49
+########### Event 15 ###########
+- Length: 218
+- Area:   74.16
+########### Event 16 ###########
+- Length: 528
+- Area:   63.84
+########### Event 18 ###########
+- Length: 257
+- Area:   97.95
+########### Event 19 ###########
+- Length: 531
+- Area:   98.20
+########### Event 20 ###########
+- Length: 96
+- Area:   1.59
+########### Event 21 ###########
+- Length: 234
+- Area:   81.93
+########### Event 22 ###########
+- Length: 134
+- Area:   36.07
+########### Event 23 ###########
+- Length: 339
+- Area:   68.88
+########### Event 24 ###########
+- Length: 247
+- Area:   89.65
+########### Event 25 ###########
+- Length: 192
+- Area:   40.61
+########### Event 26 ###########
+- Length: 118
+- Area:   3.91
+########### Event 27 ###########
+- Length: 252
+- Area:   50.52
+########### Event 28 ###########
+- Length: 115
+- Area:   25.40
+########### Event 29 ###########
+- Length: 204
+- Area:   87.89
+########### Event 30 ###########
+- Length: 131
+- Area:   42.68
+########### Event 31 ###########
+- Length: 245
+- Area:   66.46
+########### Event 32 ###########
+- Length: 228
+- Area:   68.10
+########### Event 33 ###########
+- Length: 268
+- Area:   92.55
+########### Event 34 ###########
+- Length: 178
+- Area:   44.30
+########### Event 35 ###########
+- Length: 341
+- Area:   65.11
+########### Event 36 ###########
+- Length: 109
+- Area:   21.12
+########### Event 37 ###########
+- Length: 237
+- Area:   87.43
+########### Event 38 ###########
+- Length: 208
+- Area:   92.46
+########### Event 39 ###########
+- Length: 205
+- Area:   102.03
+########### Event 40 ###########
+- Length: 284
+- Area:   65.87
+########### Event 41 ###########
+- Length: 46
+- Area:   1.03
+########### Event 42 ###########
+- Length: 123
+- Area:   0.36
+########### Event 43 ###########
+- Length: 207
+- Area:   90.26
+########### Event 44 ###########
+- Length: 241
+- Area:   100.01
+########### Event 45 ###########
+- Length: 81
+- Area:   1.47
+########### Event 46 ###########
+- Length: 85
+- Area:   1.61
+########### Event 47 ###########
+- Length: 79
+- Area:   1.08
+########### Event 48 ###########
+- Length: 87
+- Area:   0.69
+########### Event 49 ###########
+- Length: 176
+- Area:   0.57
+########### Event 50 ###########
+- Length: 156
+- Area:   1.49
+########### Event 51 ###########
+- Length: 263
+- Area:   106.94
+########### Event 52 ###########
+- Length: 143
+- Area:   52.96
+########### Event 53 ###########
+- Length: 240
+- Area:   59.00
+########### Event 54 ###########
+- Length: 37
+- Area:   0.74
+########### Event 55 ###########
+- Length: 259
+- Area:   54.91
+########### Event 56 ###########
+- Length: 61
+- Area:   0.50
+########### Event 57 ###########
+- Length: 262
+- Area:   105.83
+########### Event 58 ###########
+- Length: 388
+- Area:   105.75
+########### Event 59 ###########
+- Length: 139
+- Area:   1.08
+########### Event 60 ###########
+- Length: 339
+- Area:   63.85
+########### Event 61 ###########
+- Length: 273
+- Area:   24.28
+########### Event 62 ###########
+- Length: 162
+- Area:   48.03
+########### Event 63 ###########
+- Length: 92
+- Area:   6.39
+########### Event 64 ###########
+- Length: 232
+- Area:   90.18
+########### Event 65 ###########
+- Length: 158
+- Area:   45.71
+########### Event 66 ###########
+- Length: 230
+- Area:   51.93
+########### Event 67 ###########
+- Length: 209
+- Area:   32.69
+########### Event 68 ###########
+- Length: 241
+- Area:   95.98
+########### Event 69 ###########
+- Length: 183
+- Area:   62.69
+########### Event 70 ###########
+- Length: 191
+- Area:   64.69
+########### Event 71 ###########
+- Length: 90
+- Area:   19.35
+########### Event 72 ###########
+- Length: 214
+- Area:   95.76
+########### Event 73 ###########
+- Length: 203
+- Area:   64.47
+########### Event 74 ###########
+- Length: 162
+- Area:   50.94
+########### Event 76 ###########
+- Length: 178
+- Area:   12.25
+########### Event 77 ###########
+- Length: 242
+- Area:   100.38
+########### Event 78 ###########
+- Length: 432
+- Area:   115.57
+########### Event 79 ###########
+- Length: 78
+- Area:   0.12
+########### Event 80 ###########
+- Length: 261
+- Area:   1.54
+########### Event 81 ###########
+- Length: 36
+- Area:   0.04
+########### Event 82 ###########
+- Length: 191
+- Area:   0.78
+########### Event 83 ###########
+- Length: 92
+- Area:   0.65
+########### Event 84 ###########
+- Length: 39
+- Area:   0.07
+########### Event 85 ###########
+- Length: 182
+- Area:   2.88
+########### Event 86 ###########
+- Length: 117
+- Area:   0.57
+########### Event 87 ###########
+- Length: 260
+- Area:   1.04
+########### Event 88 ###########
+- Length: 156
+- Area:   0.31
+########### Event 90 ###########
+- Length: 683
+- Area:   2.23
+########### Event 91 ###########
+- Length: 263
+- Area:   0.58
+[0m
+[32m----------- Events after filtering by area -----------
+########### Event 7 ###########
+- Length: 98
+- Area:   18.32
+########### Event 8 ###########
+- Length: 260
+- Area:   103.17
+########### Event 9 ###########
+- Length: 368
+- Area:   109.94
+########### Event 10 ###########
+- Length: 241
+- Area:   95.81
+########### Event 11 ###########
+- Length: 413
+- Area:   77.49
+########### Event 12 ###########
+- Length: 138
+- Area:   32.25
+########### Event 13 ###########
+- Length: 158
+- Area:   38.36
+########### Event 15 ###########
+- Length: 218
+- Area:   74.16
+########### Event 16 ###########
+- Length: 528
+- Area:   63.84
+########### Event 18 ###########
+- Length: 257
+- Area:   97.95
+########### Event 19 ###########
+- Length: 531
+- Area:   98.20
+########### Event 21 ###########
+- Length: 234
+- Area:   81.93
+########### Event 22 ###########
+- Length: 134
+- Area:   36.07
+########### Event 23 ###########
+- Length: 339
+- Area:   68.88
+########### Event 24 ###########
+- Length: 247
+- Area:   89.65
+########### Event 25 ###########
+- Length: 192
+- Area:   40.61
+########### Event 27 ###########
+- Length: 252
+- Area:   50.52
+########### Event 28 ###########
+- Length: 115
+- Area:   25.40
+########### Event 29 ###########
+- Length: 204
+- Area:   87.89
+########### Event 30 ###########
+- Length: 131
+- Area:   42.68
+########### Event 31 ###########
+- Length: 245
+- Area:   66.46
+########### Event 32 ###########
+- Length: 228
+- Area:   68.10
+########### Event 33 ###########
+- Length: 268
+- Area:   92.55
+########### Event 34 ###########
+- Length: 178
+- Area:   44.30
+########### Event 35 ###########
+- Length: 341
+- Area:   65.11
+########### Event 36 ###########
+- Length: 109
+- Area:   21.12
+########### Event 37 ###########
+- Length: 237
+- Area:   87.43
+########### Event 38 ###########
+- Length: 208
+- Area:   92.46
+########### Event 39 ###########
+- Length: 205
+- Area:   102.03
+########### Event 40 ###########
+- Length: 284
+- Area:   65.87
+########### Event 43 ###########
+- Length: 207
+- Area:   90.26
+########### Event 44 ###########
+- Length: 241
+- Area:   100.01
+########### Event 51 ###########
+- Length: 263
+- Area:   106.94
+########### Event 52 ###########
+- Length: 143
+- Area:   52.96
+########### Event 53 ###########
+- Length: 240
+- Area:   59.00
+########### Event 55 ###########
+- Length: 259
+- Area:   54.91
+########### Event 57 ###########
+- Length: 262
+- Area:   105.83
+########### Event 58 ###########
+- Length: 388
+- Area:   105.75
+########### Event 60 ###########
+- Length: 339
+- Area:   63.85
+########### Event 61 ###########
+- Length: 273
+- Area:   24.28
+########### Event 62 ###########
+- Length: 162
+- Area:   48.03
+########### Event 64 ###########
+- Length: 232
+- Area:   90.18
+########### Event 65 ###########
+- Length: 158
+- Area:   45.71
+########### Event 66 ###########
+- Length: 230
+- Area:   51.93
+########### Event 67 ###########
+- Length: 209
+- Area:   32.69
+########### Event 68 ###########
+- Length: 241
+- Area:   95.98
+########### Event 69 ###########
+- Length: 183
+- Area:   62.69
+########### Event 70 ###########
+- Length: 191
+- Area:   64.69
+########### Event 71 ###########
+- Length: 90
+- Area:   19.35
+########### Event 72 ###########
+- Length: 214
+- Area:   95.76
+########### Event 73 ###########
+- Length: 203
+- Area:   64.47
+########### Event 74 ###########
+- Length: 162
+- Area:   50.94
+########### Event 77 ###########
+- Length: 242
+- Area:   100.38
+########### Event 78 ###########
+- Length: 432
+- Area:   115.57
+[0m
+[36m
+----------- Frame Level Results -----------
+RECALL:    82.67%
+PRECISION: 78.90%
+FSCORE:    80.74%[0m
+
+[0m
+Saved results: /home/mrt/Projects/PVS/video_summaries/QD-DETR/longjump_video5/temp/Long Jump_video5_results.json
+Saved output log: /home/mrt/Projects/PVS/video_summaries/QD-DETR/longjump_video5/temp/Long Jump_video5_output.txt
+✓ QD-DETR processing completed
+  - Detected 54 highlight events
+
+[2/3] Extracting 54 highlight videos...
+  ✓ Extracted: Long Jump_video5_highlight_007.mp4 (frames 3191-3288, 4.09s)
+  ✓ Extracted: Long Jump_video5_highlight_008.mp4 (frames 3695-3954, 10.84s)
+  ✓ Extracted: Long Jump_video5_highlight_009.mp4 (frames 4188-4555, 15.35s)
+  ✓ Extracted: Long Jump_video5_highlight_010.mp4 (frames 5109-5349, 10.05s)
+  ✓ Extracted: Long Jump_video5_highlight_011.mp4 (frames 5573-5985, 17.23s)
+  ✓ Extracted: Long Jump_video5_highlight_012.mp4 (frames 6058-6195, 5.76s)
+  ✓ Extracted: Long Jump_video5_highlight_013.mp4 (frames 6477-6634, 6.59s)
+  ✓ Extracted: Long Jump_video5_highlight_015.mp4 (frames 7343-7560, 9.09s)
+  ✓ Extracted: Long Jump_video5_highlight_016.mp4 (frames 7775-8302, 22.02s)
+  ✓ Extracted: Long Jump_video5_highlight_018.mp4 (frames 8606-8862, 10.72s)
+  ✓ Extracted: Long Jump_video5_highlight_019.mp4 (frames 9084-9614, 22.15s)
+  ✓ Extracted: Long Jump_video5_highlight_021.mp4 (frames 10338-10571, 9.76s)
+  ✓ Extracted: Long Jump_video5_highlight_022.mp4 (frames 10841-10974, 5.59s)
+  ✓ Extracted: Long Jump_video5_highlight_023.mp4 (frames 11089-11427, 14.14s)
+  ✓ Extracted: Long Jump_video5_highlight_024.mp4 (frames 11757-12003, 10.30s)
+  ✓ Extracted: Long Jump_video5_highlight_025.mp4 (frames 12249-12440, 8.01s)
+  ✓ Extracted: Long Jump_video5_highlight_027.mp4 (frames 12694-12945, 10.51s)
+  ✓ Extracted: Long Jump_video5_highlight_028.mp4 (frames 13276-13390, 4.80s)
+  ✓ Extracted: Long Jump_video5_highlight_029.mp4 (frames 13633-13836, 8.51s)
+  ✓ Extracted: Long Jump_video5_highlight_030.mp4 (frames 14069-14199, 5.46s)
+  ✓ Extracted: Long Jump_video5_highlight_031.mp4 (frames 14300-14544, 10.22s)
+  ✓ Extracted: Long Jump_video5_highlight_032.mp4 (frames 14888-15115, 9.51s)
+  ✓ Extracted: Long Jump_video5_highlight_033.mp4 (frames 15689-15956, 11.18s)
+  ✓ Extracted: Long Jump_video5_highlight_034.mp4 (frames 16141-16318, 7.42s)
+  ✓ Extracted: Long Jump_video5_highlight_035.mp4 (frames 16439-16779, 14.22s)
+  ✓ Extracted: Long Jump_video5_highlight_036.mp4 (frames 17086-17194, 4.55s)
+  ✓ Extracted: Long Jump_video5_highlight_037.mp4 (frames 17339-17575, 9.88s)
+  ✓ Extracted: Long Jump_video5_highlight_038.mp4 (frames 17789-17996, 8.68s)
+  ✓ Extracted: Long Jump_video5_highlight_039.mp4 (frames 18237-18441, 8.55s)
+  ✓ Extracted: Long Jump_video5_highlight_040.mp4 (frames 18683-18966, 11.85s)
+  ✓ Extracted: Long Jump_video5_highlight_043.mp4 (frames 19956-20162, 8.63s)
+  ✓ Extracted: Long Jump_video5_highlight_044.mp4 (frames 20362-20602, 10.05s)
+  ✓ Extracted: Long Jump_video5_highlight_051.mp4 (frames 22797-23059, 10.97s)
+  ✓ Extracted: Long Jump_video5_highlight_052.mp4 (frames 23280-23422, 5.96s)
+  ✓ Extracted: Long Jump_video5_highlight_053.mp4 (frames 23528-23767, 10.01s)
+  ✓ Extracted: Long Jump_video5_highlight_055.mp4 (frames 24480-24738, 10.80s)
+  ✓ Extracted: Long Jump_video5_highlight_057.mp4 (frames 25429-25690, 10.93s)
+  ✓ Extracted: Long Jump_video5_highlight_058.mp4 (frames 26015-26402, 16.18s)
+  ✓ Extracted: Long Jump_video5_highlight_060.mp4 (frames 27275-27613, 14.14s)
+  ✓ Extracted: Long Jump_video5_highlight_061.mp4 (frames 27721-27993, 11.39s)
+  ✓ Extracted: Long Jump_video5_highlight_062.mp4 (frames 28066-28227, 6.76s)
+  ✓ Extracted: Long Jump_video5_highlight_064.mp4 (frames 29227-29458, 9.68s)
+  ✓ Extracted: Long Jump_video5_highlight_065.mp4 (frames 29654-29811, 6.59s)
+  ✓ Extracted: Long Jump_video5_highlight_066.mp4 (frames 29894-30123, 9.59s)
+  ✓ Extracted: Long Jump_video5_highlight_067.mp4 (frames 30772-30980, 8.72s)
+  ✓ Extracted: Long Jump_video5_highlight_068.mp4 (frames 31732-31972, 10.05s)
+  ✓ Extracted: Long Jump_video5_highlight_069.mp4 (frames 32210-32392, 7.63s)
+  ✓ Extracted: Long Jump_video5_highlight_070.mp4 (frames 32500-32690, 7.97s)
+  ✓ Extracted: Long Jump_video5_highlight_071.mp4 (frames 33141-33230, 3.75s)
+  ✓ Extracted: Long Jump_video5_highlight_072.mp4 (frames 33452-33665, 8.93s)
+  ✓ Extracted: Long Jump_video5_highlight_073.mp4 (frames 34078-34280, 8.47s)
+  ✓ Extracted: Long Jump_video5_highlight_074.mp4 (frames 34356-34517, 6.76s)
+  ✓ Extracted: Long Jump_video5_highlight_077.mp4 (frames 35525-35766, 10.09s)
+  ✓ Extracted: Long Jump_video5_highlight_078.mp4 (frames 36101-36532, 18.02s)
+✓ Successfully extracted 54 highlight videos
+
+[3/3] Saving results...
+
+✓ QD-DETR wrapper completed successfully
+  Results saved to: /home/mrt/Projects/PVS/video_summaries/QD-DETR/longjump_video5/Long Jump_video5_highlights.json
+  Events timing saved to: /home/mrt/Projects/PVS/video_summaries/QD-DETR/longjump_video5/events_filtered.json
+2025-11-25 21:33:47.323274: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2025-11-25 21:33:47.352437: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2025-11-25 21:33:47.882680: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1764102828.518537 2894500 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 22132 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 4090, pci bus id: 0000:01:00.0, compute capability: 8.9
+I0000 00:00:1764102828.519554 2894500 gpu_device.cc:2020] Created device /job:localhost/replica:0/task:0/device:GPU:1 with 22149 MB memory:  -> device: 1, name: NVIDIA GeForce RTX 4090, pci bus id: 0000:02:00.0, compute capability: 8.9
+2025-11-25 21:33:49.223055: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:473] Loaded cuDNN version 91301
+================================================================================
+MODE: UPDATED TARGET FACES EMBEDDING EXTRACTION (SECOND PASS)
+================================================================================
+
+Video: longjump_video5
+
+Found 10 target(s):
+  - frayne
+  - ehammer
+  - masso
+  - pinnock
+  - sreeshankar
+  - mccarter
+  - dendy
+  - wang
+  - tentoglou
+  - caceres
+
+Processing updated target: frayne
+  Extracting ArcFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/frayne/updated_target_arcface_embedding.npy
+  Extracting TransFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/frayne/updated_target_transface_embedding.npy
+  ✓ Successfully processed frayne
+
+Processing updated target: ehammer
+  Extracting ArcFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/ehammer/updated_target_arcface_embedding.npy
+  Extracting TransFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/ehammer/updated_target_transface_embedding.npy
+  ✓ Successfully processed ehammer
+
+Processing updated target: masso
+  Extracting ArcFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/masso/updated_target_arcface_embedding.npy
+  Extracting TransFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/masso/updated_target_transface_embedding.npy
+  ✓ Successfully processed masso
+
+Processing updated target: pinnock
+  Extracting ArcFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/pinnock/updated_target_arcface_embedding.npy
+  Extracting TransFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/pinnock/updated_target_transface_embedding.npy
+  ✓ Successfully processed pinnock
+
+Processing updated target: sreeshankar
+  Extracting ArcFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/sreeshankar/updated_target_arcface_embedding.npy
+  Extracting TransFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/sreeshankar/updated_target_transface_embedding.npy
+  ✓ Successfully processed sreeshankar
+
+Processing updated target: mccarter
+  Extracting ArcFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/mccarter/updated_target_arcface_embedding.npy
+  Extracting TransFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/mccarter/updated_target_transface_embedding.npy
+  ✓ Successfully processed mccarter
+
+Processing updated target: dendy
+  Extracting ArcFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/dendy/updated_target_arcface_embedding.npy
+  Extracting TransFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/dendy/updated_target_transface_embedding.npy
+  ✓ Successfully processed dendy
+
+Processing updated target: wang
+  Extracting ArcFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/wang/updated_target_arcface_embedding.npy
+  Extracting TransFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/wang/updated_target_transface_embedding.npy
+  ✓ Successfully processed wang
+
+Processing updated target: tentoglou
+  Extracting ArcFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/tentoglou/updated_target_arcface_embedding.npy
+  Extracting TransFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/tentoglou/updated_target_transface_embedding.npy
+  ✓ Successfully processed tentoglou
+
+Processing updated target: caceres
+  Extracting ArcFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/caceres/updated_target_arcface_embedding.npy
+  Extracting TransFace embedding from updated target...
+    ✓ Saved to: target_faces_updated/longjump_video5/caceres/updated_target_transface_embedding.npy
+  ✓ Successfully processed caceres
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213427.json
+
+================================================================================
+PROCESSING COMPLETE
+================================================================================
+Successful: 10
+Failed: 0
+
+Updated embeddings saved in: target_faces_updated/longjump_video5/
+================================================================================
+COMPUTE RESEMBLANCE CURVE
+================================================================================
+
+Video: longjump_video5
+Mode: Updated Target (Second Pass)
+Threshold: 0.6
+Smooth window: 200
+Targets to process: 10
+  - frayne
+  - ehammer
+  - masso
+  - pinnock
+  - sreeshankar
+  - mccarter
+  - dendy
+  - wang
+  - tentoglou
+  - caceres
+
+Detecting video FPS from: data/longjump_video5.mp4
+Video FPS: 23.98
+
+================================================================================
+PROCESSING TARGET 1/10: frayne
+================================================================================
+
+Loading target embeddings...
+  ArcFace embedding shape: (512,)
+  TransFace embedding shape: (512,)
+
+Computing resemblance scores for longjump_video5...
+
+  ArcFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1239/53472 [00:00<00:04, 12384.67face/s]  Computing similarities:   5%|▌         | 2899/53472 [00:00<00:03, 14861.86face/s]  Computing similarities:   9%|▊         | 4570/53472 [00:00<00:03, 15704.62face/s]  Computing similarities:  12%|█▏        | 6177/53472 [00:00<00:02, 15845.88face/s]  Computing similarities:  15%|█▍        | 7841/53472 [00:00<00:02, 16129.68face/s]  Computing similarities:  18%|█▊        | 9454/53472 [00:00<00:02, 16066.58face/s]  Computing similarities:  21%|██        | 11105/53472 [00:00<00:02, 16209.75face/s]  Computing similarities:  24%|██▍       | 12752/53472 [00:00<00:02, 16291.08face/s]  Computing similarities:  27%|██▋       | 14382/53472 [00:00<00:02, 16245.78face/s]  Computing similarities:  30%|███       | 16067/53472 [00:01<00:02, 16429.65face/s]  Computing similarities:  33%|███▎      | 17711/53472 [00:01<00:02, 16319.12face/s]  Computing similarities:  36%|███▌      | 19373/53472 [00:01<00:02, 16407.05face/s]  Computing similarities:  39%|███▉      | 21027/53472 [00:01<00:01, 16444.53face/s]  Computing similarities:  43%|████▎     | 22754/53472 [00:01<00:01, 16690.67face/s]  Computing similarities:  46%|████▌     | 24496/53472 [00:01<00:01, 16908.06face/s]  Computing similarities:  49%|████▉     | 26229/53472 [00:01<00:01, 17033.02face/s]  Computing similarities:  52%|█████▏    | 27953/53472 [00:01<00:01, 17094.02face/s]  Computing similarities:  56%|█████▌    | 29679/53472 [00:01<00:01, 17141.10face/s]  Computing similarities:  59%|█████▊    | 31394/53472 [00:01<00:01, 17141.10face/s]  Computing similarities:  62%|██████▏   | 33109/53472 [00:02<00:01, 17134.98face/s]  Computing similarities:  65%|██████▌   | 34829/53472 [00:02<00:01, 17151.59face/s]  Computing similarities:  68%|██████▊   | 36547/53472 [00:02<00:00, 17157.02face/s]  Computing similarities:  72%|███████▏  | 38264/53472 [00:02<00:00, 17157.93face/s]  Computing similarities:  75%|███████▍  | 39989/53472 [00:02<00:00, 17183.25face/s]  Computing similarities:  78%|███████▊  | 41718/53472 [00:02<00:00, 17212.94face/s]  Computing similarities:  81%|████████  | 43440/53472 [00:02<00:00, 17197.96face/s]  Computing similarities:  84%|████████▍ | 45169/53472 [00:02<00:00, 17224.59face/s]  Computing similarities:  88%|████████▊ | 46914/53472 [00:02<00:00, 17291.06face/s]  Computing similarities:  91%|█████████ | 48644/53472 [00:02<00:00, 17287.84face/s]  Computing similarities:  94%|█████████▍| 50375/53472 [00:03<00:00, 17291.97face/s]  Computing similarities:  97%|█████████▋| 52105/53472 [00:03<00:00, 17287.56face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 16784.07face/s]
+
+  TransFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1283/53472 [00:00<00:04, 12823.56face/s]  Computing similarities:   6%|▌         | 2992/53472 [00:00<00:03, 15328.87face/s]  Computing similarities:   9%|▉         | 4688/53472 [00:00<00:03, 16070.46face/s]  Computing similarities:  12%|█▏        | 6400/53472 [00:00<00:02, 16481.17face/s]  Computing similarities:  15%|█▌        | 8114/53472 [00:00<00:02, 16715.78face/s]  Computing similarities:  18%|█▊        | 9829/53472 [00:00<00:02, 16862.85face/s]  Computing similarities:  22%|██▏       | 11532/53472 [00:00<00:02, 16915.42face/s]  Computing similarities:  25%|██▍       | 13229/53472 [00:00<00:02, 16930.14face/s]  Computing similarities:  28%|██▊       | 14923/53472 [00:00<00:02, 16930.69face/s]  Computing similarities:  31%|███       | 16637/53472 [00:01<00:02, 16994.11face/s]  Computing similarities:  34%|███▍      | 18349/53472 [00:01<00:02, 17031.87face/s]  Computing similarities:  38%|███▊      | 20066/53472 [00:01<00:01, 17070.67face/s]  Computing similarities:  41%|████      | 21816/53472 [00:01<00:01, 17197.90face/s]  Computing similarities:  44%|████▍     | 23579/53472 [00:01<00:01, 17327.71face/s]  Computing similarities:  47%|████▋     | 25345/53472 [00:01<00:01, 17425.73face/s]  Computing similarities:  51%|█████     | 27107/53472 [00:01<00:01, 17481.56face/s]  Computing similarities:  54%|█████▍    | 28863/53472 [00:01<00:01, 17502.79face/s]  Computing similarities:  57%|█████▋    | 30626/53472 [00:01<00:01, 17540.88face/s]  Computing similarities:  61%|██████    | 32382/53472 [00:01<00:01, 17545.43face/s]  Computing similarities:  64%|██████▍   | 34137/53472 [00:02<00:01, 17527.27face/s]  Computing similarities:  67%|██████▋   | 35890/53472 [00:02<00:01, 17525.45face/s]  Computing similarities:  70%|███████   | 37652/53472 [00:02<00:00, 17552.92face/s]  Computing similarities:  74%|███████▎  | 39408/53472 [00:02<00:00, 17516.94face/s]  Computing similarities:  77%|███████▋  | 41167/53472 [00:02<00:00, 17538.58face/s]  Computing similarities:  80%|████████  | 42938/53472 [00:02<00:00, 17588.98face/s]  Computing similarities:  84%|████████▎ | 44697/53472 [00:02<00:00, 17559.39face/s]  Computing similarities:  87%|████████▋ | 46453/53472 [00:02<00:00, 17511.54face/s]  Computing similarities:  90%|█████████ | 48205/53472 [00:02<00:00, 17491.39face/s]  Computing similarities:  93%|█████████▎| 49955/53472 [00:02<00:00, 17464.99face/s]  Computing similarities:  97%|█████████▋| 51702/53472 [00:03<00:00, 17446.16face/s]  Computing similarities: 100%|█████████▉| 53461/53472 [00:03<00:00, 17488.05face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17217.01face/s]
+
+Creating resemblance curve plot...
+
+  Plot saved to: resemblance_results/longjump_video5/frayne/frayne_updated.png
+
+Saving resemblance data...
+  Data saved to: resemblance_results/longjump_video5/frayne/frayne_updated.json
+
+  ✓ Successfully processed frayne
+    - Plot: frayne/frayne_updated.png
+    - Data: frayne/frayne_updated.json
+    - Frames with faces: 27859
+    - ArcFace max: 1.000
+    - TransFace max: 1.000
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213435.json
+
+================================================================================
+PROCESSING TARGET 2/10: ehammer
+================================================================================
+
+Loading target embeddings...
+  ArcFace embedding shape: (512,)
+  TransFace embedding shape: (512,)
+
+Computing resemblance scores for longjump_video5...
+
+  ArcFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1264/53472 [00:00<00:04, 12634.65face/s]  Computing similarities:   6%|▌         | 2950/53472 [00:00<00:03, 15116.25face/s]  Computing similarities:   9%|▊         | 4646/53472 [00:00<00:03, 15955.14face/s]  Computing similarities:  12%|█▏        | 6351/53472 [00:00<00:02, 16384.27face/s]  Computing similarities:  15%|█▌        | 8060/53472 [00:00<00:02, 16636.78face/s]  Computing similarities:  18%|█▊        | 9781/53472 [00:00<00:02, 16828.32face/s]  Computing similarities:  21%|██▏       | 11493/53472 [00:00<00:02, 16921.37face/s]  Computing similarities:  25%|██▍       | 13191/53472 [00:00<00:02, 16939.70face/s]  Computing similarities:  28%|██▊       | 14930/53472 [00:00<00:02, 17077.88face/s]  Computing similarities:  31%|███       | 16656/53472 [00:01<00:02, 17133.21face/s]  Computing similarities:  34%|███▍      | 18370/53472 [00:01<00:02, 17120.52face/s]  Computing similarities:  38%|███▊      | 20088/53472 [00:01<00:01, 17137.24face/s]  Computing similarities:  41%|████      | 21803/53472 [00:01<00:01, 17140.24face/s]  Computing similarities:  44%|████▍     | 23549/53472 [00:01<00:01, 17234.38face/s]  Computing similarities:  47%|████▋     | 25294/53472 [00:01<00:01, 17298.94face/s]  Computing similarities:  51%|█████     | 27029/53472 [00:01<00:01, 17311.70face/s]  Computing similarities:  54%|█████▍    | 28761/53472 [00:01<00:01, 17282.59face/s]  Computing similarities:  57%|█████▋    | 30504/53472 [00:01<00:01, 17324.62face/s]  Computing similarities:  60%|██████    | 32247/53472 [00:01<00:01, 17354.44face/s]  Computing similarities:  64%|██████▎   | 33999/53472 [00:02<00:01, 17401.33face/s]  Computing similarities:  67%|██████▋   | 35759/53472 [00:02<00:01, 17460.15face/s]  Computing similarities:  70%|███████   | 37506/53472 [00:02<00:00, 17440.82face/s]  Computing similarities:  73%|███████▎  | 39251/53472 [00:02<00:00, 17436.37face/s]  Computing similarities:  77%|███████▋  | 41009/53472 [00:02<00:00, 17477.57face/s]  Computing similarities:  80%|███████▉  | 42764/53472 [00:02<00:00, 17496.67face/s]  Computing similarities:  83%|████████▎ | 44514/53472 [00:02<00:00, 17491.86face/s]  Computing similarities:  87%|████████▋ | 46267/53472 [00:02<00:00, 17502.20face/s]  Computing similarities:  90%|████████▉ | 48018/53472 [00:02<00:00, 17498.54face/s]  Computing similarities:  93%|█████████▎| 49768/53472 [00:02<00:00, 17468.58face/s]  Computing similarities:  96%|█████████▋| 51515/53472 [00:03<00:00, 17461.23face/s]  Computing similarities: 100%|█████████▉| 53262/53472 [00:03<00:00, 17348.00face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17150.74face/s]
+
+  TransFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1299/53472 [00:00<00:04, 12987.54face/s]  Computing similarities:   6%|▌         | 3029/53472 [00:00<00:03, 15518.95face/s]  Computing similarities:   9%|▉         | 4750/53472 [00:00<00:02, 16289.63face/s]  Computing similarities:  12%|█▏        | 6507/53472 [00:00<00:02, 16791.41face/s]  Computing similarities:  15%|█▌        | 8256/53472 [00:00<00:02, 17042.36face/s]  Computing similarities:  19%|█▊        | 10017/53472 [00:00<00:02, 17232.99face/s]  Computing similarities:  22%|██▏       | 11785/53472 [00:00<00:02, 17377.59face/s]  Computing similarities:  25%|██▌       | 13523/53472 [00:00<00:02, 17364.02face/s]  Computing similarities:  29%|██▊       | 15282/53472 [00:00<00:02, 17432.44face/s]  Computing similarities:  32%|███▏      | 17041/53472 [00:01<00:02, 17480.31face/s]  Computing similarities:  35%|███▌      | 18790/53472 [00:01<00:01, 17435.61face/s]  Computing similarities:  38%|███▊      | 20559/53472 [00:01<00:01, 17512.61face/s]  Computing similarities:  42%|████▏     | 22327/53472 [00:01<00:01, 17563.08face/s]  Computing similarities:  45%|████▌     | 24096/53472 [00:01<00:01, 17599.15face/s]  Computing similarities:  48%|████▊     | 25860/53472 [00:01<00:01, 17609.10face/s]  Computing similarities:  52%|█████▏    | 27621/53472 [00:01<00:01, 17606.17face/s]  Computing similarities:  55%|█████▍    | 29402/53472 [00:01<00:01, 17665.83face/s]  Computing similarities:  58%|█████▊    | 31182/53472 [00:01<00:01, 17705.06face/s]  Computing similarities:  62%|██████▏   | 32953/53472 [00:01<00:01, 17693.21face/s]  Computing similarities:  65%|██████▍   | 34724/53472 [00:02<00:01, 17697.86face/s]  Computing similarities:  68%|██████▊   | 36494/53472 [00:02<00:00, 17673.65face/s]  Computing similarities:  72%|███████▏  | 38262/53472 [00:02<00:00, 17638.00face/s]  Computing similarities:  75%|███████▍  | 40026/53472 [00:02<00:00, 17620.77face/s]  Computing similarities:  78%|███████▊  | 41796/53472 [00:02<00:00, 17643.20face/s]  Computing similarities:  81%|████████▏ | 43566/53472 [00:02<00:00, 17657.93face/s]  Computing similarities:  85%|████████▍ | 45332/53472 [00:02<00:00, 17634.63face/s]  Computing similarities:  88%|████████▊ | 47096/53472 [00:02<00:00, 17616.93face/s]  Computing similarities:  91%|█████████▏| 48858/53472 [00:02<00:00, 17544.96face/s]  Computing similarities:  95%|█████████▍| 50626/53472 [00:02<00:00, 17582.44face/s]  Computing similarities:  98%|█████████▊| 52385/53472 [00:03<00:00, 17578.35face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17429.50face/s]
+
+Creating resemblance curve plot...
+
+  Plot saved to: resemblance_results/longjump_video5/ehammer/ehammer_updated.png
+
+Saving resemblance data...
+  Data saved to: resemblance_results/longjump_video5/ehammer/ehammer_updated.json
+
+  ✓ Successfully processed ehammer
+    - Plot: ehammer/ehammer_updated.png
+    - Data: ehammer/ehammer_updated.json
+    - Frames with faces: 27859
+    - ArcFace max: 1.000
+    - TransFace max: 1.000
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213442.json
+
+================================================================================
+PROCESSING TARGET 3/10: masso
+================================================================================
+
+Loading target embeddings...
+  ArcFace embedding shape: (512,)
+  TransFace embedding shape: (512,)
+
+Computing resemblance scores for longjump_video5...
+
+  ArcFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1275/53472 [00:00<00:04, 12748.04face/s]  Computing similarities:   6%|▌         | 2956/53472 [00:00<00:03, 15134.99face/s]  Computing similarities:   9%|▊         | 4653/53472 [00:00<00:03, 15971.38face/s]  Computing similarities:  12%|█▏        | 6354/53472 [00:00<00:02, 16378.36face/s]  Computing similarities:  15%|█▌        | 8044/53472 [00:00<00:02, 16566.07face/s]  Computing similarities:  18%|█▊        | 9751/53472 [00:00<00:02, 16737.24face/s]  Computing similarities:  21%|██▏       | 11447/53472 [00:00<00:02, 16809.10face/s]  Computing similarities:  25%|██▍       | 13128/53472 [00:00<00:02, 16754.02face/s]  Computing similarities:  28%|██▊       | 14840/53472 [00:00<00:02, 16865.27face/s]  Computing similarities:  31%|███       | 16537/53472 [00:01<00:02, 16897.12face/s]  Computing similarities:  34%|███▍      | 18227/53472 [00:01<00:02, 16895.85face/s]  Computing similarities:  37%|███▋      | 19934/53472 [00:01<00:01, 16947.60face/s]  Computing similarities:  41%|████      | 21658/53472 [00:01<00:01, 17033.54face/s]  Computing similarities:  44%|████▎     | 23373/53472 [00:01<00:01, 17066.98face/s]  Computing similarities:  47%|████▋     | 25097/53472 [00:01<00:01, 17117.88face/s]  Computing similarities:  50%|█████     | 26809/53472 [00:01<00:01, 17118.12face/s]  Computing similarities:  53%|█████▎    | 28548/53472 [00:01<00:01, 17198.24face/s]  Computing similarities:  57%|█████▋    | 30294/53472 [00:01<00:01, 17276.66face/s]  Computing similarities:  60%|█████▉    | 32033/53472 [00:01<00:01, 17310.19face/s]  Computing similarities:  63%|██████▎   | 33765/53472 [00:02<00:01, 17308.47face/s]  Computing similarities:  66%|██████▋   | 35496/53472 [00:02<00:01, 17252.96face/s]  Computing similarities:  70%|██████▉   | 37222/53472 [00:02<00:00, 17186.91face/s]  Computing similarities:  73%|███████▎  | 38941/53472 [00:02<00:00, 17154.05face/s]  Computing similarities:  76%|███████▌  | 40657/53472 [00:02<00:00, 17137.78face/s]  Computing similarities:  79%|███████▉  | 42388/53472 [00:02<00:00, 17188.48face/s]  Computing similarities:  83%|████████▎ | 44124/53472 [00:02<00:00, 17238.18face/s]  Computing similarities:  86%|████████▌ | 45848/53472 [00:02<00:00, 17231.35face/s]  Computing similarities:  89%|████████▉ | 47589/53472 [00:02<00:00, 17283.27face/s]  Computing similarities:  92%|█████████▏| 49323/53472 [00:02<00:00, 17299.19face/s]  Computing similarities:  95%|█████████▌| 51060/53472 [00:03<00:00, 17318.50face/s]  Computing similarities:  99%|█████████▊| 52792/53472 [00:03<00:00, 17293.39face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17001.34face/s]
+
+  TransFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1298/53472 [00:00<00:04, 12973.18face/s]  Computing similarities:   6%|▌         | 2993/53472 [00:00<00:03, 15307.87face/s]  Computing similarities:   9%|▉         | 4692/53472 [00:00<00:03, 16074.09face/s]  Computing similarities:  12%|█▏        | 6413/53472 [00:00<00:02, 16522.28face/s]  Computing similarities:  15%|█▌        | 8133/53472 [00:00<00:02, 16765.04face/s]  Computing similarities:  18%|█▊        | 9844/53472 [00:00<00:02, 16881.56face/s]  Computing similarities:  22%|██▏       | 11578/53472 [00:00<00:02, 17031.28face/s]  Computing similarities:  25%|██▍       | 13296/53472 [00:00<00:02, 17077.75face/s]  Computing similarities:  28%|██▊       | 15029/53472 [00:00<00:02, 17156.49face/s]  Computing similarities:  31%|███▏      | 16749/53472 [00:01<00:02, 17168.40face/s]  Computing similarities:  35%|███▍      | 18466/53472 [00:01<00:02, 17155.68face/s]  Computing similarities:  38%|███▊      | 20215/53472 [00:01<00:01, 17256.82face/s]  Computing similarities:  41%|████      | 21959/53472 [00:01<00:01, 17311.62face/s]  Computing similarities:  44%|████▍     | 23708/53472 [00:01<00:01, 17365.17face/s]  Computing similarities:  48%|████▊     | 25456/53472 [00:01<00:01, 17398.16face/s]  Computing similarities:  51%|█████     | 27200/53472 [00:01<00:01, 17407.62face/s]  Computing similarities:  54%|█████▍    | 28948/53472 [00:01<00:01, 17429.07face/s]  Computing similarities:  57%|█████▋    | 30696/53472 [00:01<00:01, 17441.55face/s]  Computing similarities:  61%|██████    | 32441/53472 [00:01<00:01, 17390.77face/s]  Computing similarities:  64%|██████▍   | 34184/53472 [00:02<00:01, 17401.30face/s]  Computing similarities:  67%|██████▋   | 35925/53472 [00:02<00:01, 17373.70face/s]  Computing similarities:  70%|███████   | 37663/53472 [00:02<00:00, 17342.25face/s]  Computing similarities:  74%|███████▎  | 39398/53472 [00:02<00:00, 17343.76face/s]  Computing similarities:  77%|███████▋  | 41141/53472 [00:02<00:00, 17368.66face/s]  Computing similarities:  80%|████████  | 42884/53472 [00:02<00:00, 17384.47face/s]  Computing similarities:  83%|████████▎ | 44626/53472 [00:02<00:00, 17393.73face/s]  Computing similarities:  87%|████████▋ | 46379/53472 [00:02<00:00, 17432.59face/s]  Computing similarities:  90%|████████▉ | 48123/53472 [00:02<00:00, 17420.40face/s]  Computing similarities:  93%|█████████▎| 49866/53472 [00:02<00:00, 17366.21face/s]  Computing similarities:  97%|█████████▋| 51616/53472 [00:03<00:00, 17404.02face/s]  Computing similarities: 100%|█████████▉| 53357/53472 [00:03<00:00, 17381.22face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17182.67face/s]
+
+Creating resemblance curve plot...
+
+  Plot saved to: resemblance_results/longjump_video5/masso/masso_updated.png
+
+Saving resemblance data...
+  Data saved to: resemblance_results/longjump_video5/masso/masso_updated.json
+
+  ✓ Successfully processed masso
+    - Plot: masso/masso_updated.png
+    - Data: masso/masso_updated.json
+    - Frames with faces: 27859
+    - ArcFace max: 1.000
+    - TransFace max: 1.000
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213449.json
+
+================================================================================
+PROCESSING TARGET 4/10: pinnock
+================================================================================
+
+Loading target embeddings...
+  ArcFace embedding shape: (512,)
+  TransFace embedding shape: (512,)
+
+Computing resemblance scores for longjump_video5...
+
+  ArcFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1242/53472 [00:00<00:04, 12415.87face/s]  Computing similarities:   5%|▌         | 2916/53472 [00:00<00:03, 14958.69face/s]  Computing similarities:   9%|▊         | 4609/53472 [00:00<00:03, 15856.57face/s]  Computing similarities:  12%|█▏        | 6307/53472 [00:00<00:02, 16298.18face/s]  Computing similarities:  15%|█▍        | 7984/53472 [00:00<00:02, 16468.17face/s]  Computing similarities:  18%|█▊        | 9670/53472 [00:00<00:02, 16599.26face/s]  Computing similarities:  21%|██        | 11362/53472 [00:00<00:02, 16702.22face/s]  Computing similarities:  24%|██▍       | 13033/53472 [00:00<00:02, 16700.50face/s]  Computing similarities:  28%|██▊       | 14750/53472 [00:00<00:02, 16845.34face/s]  Computing similarities:  31%|███       | 16456/53472 [00:01<00:02, 16910.68face/s]  Computing similarities:  34%|███▍      | 18154/53472 [00:01<00:02, 16928.81face/s]  Computing similarities:  37%|███▋      | 19847/53472 [00:01<00:01, 16928.65face/s]  Computing similarities:  40%|████      | 21555/53472 [00:01<00:01, 16972.15face/s]  Computing similarities:  44%|████▎     | 23265/53472 [00:01<00:01, 17010.49face/s]  Computing similarities:  47%|████▋     | 24972/53472 [00:01<00:01, 17025.53face/s]  Computing similarities:  50%|████▉     | 26682/53472 [00:01<00:01, 17047.35face/s]  Computing similarities:  53%|█████▎    | 28405/53472 [00:01<00:01, 17101.87face/s]  Computing similarities:  56%|█████▋    | 30116/53472 [00:01<00:01, 17097.11face/s]  Computing similarities:  60%|█████▉    | 31826/53472 [00:01<00:01, 17068.67face/s]  Computing similarities:  63%|██████▎   | 33533/53472 [00:02<00:01, 17045.28face/s]  Computing similarities:  66%|██████▌   | 35238/53472 [00:02<00:01, 17039.91face/s]  Computing similarities:  69%|██████▉   | 36942/53472 [00:02<00:00, 17005.68face/s]  Computing similarities:  72%|███████▏  | 38648/53472 [00:02<00:00, 17019.91face/s]  Computing similarities:  75%|███████▌  | 40361/53472 [00:02<00:00, 17050.14face/s]  Computing similarities:  79%|███████▊  | 42081/53472 [00:02<00:00, 17093.13face/s]  Computing similarities:  82%|████████▏ | 43804/53472 [00:02<00:00, 17131.83face/s]  Computing similarities:  85%|████████▌ | 45520/53472 [00:02<00:00, 17140.16face/s]  Computing similarities:  88%|████████▊ | 47243/53472 [00:02<00:00, 17164.47face/s]  Computing similarities:  92%|█████████▏| 48963/53472 [00:02<00:00, 17173.69face/s]  Computing similarities:  95%|█████████▍| 50681/53472 [00:03<00:00, 17118.73face/s]  Computing similarities:  98%|█████████▊| 52393/53472 [00:03<00:00, 17087.93face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 16880.07face/s]
+
+  TransFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1273/53472 [00:00<00:04, 12729.25face/s]  Computing similarities:   6%|▌         | 2972/53472 [00:00<00:03, 15234.39face/s]  Computing similarities:   9%|▊         | 4678/53472 [00:00<00:03, 16066.11face/s]  Computing similarities:  12%|█▏        | 6412/53472 [00:00<00:02, 16566.04face/s]  Computing similarities:  15%|█▌        | 8162/53472 [00:00<00:02, 16901.79face/s]  Computing similarities:  18%|█▊        | 9890/53472 [00:00<00:02, 17027.58face/s]  Computing similarities:  22%|██▏       | 11620/53472 [00:00<00:02, 17115.43face/s]  Computing similarities:  25%|██▍       | 13335/53472 [00:00<00:02, 17126.15face/s]  Computing similarities:  28%|██▊       | 15063/53472 [00:00<00:02, 17173.36face/s]  Computing similarities:  31%|███▏      | 16793/53472 [00:01<00:02, 17211.44face/s]  Computing similarities:  35%|███▍      | 18515/53472 [00:01<00:02, 17203.54face/s]  Computing similarities:  38%|███▊      | 20257/53472 [00:01<00:01, 17268.52face/s]  Computing similarities:  41%|████      | 22001/53472 [00:01<00:01, 17320.16face/s]  Computing similarities:  44%|████▍     | 23753/53472 [00:01<00:01, 17378.47face/s]  Computing similarities:  48%|████▊     | 25515/53472 [00:01<00:01, 17448.58face/s]  Computing similarities:  51%|█████     | 27263/53472 [00:01<00:01, 17456.31face/s]  Computing similarities:  54%|█████▍    | 29009/53472 [00:01<00:01, 17431.45face/s]  Computing similarities:  58%|█████▊    | 30753/53472 [00:01<00:01, 17403.98face/s]  Computing similarities:  61%|██████    | 32494/53472 [00:01<00:01, 17349.74face/s]  Computing similarities:  64%|██████▍   | 34230/53472 [00:02<00:01, 17325.67face/s]  Computing similarities:  67%|██████▋   | 35963/53472 [00:02<00:01, 17305.51face/s]  Computing similarities:  71%|███████   | 37708/53472 [00:02<00:00, 17346.57face/s]  Computing similarities:  74%|███████▍  | 39443/53472 [00:02<00:00, 17316.02face/s]  Computing similarities:  77%|███████▋  | 41175/53472 [00:02<00:00, 17287.49face/s]  Computing similarities:  80%|████████  | 42915/53472 [00:02<00:00, 17318.20face/s]  Computing similarities:  84%|████████▎ | 44655/53472 [00:02<00:00, 17341.02face/s]  Computing similarities:  87%|████████▋ | 46393/53472 [00:02<00:00, 17351.03face/s]  Computing similarities:  90%|█████████ | 48129/53472 [00:02<00:00, 17332.23face/s]  Computing similarities:  93%|█████████▎| 49870/53472 [00:02<00:00, 17354.32face/s]  Computing similarities:  97%|█████████▋| 51621/53472 [00:03<00:00, 17397.94face/s]  Computing similarities: 100%|█████████▉| 53363/53472 [00:03<00:00, 17402.20face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17182.34face/s]
+
+Creating resemblance curve plot...
+
+  Plot saved to: resemblance_results/longjump_video5/pinnock/pinnock_updated.png
+
+Saving resemblance data...
+  Data saved to: resemblance_results/longjump_video5/pinnock/pinnock_updated.json
+
+  ✓ Successfully processed pinnock
+    - Plot: pinnock/pinnock_updated.png
+    - Data: pinnock/pinnock_updated.json
+    - Frames with faces: 27859
+    - ArcFace max: 1.000
+    - TransFace max: 1.000
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213456.json
+
+================================================================================
+PROCESSING TARGET 5/10: sreeshankar
+================================================================================
+
+Loading target embeddings...
+  ArcFace embedding shape: (512,)
+  TransFace embedding shape: (512,)
+
+Computing resemblance scores for longjump_video5...
+
+  ArcFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1257/53472 [00:00<00:04, 12569.08face/s]  Computing similarities:   5%|▌         | 2933/53472 [00:00<00:03, 15033.52face/s]  Computing similarities:   9%|▊         | 4613/53472 [00:00<00:03, 15839.71face/s]  Computing similarities:  12%|█▏        | 6302/53472 [00:00<00:02, 16252.19face/s]  Computing similarities:  15%|█▍        | 7985/53472 [00:00<00:02, 16458.16face/s]  Computing similarities:  18%|█▊        | 9671/53472 [00:00<00:02, 16591.55face/s]  Computing similarities:  21%|██▏       | 11371/53472 [00:00<00:02, 16724.86face/s]  Computing similarities:  24%|██▍       | 13044/53472 [00:00<00:02, 16721.39face/s]  Computing similarities:  28%|██▊       | 14745/53472 [00:00<00:02, 16808.93face/s]  Computing similarities:  31%|███       | 16446/53472 [00:01<00:02, 16867.92face/s]  Computing similarities:  34%|███▍      | 18133/53472 [00:01<00:02, 16852.67face/s]  Computing similarities:  37%|███▋      | 19830/53472 [00:01<00:01, 16887.74face/s]  Computing similarities:  40%|████      | 21538/53472 [00:01<00:01, 16944.30face/s]  Computing similarities:  43%|████▎     | 23242/53472 [00:01<00:01, 16970.80face/s]  Computing similarities:  47%|████▋     | 24940/53472 [00:01<00:01, 16966.97face/s]  Computing similarities:  50%|████▉     | 26657/53472 [00:01<00:01, 17026.15face/s]  Computing similarities:  53%|█████▎    | 28388/53472 [00:01<00:01, 17110.58face/s]  Computing similarities:  56%|█████▋    | 30123/53472 [00:01<00:01, 17181.11face/s]  Computing similarities:  60%|█████▉    | 31847/53472 [00:01<00:01, 17197.90face/s]  Computing similarities:  63%|██████▎   | 33567/53472 [00:02<00:01, 17174.47face/s]  Computing similarities:  66%|██████▌   | 35285/53472 [00:02<00:01, 17161.31face/s]  Computing similarities:  69%|██████▉   | 37002/53472 [00:02<00:00, 17124.02face/s]  Computing similarities:  72%|███████▏  | 38715/53472 [00:02<00:00, 17101.40face/s]  Computing similarities:  76%|███████▌  | 40426/53472 [00:02<00:00, 17099.38face/s]  Computing similarities:  79%|███████▉  | 42146/53472 [00:02<00:00, 17127.59face/s]  Computing similarities:  82%|████████▏ | 43863/53472 [00:02<00:00, 17138.52face/s]  Computing similarities:  85%|████████▌ | 45577/53472 [00:02<00:00, 17129.36face/s]  Computing similarities:  88%|████████▊ | 47299/53472 [00:02<00:00, 17154.33face/s]  Computing similarities:  92%|█████████▏| 49016/53472 [00:02<00:00, 17155.87face/s]  Computing similarities:  95%|█████████▍| 50735/53472 [00:03<00:00, 17165.09face/s]  Computing similarities:  98%|█████████▊| 52453/53472 [00:03<00:00, 17167.33face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 16904.55face/s]
+
+  TransFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1296/53472 [00:00<00:04, 12952.97face/s]  Computing similarities:   6%|▌         | 3010/53472 [00:00<00:03, 15412.10face/s]  Computing similarities:   9%|▉         | 4715/53472 [00:00<00:03, 16157.21face/s]  Computing similarities:  12%|█▏        | 6447/53472 [00:00<00:02, 16615.11face/s]  Computing similarities:  15%|█▌        | 8190/53472 [00:00<00:02, 16908.79face/s]  Computing similarities:  19%|█▊        | 9935/53472 [00:00<00:02, 17091.12face/s]  Computing similarities:  22%|██▏       | 11675/53472 [00:00<00:02, 17189.56face/s]  Computing similarities:  25%|██▌       | 13394/53472 [00:00<00:02, 17170.78face/s]  Computing similarities:  28%|██▊       | 15140/53472 [00:00<00:02, 17260.72face/s]  Computing similarities:  32%|███▏      | 16884/53472 [00:01<00:02, 17313.21face/s]  Computing similarities:  35%|███▍      | 18620/53472 [00:01<00:02, 17325.28face/s]  Computing similarities:  38%|███▊      | 20393/53472 [00:01<00:01, 17446.41face/s]  Computing similarities:  41%|████▏     | 22158/53472 [00:01<00:01, 17507.96face/s]  Computing similarities:  45%|████▍     | 23909/53472 [00:01<00:01, 17500.32face/s]  Computing similarities:  48%|████▊     | 25660/53472 [00:01<00:01, 17469.41face/s]  Computing similarities:  51%|█████▏    | 27420/53472 [00:01<00:01, 17505.43face/s]  Computing similarities:  55%|█████▍    | 29175/53472 [00:01<00:01, 17516.79face/s]  Computing similarities:  58%|█████▊    | 30949/53472 [00:01<00:01, 17581.96face/s]  Computing similarities:  61%|██████    | 32716/53472 [00:01<00:01, 17606.71face/s]  Computing similarities:  64%|██████▍   | 34477/53472 [00:02<00:01, 17590.34face/s]  Computing similarities:  68%|██████▊   | 36239/53472 [00:02<00:00, 17598.38face/s]  Computing similarities:  71%|███████   | 38008/53472 [00:02<00:00, 17623.34face/s]  Computing similarities:  74%|███████▍  | 39771/53472 [00:02<00:00, 17603.22face/s]  Computing similarities:  78%|███████▊  | 41536/53472 [00:02<00:00, 17615.83face/s]  Computing similarities:  81%|████████  | 43307/53472 [00:02<00:00, 17643.13face/s]  Computing similarities:  84%|████████▍ | 45077/53472 [00:02<00:00, 17658.71face/s]  Computing similarities:  88%|████████▊ | 46843/53472 [00:02<00:00, 17645.48face/s]  Computing similarities:  91%|█████████ | 48608/53472 [00:02<00:00, 17638.00face/s]  Computing similarities:  94%|█████████▍| 50372/53472 [00:02<00:00, 17585.28face/s]  Computing similarities:  97%|█████████▋| 52135/53472 [00:03<00:00, 17596.99face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17357.36face/s]
+
+Creating resemblance curve plot...
+
+  Plot saved to: resemblance_results/longjump_video5/sreeshankar/sreeshankar_updated.png
+
+Saving resemblance data...
+  Data saved to: resemblance_results/longjump_video5/sreeshankar/sreeshankar_updated.json
+
+  ✓ Successfully processed sreeshankar
+    - Plot: sreeshankar/sreeshankar_updated.png
+    - Data: sreeshankar/sreeshankar_updated.json
+    - Frames with faces: 27859
+    - ArcFace max: 1.000
+    - TransFace max: 1.000
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213503.json
+
+================================================================================
+PROCESSING TARGET 6/10: mccarter
+================================================================================
+
+Loading target embeddings...
+  ArcFace embedding shape: (512,)
+  TransFace embedding shape: (512,)
+
+Computing resemblance scores for longjump_video5...
+
+  ArcFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1272/53472 [00:00<00:04, 12716.95face/s]  Computing similarities:   6%|▌         | 2950/53472 [00:00<00:03, 15103.93face/s]  Computing similarities:   9%|▊         | 4639/53472 [00:00<00:03, 15919.25face/s]  Computing similarities:  12%|█▏        | 6345/53472 [00:00<00:02, 16367.55face/s]  Computing similarities:  15%|█▌        | 8064/53472 [00:00<00:02, 16661.75face/s]  Computing similarities:  18%|█▊        | 9784/53472 [00:00<00:02, 16842.85face/s]  Computing similarities:  21%|██▏       | 11482/53472 [00:00<00:02, 16884.48face/s]  Computing similarities:  25%|██▍       | 13177/53472 [00:00<00:02, 16904.69face/s]  Computing similarities:  28%|██▊       | 14900/53472 [00:00<00:02, 17004.40face/s]  Computing similarities:  31%|███       | 16610/53472 [00:01<00:02, 17032.76face/s]  Computing similarities:  34%|███▍      | 18314/53472 [00:01<00:02, 17029.04face/s]  Computing similarities:  37%|███▋      | 20034/53472 [00:01<00:01, 17079.70face/s]  Computing similarities:  41%|████      | 21766/53472 [00:01<00:01, 17150.65face/s]  Computing similarities:  44%|████▍     | 23489/53472 [00:01<00:01, 17172.97face/s]  Computing similarities:  47%|████▋     | 25218/53472 [00:01<00:01, 17205.86face/s]  Computing similarities:  50%|█████     | 26939/53472 [00:01<00:01, 17187.17face/s]  Computing similarities:  54%|█████▎    | 28668/53472 [00:01<00:01, 17216.34face/s]  Computing similarities:  57%|█████▋    | 30420/53472 [00:01<00:01, 17307.23face/s]  Computing similarities:  60%|██████    | 32167/53472 [00:01<00:01, 17355.10face/s]  Computing similarities:  63%|██████▎   | 33906/53472 [00:02<00:01, 17362.82face/s]  Computing similarities:  67%|██████▋   | 35646/53472 [00:02<00:01, 17371.25face/s]  Computing similarities:  70%|██████▉   | 37384/53472 [00:02<00:00, 17361.92face/s]  Computing similarities:  73%|███████▎  | 39121/53472 [00:02<00:00, 17339.33face/s]  Computing similarities:  76%|███████▋  | 40857/53472 [00:02<00:00, 17343.21face/s]  Computing similarities:  80%|███████▉  | 42593/53472 [00:02<00:00, 17345.37face/s]  Computing similarities:  83%|████████▎ | 44328/53472 [00:02<00:00, 17317.20face/s]  Computing similarities:  86%|████████▌ | 46060/53472 [00:02<00:00, 17314.03face/s]  Computing similarities:  89%|████████▉ | 47798/53472 [00:02<00:00, 17331.99face/s]  Computing similarities:  93%|█████████▎| 49537/53472 [00:02<00:00, 17348.58face/s]  Computing similarities:  96%|█████████▌| 51272/53472 [00:03<00:00, 17339.45face/s]  Computing similarities:  99%|█████████▉| 53006/53472 [00:03<00:00, 17305.93face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17081.27face/s]
+
+  TransFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1291/53472 [00:00<00:04, 12908.47face/s]  Computing similarities:   6%|▌         | 3004/53472 [00:00<00:03, 15386.50face/s]  Computing similarities:   9%|▉         | 4707/53472 [00:00<00:03, 16134.75face/s]  Computing similarities:  12%|█▏        | 6439/53472 [00:00<00:02, 16600.45face/s]  Computing similarities:  15%|█▌        | 8186/53472 [00:00<00:02, 16912.46face/s]  Computing similarities:  19%|█▊        | 9940/53472 [00:00<00:02, 17124.47face/s]  Computing similarities:  22%|██▏       | 11688/53472 [00:00<00:02, 17239.25face/s]  Computing similarities:  25%|██▌       | 13440/53472 [00:00<00:02, 17326.93face/s]  Computing similarities:  28%|██▊       | 15190/53472 [00:00<00:02, 17380.42face/s]  Computing similarities:  32%|███▏      | 16945/53472 [00:01<00:02, 17430.95face/s]  Computing similarities:  35%|███▍      | 18689/53472 [00:01<00:02, 17373.92face/s]  Computing similarities:  38%|███▊      | 20453/53472 [00:01<00:01, 17453.88face/s]  Computing similarities:  42%|████▏     | 22215/53472 [00:01<00:01, 17502.65face/s]  Computing similarities:  45%|████▍     | 23976/53472 [00:01<00:01, 17533.11face/s]  Computing similarities:  48%|████▊     | 25732/53472 [00:01<00:01, 17539.08face/s]  Computing similarities:  51%|█████▏    | 27503/53472 [00:01<00:01, 17590.13face/s]  Computing similarities:  55%|█████▍    | 29263/53472 [00:01<00:01, 17562.42face/s]  Computing similarities:  58%|█████▊    | 31026/53472 [00:01<00:01, 17581.50face/s]  Computing similarities:  61%|██████▏   | 32797/53472 [00:01<00:01, 17618.97face/s]  Computing similarities:  65%|██████▍   | 34566/53472 [00:02<00:01, 17639.84face/s]  Computing similarities:  68%|██████▊   | 36333/53472 [00:02<00:00, 17646.14face/s]  Computing similarities:  71%|███████▏  | 38102/53472 [00:02<00:00, 17658.77face/s]  Computing similarities:  75%|███████▍  | 39868/53472 [00:02<00:00, 17599.74face/s]  Computing similarities:  78%|███████▊  | 41629/53472 [00:02<00:00, 17579.07face/s]  Computing similarities:  81%|████████  | 43387/53472 [00:02<00:00, 17539.10face/s]  Computing similarities:  84%|████████▍ | 45141/53472 [00:02<00:00, 17527.37face/s]  Computing similarities:  88%|████████▊ | 46894/53472 [00:02<00:00, 17523.21face/s]  Computing similarities:  91%|█████████ | 48647/53472 [00:02<00:00, 17483.61face/s]  Computing similarities:  94%|█████████▍| 50396/53472 [00:02<00:00, 17422.43face/s]  Computing similarities:  98%|█████████▊| 52148/53472 [00:03<00:00, 17450.45face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17347.08face/s]
+
+Creating resemblance curve plot...
+
+  Plot saved to: resemblance_results/longjump_video5/mccarter/mccarter_updated.png
+
+Saving resemblance data...
+  Data saved to: resemblance_results/longjump_video5/mccarter/mccarter_updated.json
+
+  ✓ Successfully processed mccarter
+    - Plot: mccarter/mccarter_updated.png
+    - Data: mccarter/mccarter_updated.json
+    - Frames with faces: 27859
+    - ArcFace max: 1.000
+    - TransFace max: 1.000
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213510.json
+
+================================================================================
+PROCESSING TARGET 7/10: dendy
+================================================================================
+
+Loading target embeddings...
+  ArcFace embedding shape: (512,)
+  TransFace embedding shape: (512,)
+
+Computing resemblance scores for longjump_video5...
+
+  ArcFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1251/53472 [00:00<00:04, 12507.75face/s]  Computing similarities:   5%|▌         | 2897/53472 [00:00<00:03, 14829.36face/s]  Computing similarities:   9%|▊         | 4548/53472 [00:00<00:03, 15594.07face/s]  Computing similarities:  12%|█▏        | 6227/53472 [00:00<00:02, 16063.76face/s]  Computing similarities:  15%|█▍        | 7946/53472 [00:00<00:02, 16469.37face/s]  Computing similarities:  18%|█▊        | 9660/53472 [00:00<00:02, 16696.31face/s]  Computing similarities:  21%|██        | 11343/53472 [00:00<00:02, 16738.28face/s]  Computing similarities:  24%|██▍       | 13017/53472 [00:00<00:02, 16691.26face/s]  Computing similarities:  27%|██▋       | 14696/53472 [00:00<00:02, 16721.78face/s]  Computing similarities:  31%|███       | 16374/53472 [00:01<00:02, 16738.16face/s]  Computing similarities:  34%|███▍      | 18048/53472 [00:01<00:02, 16729.95face/s]  Computing similarities:  37%|███▋      | 19728/53472 [00:01<00:02, 16750.53face/s]  Computing similarities:  40%|████      | 21426/53472 [00:01<00:01, 16818.36face/s]  Computing similarities:  43%|████▎     | 23122/53472 [00:01<00:01, 16858.38face/s]  Computing similarities:  46%|████▋     | 24825/53472 [00:01<00:01, 16908.23face/s]  Computing similarities:  50%|████▉     | 26526/53472 [00:01<00:01, 16938.29face/s]  Computing similarities:  53%|█████▎    | 28239/53472 [00:01<00:01, 16993.65face/s]  Computing similarities:  56%|█████▌    | 29944/53472 [00:01<00:01, 17009.14face/s]  Computing similarities:  59%|█████▉    | 31670/53472 [00:01<00:01, 17084.13face/s]  Computing similarities:  62%|██████▏   | 33403/53472 [00:02<00:01, 17157.55face/s]  Computing similarities:  66%|██████▌   | 35135/53472 [00:02<00:01, 17203.52face/s]  Computing similarities:  69%|██████▉   | 36859/53472 [00:02<00:00, 17213.07face/s]  Computing similarities:  72%|███████▏  | 38596/53472 [00:02<00:00, 17258.99face/s]  Computing similarities:  75%|███████▌  | 40322/53472 [00:02<00:00, 17235.51face/s]  Computing similarities:  79%|███████▊  | 42046/53472 [00:02<00:00, 17233.09face/s]  Computing similarities:  82%|████████▏ | 43770/53472 [00:02<00:00, 17209.17face/s]  Computing similarities:  85%|████████▌ | 45491/53472 [00:02<00:00, 17201.23face/s]  Computing similarities:  88%|████████▊ | 47212/53472 [00:02<00:00, 17173.30face/s]  Computing similarities:  92%|█████████▏| 48930/53472 [00:02<00:00, 17167.03face/s]  Computing similarities:  95%|█████████▍| 50647/53472 [00:03<00:00, 17149.18face/s]  Computing similarities:  98%|█████████▊| 52362/53472 [00:03<00:00, 17070.49face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 16861.84face/s]
+
+  TransFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1276/53472 [00:00<00:04, 12753.87face/s]  Computing similarities:   6%|▌         | 2990/53472 [00:00<00:03, 15331.53face/s]  Computing similarities:   9%|▊         | 4665/53472 [00:00<00:03, 15975.67face/s]  Computing similarities:  12%|█▏        | 6390/53472 [00:00<00:02, 16475.69face/s]  Computing similarities:  15%|█▌        | 8147/53472 [00:00<00:02, 16869.49face/s]  Computing similarities:  18%|█▊        | 9882/53472 [00:00<00:02, 17030.52face/s]  Computing similarities:  22%|██▏       | 11633/53472 [00:00<00:02, 17186.13face/s]  Computing similarities:  25%|██▌       | 13369/53472 [00:00<00:02, 17239.33face/s]  Computing similarities:  28%|██▊       | 15111/53472 [00:00<00:02, 17293.55face/s]  Computing similarities:  32%|███▏      | 16859/53472 [00:01<00:02, 17349.86face/s]  Computing similarities:  35%|███▍      | 18594/53472 [00:01<00:02, 17326.55face/s]  Computing similarities:  38%|███▊      | 20351/53472 [00:01<00:01, 17399.51face/s]  Computing similarities:  41%|████▏     | 22110/53472 [00:01<00:01, 17456.27face/s]  Computing similarities:  45%|████▍     | 23863/53472 [00:01<00:01, 17476.42face/s]  Computing similarities:  48%|████▊     | 25619/53472 [00:01<00:01, 17500.98face/s]  Computing similarities:  51%|█████     | 27371/53472 [00:01<00:01, 17504.04face/s]  Computing similarities:  54%|█████▍    | 29122/53472 [00:01<00:01, 17499.32face/s]  Computing similarities:  58%|█████▊    | 30877/53472 [00:01<00:01, 17512.74face/s]  Computing similarities:  61%|██████    | 32630/53472 [00:01<00:01, 17515.56face/s]  Computing similarities:  64%|██████▍   | 34393/53472 [00:02<00:01, 17549.76face/s]  Computing similarities:  68%|██████▊   | 36148/53472 [00:02<00:00, 17532.69face/s]  Computing similarities:  71%|███████   | 37921/53472 [00:02<00:00, 17589.58face/s]  Computing similarities:  74%|███████▍  | 39688/53472 [00:02<00:00, 17610.72face/s]  Computing similarities:  78%|███████▊  | 41460/53472 [00:02<00:00, 17642.72face/s]  Computing similarities:  81%|████████  | 43228/53472 [00:02<00:00, 17651.45face/s]  Computing similarities:  84%|████████▍ | 44994/53472 [00:02<00:00, 17620.79face/s]  Computing similarities:  87%|████████▋ | 46761/53472 [00:02<00:00, 17633.30face/s]  Computing similarities:  91%|█████████ | 48526/53472 [00:02<00:00, 17637.26face/s]  Computing similarities:  94%|█████████▍| 50290/53472 [00:02<00:00, 17606.02face/s]  Computing similarities:  97%|█████████▋| 52051/53472 [00:03<00:00, 17604.94face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17340.64face/s]
+
+Creating resemblance curve plot...
+
+  Plot saved to: resemblance_results/longjump_video5/dendy/dendy_updated.png
+
+Saving resemblance data...
+  Data saved to: resemblance_results/longjump_video5/dendy/dendy_updated.json
+
+  ✓ Successfully processed dendy
+    - Plot: dendy/dendy_updated.png
+    - Data: dendy/dendy_updated.json
+    - Frames with faces: 27859
+    - ArcFace max: 1.000
+    - TransFace max: 1.000
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213517.json
+
+================================================================================
+PROCESSING TARGET 8/10: wang
+================================================================================
+
+Loading target embeddings...
+  ArcFace embedding shape: (512,)
+  TransFace embedding shape: (512,)
+
+Computing resemblance scores for longjump_video5...
+
+  ArcFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1271/53472 [00:00<00:04, 12702.89face/s]  Computing similarities:   6%|▌         | 2976/53472 [00:00<00:03, 15254.20face/s]  Computing similarities:   9%|▉         | 4684/53472 [00:00<00:03, 16084.12face/s]  Computing similarities:  12%|█▏        | 6406/53472 [00:00<00:02, 16529.26face/s]  Computing similarities:  15%|█▌        | 8126/53472 [00:00<00:02, 16769.98face/s]  Computing similarities:  18%|█▊        | 9849/53472 [00:00<00:02, 16923.14face/s]  Computing similarities:  22%|██▏       | 11571/53472 [00:00<00:02, 17018.07face/s]  Computing similarities:  25%|██▍       | 13290/53472 [00:00<00:02, 17070.68face/s]  Computing similarities:  28%|██▊       | 15013/53472 [00:00<00:02, 17118.97face/s]  Computing similarities:  31%|███▏      | 16734/53472 [00:01<00:02, 17144.02face/s]  Computing similarities:  35%|███▍      | 18449/53472 [00:01<00:02, 17143.65face/s]  Computing similarities:  38%|███▊      | 20192/53472 [00:01<00:01, 17227.96face/s]  Computing similarities:  41%|████      | 21925/53472 [00:01<00:01, 17258.27face/s]  Computing similarities:  44%|████▍     | 23651/53472 [00:01<00:01, 17257.02face/s]  Computing similarities:  47%|████▋     | 25388/53472 [00:01<00:01, 17290.44face/s]  Computing similarities:  51%|█████     | 27129/53472 [00:01<00:01, 17325.12face/s]  Computing similarities:  54%|█████▍    | 28868/53472 [00:01<00:01, 17344.54face/s]  Computing similarities:  57%|█████▋    | 30614/53472 [00:01<00:01, 17377.72face/s]  Computing similarities:  61%|██████    | 32352/53472 [00:01<00:01, 17348.91face/s]  Computing similarities:  64%|██████▎   | 34088/53472 [00:02<00:01, 17349.80face/s]  Computing similarities:  67%|██████▋   | 35829/53472 [00:02<00:01, 17367.28face/s]  Computing similarities:  70%|███████   | 37569/53472 [00:02<00:00, 17375.62face/s]  Computing similarities:  74%|███████▎  | 39312/53472 [00:02<00:00, 17389.77face/s]  Computing similarities:  77%|███████▋  | 41054/53472 [00:02<00:00, 17398.61face/s]  Computing similarities:  80%|████████  | 42795/53472 [00:02<00:00, 17400.22face/s]  Computing similarities:  83%|████████▎ | 44536/53472 [00:02<00:00, 17403.01face/s]  Computing similarities:  87%|████████▋ | 46282/53472 [00:02<00:00, 17419.74face/s]  Computing similarities:  90%|████████▉ | 48030/53472 [00:02<00:00, 17436.53face/s]  Computing similarities:  93%|█████████▎| 49774/53472 [00:02<00:00, 17357.33face/s]  Computing similarities:  96%|█████████▋| 51516/53472 [00:03<00:00, 17375.56face/s]  Computing similarities: 100%|█████████▉| 53254/53472 [00:03<00:00, 17342.83face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17158.02face/s]
+
+  TransFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1288/53472 [00:00<00:04, 12876.70face/s]  Computing similarities:   6%|▌         | 3009/53472 [00:00<00:03, 15424.66face/s]  Computing similarities:   9%|▉         | 4724/53472 [00:00<00:03, 16208.16face/s]  Computing similarities:  12%|█▏        | 6462/53472 [00:00<00:02, 16667.32face/s]  Computing similarities:  15%|█▌        | 8213/53472 [00:00<00:02, 16969.33face/s]  Computing similarities:  19%|█▊        | 9960/53472 [00:00<00:02, 17137.16face/s]  Computing similarities:  22%|██▏       | 11685/53472 [00:00<00:02, 17172.24face/s]  Computing similarities:  25%|██▌       | 13414/53472 [00:00<00:02, 17206.53face/s]  Computing similarities:  28%|██▊       | 15142/53472 [00:00<00:02, 17227.75face/s]  Computing similarities:  32%|███▏      | 16885/53472 [00:01<00:02, 17289.58face/s]  Computing similarities:  35%|███▍      | 18630/53472 [00:01<00:02, 17336.06face/s]  Computing similarities:  38%|███▊      | 20384/53472 [00:01<00:01, 17395.63face/s]  Computing similarities:  41%|████▏     | 22138/53472 [00:01<00:01, 17439.11face/s]  Computing similarities:  45%|████▍     | 23883/53472 [00:01<00:01, 17440.39face/s]  Computing similarities:  48%|████▊     | 25628/53472 [00:01<00:01, 17442.29face/s]  Computing similarities:  51%|█████     | 27381/53472 [00:01<00:01, 17466.80face/s]  Computing similarities:  54%|█████▍    | 29128/53472 [00:01<00:01, 17449.24face/s]  Computing similarities:  58%|█████▊    | 30887/53472 [00:01<00:01, 17489.63face/s]  Computing similarities:  61%|██████    | 32636/53472 [00:01<00:01, 17474.73face/s]  Computing similarities:  64%|██████▍   | 34384/53472 [00:02<00:01, 17458.99face/s]  Computing similarities:  68%|██████▊   | 36136/53472 [00:02<00:00, 17476.30face/s]  Computing similarities:  71%|███████   | 37892/53472 [00:02<00:00, 17499.44face/s]  Computing similarities:  74%|███████▍  | 39642/53472 [00:02<00:00, 17494.47face/s]  Computing similarities:  77%|███████▋  | 41397/53472 [00:02<00:00, 17508.36face/s]  Computing similarities:  81%|████████  | 43159/53472 [00:02<00:00, 17539.51face/s]  Computing similarities:  84%|████████▍ | 44916/53472 [00:02<00:00, 17546.72face/s]  Computing similarities:  87%|████████▋ | 46671/53472 [00:02<00:00, 17533.67face/s]  Computing similarities:  91%|█████████ | 48433/53472 [00:02<00:00, 17557.67face/s]  Computing similarities:  94%|█████████▍| 50189/53472 [00:02<00:00, 17543.84face/s]  Computing similarities:  97%|█████████▋| 51944/53472 [00:03<00:00, 17532.32face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17302.08face/s]
+
+Creating resemblance curve plot...
+
+  Plot saved to: resemblance_results/longjump_video5/wang/wang_updated.png
+
+Saving resemblance data...
+  Data saved to: resemblance_results/longjump_video5/wang/wang_updated.json
+
+  ✓ Successfully processed wang
+    - Plot: wang/wang_updated.png
+    - Data: wang/wang_updated.json
+    - Frames with faces: 27859
+    - ArcFace max: 1.000
+    - TransFace max: 1.000
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213524.json
+
+================================================================================
+PROCESSING TARGET 9/10: tentoglou
+================================================================================
+
+Loading target embeddings...
+  ArcFace embedding shape: (512,)
+  TransFace embedding shape: (512,)
+
+Computing resemblance scores for longjump_video5...
+
+  ArcFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1255/53472 [00:00<00:04, 12543.07face/s]  Computing similarities:   5%|▌         | 2932/53472 [00:00<00:03, 15026.52face/s]  Computing similarities:   9%|▊         | 4618/53472 [00:00<00:03, 15859.43face/s]  Computing similarities:  12%|█▏        | 6309/53472 [00:00<00:02, 16273.41face/s]  Computing similarities:  15%|█▌        | 8025/53472 [00:00<00:02, 16590.92face/s]  Computing similarities:  18%|█▊        | 9718/53472 [00:00<00:02, 16704.21face/s]  Computing similarities:  21%|██▏       | 11428/53472 [00:00<00:02, 16833.17face/s]  Computing similarities:  25%|██▍       | 13132/53472 [00:00<00:02, 16898.43face/s]  Computing similarities:  28%|██▊       | 14854/53472 [00:00<00:02, 16997.61face/s]  Computing similarities:  31%|███       | 16559/53472 [00:01<00:02, 17012.05face/s]  Computing similarities:  34%|███▍      | 18261/53472 [00:01<00:02, 17006.67face/s]  Computing similarities:  37%|███▋      | 19999/53472 [00:01<00:01, 17119.98face/s]  Computing similarities:  41%|████      | 21724/53472 [00:01<00:01, 17158.26face/s]  Computing similarities:  44%|████▍     | 23440/53472 [00:01<00:01, 17152.95face/s]  Computing similarities:  47%|████▋     | 25165/53472 [00:01<00:01, 17180.00face/s]  Computing similarities:  50%|█████     | 26884/53472 [00:01<00:01, 17172.26face/s]  Computing similarities:  53%|█████▎    | 28604/53472 [00:01<00:01, 17178.61face/s]  Computing similarities:  57%|█████▋    | 30331/53472 [00:01<00:01, 17205.48face/s]  Computing similarities:  60%|█████▉    | 32071/53472 [00:01<00:01, 17261.41face/s]  Computing similarities:  63%|██████▎   | 33798/53472 [00:02<00:01, 17202.19face/s]  Computing similarities:  66%|██████▋   | 35519/53472 [00:02<00:01, 17201.53face/s]  Computing similarities:  70%|██████▉   | 37240/53472 [00:02<00:00, 17190.22face/s]  Computing similarities:  73%|███████▎  | 38960/53472 [00:02<00:00, 17190.95face/s]  Computing similarities:  76%|███████▌  | 40682/53472 [00:02<00:00, 17197.90face/s]  Computing similarities:  79%|███████▉  | 42406/53472 [00:02<00:00, 17209.75face/s]  Computing similarities:  83%|████████▎ | 44133/53472 [00:02<00:00, 17227.27face/s]  Computing similarities:  86%|████████▌ | 45856/53472 [00:02<00:00, 17204.76face/s]  Computing similarities:  89%|████████▉ | 47584/53472 [00:02<00:00, 17226.46face/s]  Computing similarities:  92%|█████████▏| 49307/53472 [00:02<00:00, 17215.75face/s]  Computing similarities:  95%|█████████▌| 51045/53472 [00:03<00:00, 17262.19face/s]  Computing similarities:  99%|█████████▊| 52772/53472 [00:03<00:00, 17217.57face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17003.12face/s]
+
+  TransFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1296/53472 [00:00<00:04, 12956.06face/s]  Computing similarities:   6%|▌         | 3014/53472 [00:00<00:03, 15439.43face/s]  Computing similarities:   9%|▉         | 4743/53472 [00:00<00:02, 16280.69face/s]  Computing similarities:  12%|█▏        | 6482/53472 [00:00<00:02, 16715.42face/s]  Computing similarities:  15%|█▌        | 8221/53472 [00:00<00:02, 16958.22face/s]  Computing similarities:  19%|█▊        | 9968/53472 [00:00<00:02, 17129.80face/s]  Computing similarities:  22%|██▏       | 11738/53472 [00:00<00:02, 17313.50face/s]  Computing similarities:  25%|██▌       | 13471/53472 [00:00<00:02, 17317.91face/s]  Computing similarities:  28%|██▊       | 15228/53472 [00:00<00:02, 17395.45face/s]  Computing similarities:  32%|███▏      | 16987/53472 [00:01<00:02, 17454.90face/s]  Computing similarities:  35%|███▌      | 18733/53472 [00:01<00:01, 17453.87face/s]  Computing similarities:  38%|███▊      | 20513/53472 [00:01<00:01, 17557.02face/s]  Computing similarities:  42%|████▏     | 22287/53472 [00:01<00:01, 17611.41face/s]  Computing similarities:  45%|████▍     | 24053/53472 [00:01<00:01, 17625.03face/s]  Computing similarities:  48%|████▊     | 25816/53472 [00:01<00:01, 17593.67face/s]  Computing similarities:  52%|█████▏    | 27583/53472 [00:01<00:01, 17614.37face/s]  Computing similarities:  55%|█████▍    | 29347/53472 [00:01<00:01, 17619.54face/s]  Computing similarities:  58%|█████▊    | 31109/53472 [00:01<00:01, 17603.42face/s]  Computing similarities:  61%|██████▏   | 32870/53472 [00:01<00:01, 17595.84face/s]  Computing similarities:  65%|██████▍   | 34630/53472 [00:02<00:01, 17590.30face/s]  Computing similarities:  68%|██████▊   | 36390/53472 [00:02<00:00, 17589.72face/s]  Computing similarities:  71%|███████▏  | 38154/53472 [00:02<00:00, 17602.98face/s]  Computing similarities:  75%|███████▍  | 39915/53472 [00:02<00:00, 17586.78face/s]  Computing similarities:  78%|███████▊  | 41675/53472 [00:02<00:00, 17589.83face/s]  Computing similarities:  81%|████████  | 43441/53472 [00:02<00:00, 17608.20face/s]  Computing similarities:  85%|████████▍ | 45202/53472 [00:02<00:00, 17593.40face/s]  Computing similarities:  88%|████████▊ | 46962/53472 [00:02<00:00, 17590.81face/s]  Computing similarities:  91%|█████████ | 48722/53472 [00:02<00:00, 17579.56face/s]  Computing similarities:  94%|█████████▍| 50480/53472 [00:02<00:00, 17560.10face/s]  Computing similarities:  98%|█████████▊| 52237/53472 [00:03<00:00, 17544.86face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17395.19face/s]
+
+Creating resemblance curve plot...
+
+  Plot saved to: resemblance_results/longjump_video5/tentoglou/tentoglou_updated.png
+
+Saving resemblance data...
+  Data saved to: resemblance_results/longjump_video5/tentoglou/tentoglou_updated.json
+
+  ✓ Successfully processed tentoglou
+    - Plot: tentoglou/tentoglou_updated.png
+    - Data: tentoglou/tentoglou_updated.json
+    - Frames with faces: 27859
+    - ArcFace max: 1.000
+    - TransFace max: 1.000
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213531.json
+
+================================================================================
+PROCESSING TARGET 10/10: caceres
+================================================================================
+
+Loading target embeddings...
+  ArcFace embedding shape: (512,)
+  TransFace embedding shape: (512,)
+
+Computing resemblance scores for longjump_video5...
+
+  ArcFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1258/53472 [00:00<00:04, 12573.27face/s]  Computing similarities:   5%|▌         | 2936/53472 [00:00<00:03, 15046.96face/s]  Computing similarities:   9%|▊         | 4623/53472 [00:00<00:03, 15875.37face/s]  Computing similarities:  12%|█▏        | 6333/53472 [00:00<00:02, 16356.49face/s]  Computing similarities:  15%|█▌        | 8033/53472 [00:00<00:02, 16587.44face/s]  Computing similarities:  18%|█▊        | 9755/53472 [00:00<00:02, 16799.36face/s]  Computing similarities:  21%|██▏       | 11440/53472 [00:00<00:02, 16813.28face/s]  Computing similarities:  25%|██▍       | 13122/53472 [00:00<00:02, 16757.14face/s]  Computing similarities:  28%|██▊       | 14827/53472 [00:00<00:02, 16846.52face/s]  Computing similarities:  31%|███       | 16524/53472 [00:01<00:02, 16884.23face/s]  Computing similarities:  34%|███▍      | 18213/53472 [00:01<00:02, 16829.23face/s]  Computing similarities:  37%|███▋      | 19934/53472 [00:01<00:01, 16942.68face/s]  Computing similarities:  41%|████      | 21669/53472 [00:01<00:01, 17063.06face/s]  Computing similarities:  44%|████▎     | 23376/53472 [00:01<00:01, 17037.82face/s]  Computing similarities:  47%|████▋     | 25091/53472 [00:01<00:01, 17071.06face/s]  Computing similarities:  50%|█████     | 26803/53472 [00:01<00:01, 17084.83face/s]  Computing similarities:  53%|█████▎    | 28520/53472 [00:01<00:01, 17108.44face/s]  Computing similarities:  57%|█████▋    | 30231/53472 [00:01<00:01, 17107.73face/s]  Computing similarities:  60%|█████▉    | 31968/53472 [00:01<00:01, 17185.80face/s]  Computing similarities:  63%|██████▎   | 33712/53472 [00:02<00:01, 17259.82face/s]  Computing similarities:  66%|██████▋   | 35444/53472 [00:02<00:01, 17276.64face/s]  Computing similarities:  70%|██████▉   | 37186/53472 [00:02<00:00, 17318.60face/s]  Computing similarities:  73%|███████▎  | 38918/53472 [00:02<00:00, 17306.87face/s]  Computing similarities:  76%|███████▌  | 40656/53472 [00:02<00:00, 17326.65face/s]  Computing similarities:  79%|███████▉  | 42390/53472 [00:02<00:00, 17328.23face/s]  Computing similarities:  83%|████████▎ | 44129/53472 [00:02<00:00, 17345.09face/s]  Computing similarities:  86%|████████▌ | 45864/53472 [00:02<00:00, 17318.29face/s]  Computing similarities:  89%|████████▉ | 47596/53472 [00:02<00:00, 17300.57face/s]  Computing similarities:  92%|█████████▏| 49335/53472 [00:02<00:00, 17325.31face/s]  Computing similarities:  96%|█████████▌| 51068/53472 [00:03<00:00, 17286.94face/s]  Computing similarities:  99%|█████████▊| 52797/53472 [00:03<00:00, 17205.02face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 16996.73face/s]
+
+  TransFace:
+  Processing 53472 face embeddings...
+  Computing similarities:   0%|          | 0/53472 [00:00<?, ?face/s]  Computing similarities:   2%|▏         | 1294/53472 [00:00<00:04, 12939.52face/s]  Computing similarities:   6%|▌         | 3010/53472 [00:00<00:03, 15418.86face/s]  Computing similarities:   9%|▉         | 4739/53472 [00:00<00:02, 16269.02face/s]  Computing similarities:  12%|█▏        | 6477/53472 [00:00<00:02, 16706.03face/s]  Computing similarities:  15%|█▌        | 8211/53472 [00:00<00:02, 16934.11face/s]  Computing similarities:  19%|█▊        | 9954/53472 [00:00<00:02, 17101.81face/s]  Computing similarities:  22%|██▏       | 11719/53472 [00:00<00:02, 17277.92face/s]  Computing similarities:  25%|██▌       | 13452/53472 [00:00<00:02, 17292.22face/s]  Computing similarities:  28%|██▊       | 15197/53472 [00:00<00:02, 17339.65face/s]  Computing similarities:  32%|███▏      | 16955/53472 [00:01<00:02, 17410.94face/s]  Computing similarities:  35%|███▍      | 18697/53472 [00:01<00:02, 17378.40face/s]  Computing similarities:  38%|███▊      | 20477/53472 [00:01<00:01, 17504.60face/s]  Computing similarities:  42%|████▏     | 22240/53472 [00:01<00:01, 17541.51face/s]  Computing similarities:  45%|████▍     | 23999/53472 [00:01<00:01, 17553.27face/s]  Computing similarities:  48%|████▊     | 25763/53472 [00:01<00:01, 17578.11face/s]  Computing similarities:  51%|█████▏    | 27533/53472 [00:01<00:01, 17614.41face/s]  Computing similarities:  55%|█████▍    | 29296/53472 [00:01<00:01, 17618.23face/s]  Computing similarities:  58%|█████▊    | 31062/53472 [00:01<00:01, 17628.04face/s]  Computing similarities:  61%|██████▏   | 32825/53472 [00:01<00:01, 17577.59face/s]  Computing similarities:  65%|██████▍   | 34591/53472 [00:02<00:01, 17601.32face/s]  Computing similarities:  68%|██████▊   | 36352/53472 [00:02<00:00, 17577.38face/s]  Computing similarities:  71%|███████▏  | 38110/53472 [00:02<00:00, 17546.69face/s]  Computing similarities:  75%|███████▍  | 39865/53472 [00:02<00:00, 17529.34face/s]  Computing similarities:  78%|███████▊  | 41636/53472 [00:02<00:00, 17581.42face/s]  Computing similarities:  81%|████████  | 43400/53472 [00:02<00:00, 17597.10face/s]  Computing similarities:  84%|████████▍ | 45161/53472 [00:02<00:00, 17599.92face/s]  Computing similarities:  88%|████████▊ | 46929/53472 [00:02<00:00, 17622.85face/s]  Computing similarities:  91%|█████████ | 48701/53472 [00:02<00:00, 17649.89face/s]  Computing similarities:  94%|█████████▍| 50466/53472 [00:02<00:00, 17601.88face/s]  Computing similarities:  98%|█████████▊| 52234/53472 [00:03<00:00, 17623.81face/s]  Computing similarities: 100%|██████████| 53472/53472 [00:03<00:00, 17389.55face/s]
+
+Creating resemblance curve plot...
+
+  Plot saved to: resemblance_results/longjump_video5/caceres/caceres_updated.png
+
+Saving resemblance data...
+  Data saved to: resemblance_results/longjump_video5/caceres/caceres_updated.json
+
+  ✓ Successfully processed caceres
+    - Plot: caceres/caceres_updated.png
+    - Data: caceres/caceres_updated.json
+    - Frames with faces: 27859
+    - ArcFace max: 1.000
+    - TransFace max: 1.000
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213537.json
+
+================================================================================
+ALL PROCESSING COMPLETE
+================================================================================
+
+Summary:
+  Video: longjump_video5
+  Total targets: 10
+  Successful: 10
+  Failed: 0
+
+Results saved to: resemblance_results/longjump_video5/
+================================================================================
+MODE: FINAL VISUALIZATION WITH HIGHLIGHT OVERLAYS
+================================================================================
+
+Video: longjump_video5
+Model: QDDETR
+Mode: Updated Target (Second Pass)
+Threshold: 0.6
+
+Loaded 54 highlight segments
+
+Processing 10 target(s):
+  - frayne
+  - ehammer
+  - masso
+  - pinnock
+  - sreeshankar
+  - mccarter
+  - dendy
+  - wang
+  - tentoglou
+  - caceres
+
+================================================================================
+PROCESSING TARGET: frayne
+================================================================================
+
+  Processing ArcFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_018.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_021.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_022.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_023.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_024.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_051.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_060.mp4
+  ArcFace: Copied 7 clip(s)
+
+  Processing TransFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_008.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_021.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_022.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_023.mp4
+  TransFace: Copied 4 clip(s)
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213538.json
+  ✓ Created enhanced plot: frayne_updated.png
+  ✓ Created summary report: frayne_updated.json
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213539.json
+
+  ✓ Completed frayne
+    - Enhanced plot: longjump_video5/qddetr/frayne/frayne_updated.png
+    - Relevant clips: 2/54
+    - Summary report: longjump_video5/qddetr/frayne/frayne_updated.json
+
+================================================================================
+PROCESSING TARGET: ehammer
+================================================================================
+
+  Processing ArcFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_024.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_032.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_036.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_037.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_038.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_071.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_073.mp4
+  ArcFace: Copied 7 clip(s)
+
+  Processing TransFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_015.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_037.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_038.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_071.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_072.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_073.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_074.mp4
+  TransFace: Copied 7 clip(s)
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213539.json
+  ✓ Created enhanced plot: ehammer_updated.png
+  ✓ Created summary report: ehammer_updated.json
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213540.json
+
+  ✓ Completed ehammer
+    - Enhanced plot: longjump_video5/qddetr/ehammer/ehammer_updated.png
+    - Relevant clips: 2/54
+    - Summary report: longjump_video5/qddetr/ehammer/ehammer_updated.json
+
+================================================================================
+PROCESSING TARGET: masso
+================================================================================
+
+  Processing ArcFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_033.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_034.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_035.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_036.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_040.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_043.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_044.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_067.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_068.mp4
+  ArcFace: Copied 9 clip(s)
+
+  Processing TransFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_032.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_033.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_034.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_035.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_040.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_043.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_044.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_067.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_068.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_069.mp4
+  TransFace: Copied 10 clip(s)
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213540.json
+  ✓ Created enhanced plot: masso_updated.png
+  ✓ Created summary report: masso_updated.json
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213540.json
+
+  ✓ Completed masso
+    - Enhanced plot: longjump_video5/qddetr/masso/masso_updated.png
+    - Relevant clips: 2/54
+    - Summary report: longjump_video5/qddetr/masso/masso_updated.json
+
+================================================================================
+PROCESSING TARGET: pinnock
+================================================================================
+
+  Processing ArcFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_008.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_009.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_015.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_051.mp4
+  ArcFace: Copied 4 clip(s)
+
+  Processing TransFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_008.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_009.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_040.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_067.mp4
+  TransFace: Copied 4 clip(s)
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213540.json
+  ✓ Created enhanced plot: pinnock_updated.png
+  ✓ Created summary report: pinnock_updated.json
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213541.json
+
+  ✓ Completed pinnock
+    - Enhanced plot: longjump_video5/qddetr/pinnock/pinnock_updated.png
+    - Relevant clips: 2/54
+    - Summary report: longjump_video5/qddetr/pinnock/pinnock_updated.json
+
+================================================================================
+PROCESSING TARGET: sreeshankar
+================================================================================
+
+  Processing ArcFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_013.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_015.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_016.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_053.mp4
+  ArcFace: Copied 4 clip(s)
+
+  Processing TransFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_013.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_015.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_016.mp4
+  TransFace: Copied 3 clip(s)
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213541.json
+  ✓ Created enhanced plot: sreeshankar_updated.png
+  ✓ Created summary report: sreeshankar_updated.json
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213542.json
+
+  ✓ Completed sreeshankar
+    - Enhanced plot: longjump_video5/qddetr/sreeshankar/sreeshankar_updated.png
+    - Relevant clips: 2/54
+    - Summary report: longjump_video5/qddetr/sreeshankar/sreeshankar_updated.json
+
+================================================================================
+PROCESSING TARGET: mccarter
+================================================================================
+
+  Processing ArcFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_010.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_011.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_028.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_030.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_033.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_034.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_055.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_058.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_060.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_064.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_067.mp4
+  ArcFace: Copied 11 clip(s)
+
+  Processing TransFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_010.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_060.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_064.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_066.mp4
+  TransFace: Copied 4 clip(s)
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213542.json
+  ✓ Created enhanced plot: mccarter_updated.png
+  ✓ Created summary report: mccarter_updated.json
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213543.json
+
+  ✓ Completed mccarter
+    - Enhanced plot: longjump_video5/qddetr/mccarter/mccarter_updated.png
+    - Relevant clips: 2/54
+    - Summary report: longjump_video5/qddetr/mccarter/mccarter_updated.json
+
+================================================================================
+PROCESSING TARGET: dendy
+================================================================================
+
+  Processing ArcFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_010.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_028.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_030.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_055.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_077.mp4
+  ArcFace: Copied 5 clip(s)
+
+  Processing TransFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_028.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_030.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_031.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_055.mp4
+  TransFace: Copied 4 clip(s)
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213543.json
+  ✓ Created enhanced plot: dendy_updated.png
+  ✓ Created summary report: dendy_updated.json
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213543.json
+
+  ✓ Completed dendy
+    - Enhanced plot: longjump_video5/qddetr/dendy/dendy_updated.png
+    - Relevant clips: 2/54
+    - Summary report: longjump_video5/qddetr/dendy/dendy_updated.json
+
+================================================================================
+PROCESSING TARGET: wang
+================================================================================
+
+  Processing ArcFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_051.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_052.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_053.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_055.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_058.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_060.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_061.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_062.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_078.mp4
+  ArcFace: Copied 9 clip(s)
+
+  Processing TransFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_058.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_060.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_061.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_062.mp4
+  TransFace: Copied 4 clip(s)
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213543.json
+  ✓ Created enhanced plot: wang_updated.png
+  ✓ Created summary report: wang_updated.json
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213544.json
+
+  ✓ Completed wang
+    - Enhanced plot: longjump_video5/qddetr/wang/wang_updated.png
+    - Relevant clips: 2/54
+    - Summary report: longjump_video5/qddetr/wang/wang_updated.json
+
+================================================================================
+PROCESSING TARGET: tentoglou
+================================================================================
+
+  Processing ArcFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_007.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_015.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_024.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_025.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_051.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_052.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_053.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_055.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_077.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_078.mp4
+  ArcFace: Copied 10 clip(s)
+
+  Processing TransFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_007.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_015.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_024.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_025.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_051.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_052.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_053.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_055.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_077.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_078.mp4
+  TransFace: Copied 10 clip(s)
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213544.json
+  ✓ Created enhanced plot: tentoglou_updated.png
+  ✓ Created summary report: tentoglou_updated.json
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213545.json
+
+  ✓ Completed tentoglou
+    - Enhanced plot: longjump_video5/qddetr/tentoglou/tentoglou_updated.png
+    - Relevant clips: 2/54
+    - Summary report: longjump_video5/qddetr/tentoglou/tentoglou_updated.json
+
+================================================================================
+PROCESSING TARGET: caceres
+================================================================================
+
+  Processing ArcFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_018.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_019.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_024.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_036.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_051.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_071.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_077.mp4
+  ArcFace: Copied 7 clip(s)
+
+  Processing TransFace model:
+    ✓ Copied clip: Long Jump_video5_highlight_018.mp4
+    ✓ Copied clip: Long Jump_video5_highlight_019.mp4
+  TransFace: Copied 2 clip(s)
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213545.json
+  ✓ Created enhanced plot: caceres_updated.png
+  ✓ Created summary report: caceres_updated.json
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213546.json
+
+  ✓ Completed caceres
+    - Enhanced plot: longjump_video5/qddetr/caceres/caceres_updated.png
+    - Relevant clips: 2/54
+    - Summary report: longjump_video5/qddetr/caceres/caceres_updated.json
+
+================================================================================
+CREATING COMBINED ATHLETES PLOTS
+================================================================================
+  ✓ Created combined athletes plot: all_athletes_combined_updated.png
+  ✓ Created combined athletes plot (zoomed): all_athletes_combined_updated_zoom.png
+
+  Assigning highlight segments to athletes...
+  ✓ Loaded ground truth with 35 segments
+  ✓ Created assigned highlights plot: highlights_assigned_updated.png
+    ArcFace: 54/54 assigned | TransFace: 54/54 assigned
+  ✓ Copied assigned clips to: results/longjump_video5/qddetr/highlights_assigned
+    ArcFace: 54 clips | TransFace: 54 clips
+
+  Assigning highlight segments to athletes (instant method with temporal expansion)...
+  ✓ Loaded ground truth with 35 segments
+  ✓ Created assigned highlights plot: highlights_instant_assigned_updated.png
+    ArcFace: 48/54 assigned | TransFace: 49/54 assigned
+  ✓ Copied assigned clips to: results/longjump_video5/qddetr/highlights_assigned
+    ArcFace: 48 clips | TransFace: 49 clips
+
+Combined plots saved to:
+  - longjump_video5/qddetr/all_athletes_combined_updated.png
+  - longjump_video5/qddetr/all_athletes_combined_updated_zoom.png
+  - longjump_video5/qddetr/highlights_assigned_updated.png
+  - longjump_video5/qddetr/highlights_instant_assigned_updated.png
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213551.json
+
+================================================================================
+PROCESSING COMPLETE
+================================================================================
+
+Successfully processed 10/10 targets
+Results saved to: results/longjump_video5/
+
+✓ Extracted timing for 54 segments
+
+✓ Generated 54 highlight clips with timing information
+  Saved to: video_summaries/QD-DETR/longjump_video5
+✓ Timing data saved to: results/timing_log_aggregate.json
+  Per-run log: results/timing_logs/timing_log_longjump_video5_20251125_213346.json
+
+================================================================================
+STEP 2: FACE DETECTION ON ENTIRE VIDEO
+================================================================================
+
+✓ Face crops already exist for longjump_video5
+  Location: cropped_faces/longjump_video5
+  Found 53472 face crops
+  Skipping face detection step...
+
+================================================================================
+STEP 3: FACE EMBEDDING EXTRACTION
+================================================================================
+
+✓ Embeddings already exist for longjump_video5
+  ArcFace: cropped_faces_embeddings/ArcFace/longjump_video5.h5
+  TransFace: cropped_faces_embeddings/TransFace/longjump_video5.h5
+  ArcFace embeddings: 53472
+  TransFace embeddings: 53472
+  Skipping embedding extraction step...
+
+================================================================================
+STEP 4: FIND UPDATED TARGET FACES
+================================================================================
+
+Found 10 target(s) for longjump_video5:
+  - dendy
+  - ehammer
+  - tentoglou
+  - mccarter
+  - masso
+  - sreeshankar
+  - frayne
+  - wang
+  - pinnock
+  - caceres
+
+✓ Updated target already exists for dendy
+  Skipping...
+
+✓ Updated target already exists for ehammer
+  Skipping...
+
+✓ Updated target already exists for tentoglou
+  Skipping...
+
+✓ Updated target already exists for mccarter
+  Skipping...
+
+✓ Updated target already exists for masso
+  Skipping...
+
+✓ Updated target already exists for sreeshankar
+  Skipping...
+
+✓ Updated target already exists for frayne
+  Skipping...
+
+✓ Updated target already exists for wang
+  Skipping...
+
+✓ Updated target already exists for pinnock
+  Skipping...
+
+✓ Updated target already exists for caceres
+  Skipping...
+
+✓ Processed 10/10 targets
+
+================================================================================
+STEP 4b: EXTRACT EMBEDDINGS FROM UPDATED TARGETS (SECOND PASS)
+================================================================================
+
+Extracting embeddings from updated targets for 10 target(s)...
+This will enable 100% similarity match in resemblance curves
+
+✓ Successfully extracted updated target embeddings
+
+================================================================================
+STEP 5: COMPUTE RESEMBLANCE CURVES
+================================================================================
+
+Computing resemblance curves for 10 target(s) in longjump_video5...
+
+✓ Successfully computed resemblance curves
+  Results saved to: resemblance_results
+
+================================================================================
+STEP 6: CREATE FINAL VISUALIZATION WITH HIGHLIGHTS
+================================================================================
+
+Creating enhanced visualizations for 10 target(s)...
+Highlight segments: 54
+
+✓ Successfully created final visualizations
+  Results saved to: results/longjump_video5/qddetr/
+
+Saving configuration logs...
+    ✓ Saved config log: config_log.txt
+    ✓ Saved config log: config_log.txt
+    ✓ Saved config log: config_log.txt
+    ✓ Saved config log: config_log.txt
+    ✓ Saved config log: config_log.txt
+    ✓ Saved config log: config_log.txt
+    ✓ Saved config log: config_log.txt
+    ✓ Saved config log: config_log.txt
+    ✓ Saved config log: config_log.txt
+    ✓ Saved config log: config_log.txt
+
+Generating timing analysis...
+✓ Markdown table written to: results/timing_analysis/timing_summary.md
+✓ Bar chart saved to: results/timing_analysis/timing_bar_chart.png
+✓ Comparison table written to: results/timing_analysis/timing_comparison.md
+✓ Timing analysis saved to: results/timing_analysis
+
+################################################################################
+# PIPELINE COMPLETE
+################################################################################
+
+Results summary:
+  - Video summaries: video_summaries/QDDETR/longjump_video5/
+  - Face crops: cropped_faces/longjump_video5/
+  - Embeddings: cropped_faces_embeddings/
+  - Updated targets (from video): target_faces_updated/
+  - Resemblance curves: resemblance_results/
+  - Final output: results/longjump_video5/qddetr/
+  - Timing log: results/timing_log_aggregate.json
+[0;32m✓ Mode 3/4 completed successfully[0m
+End time: mar 25 nov 2025 21:35:52 CET
