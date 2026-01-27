@@ -1,0 +1,10 @@
+{
+  "qddetr_per_frame_ms": 1.7874197195755683,
+  "face_detection_per_frame_ms": 83.89318783767521,
+  "avg_faces_per_frame": 16.88,
+  "arcface_per_face_ms": 35.95149617355604,
+  "transface_per_face_ms": 10.957033856986808,
+  "resemblance_per_comparison_ms": 0.0003691762685775757,
+  "clip_assignment_per_segment_ms": 0.0018447916954755783,
+  "sportclip_per_frame_ms": 19.875392306490788
+}

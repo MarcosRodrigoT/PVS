@@ -1,0 +1,51 @@
+% Computational cost table - Measured from highjump_video1
+
+\begin{table}
+    \centering
+    \footnotesize
+    \caption{Computational cost of the main components of the PVS pipeline.}
+    \label{tab: PVS - computational cost}
+    \begin{tabular}{l l c}
+        \hline
+        \textbf{Component}                          & \textbf{Unit of work}         & \textbf{Time} \\
+        \hline
+        \multicolumn{3}{l}{\textbf{Video summarization}} \\
+        \quad SportCLIP                             & per frame                     & 19.88 ms \\
+        \quad QD-DETR                               & per frame                     & 1.79 ms \\
+        \hline
+        \multicolumn{3}{l}{\textbf{Face recognition}} \\
+        \quad ArcFace (face embeddings)             & per detected face             & 35.95 ms \\
+        \quad TransFace (face embeddings)           & per detected face             & 10.96 ms \\
+        \hline
+        \multicolumn{3}{l}{\textbf{Shared components}} \\
+        \quad Face detection                        & per frame                     & 83.89 ms \\
+        \quad Resemblance-curve computation         & per frame $\times$ athlete    & 0.000 ms \\
+        \quad Target update (optional)              & per target athlete            & --- \\
+        \quad Clip assignment and selection         & per highlight segment         & 0.00 ms \\
+        \hline
+        \multicolumn{3}{l}{\textbf{Total PVS runtime (per 1-min video)}} \\
+        SportCLIP + ArcFace                      & per 1-min video                & 1279.14 s \\
+        SportCLIP + TransFace                    & per 1-min video                & 519.71 s \\
+        QD-DETR + ArcFace                        & per 1-min video                & 1246.59 s \\
+        QD-DETR + TransFace                      & per 1-min video                & 487.15 s \\
+        \hline
+        \multicolumn{3}{l}{\textbf{Total PVS runtime (per 5-min video)}} \\
+        SportCLIP + ArcFace                      & per 5-min video                & 6395.72 s \\
+        SportCLIP + TransFace                    & per 5-min video                & 2598.57 s \\
+        QD-DETR + ArcFace                        & per 5-min video                & 6232.93 s \\
+        QD-DETR + TransFace                      & per 5-min video                & 2435.77 s \\
+        \hline
+        \multicolumn{3}{l}{\textbf{Total PVS runtime (per 10-min video)}} \\
+        SportCLIP + ArcFace                      & per 10-min video               & 12791.45 s \\
+        SportCLIP + TransFace                    & per 10-min video               & 5197.13 s \\
+        QD-DETR + ArcFace                        & per 10-min video               & 12465.87 s \\
+        QD-DETR + TransFace                      & per 10-min video               & 4871.55 s \\
+        \hline
+        \multicolumn{3}{l}{\textbf{Total PVS runtime (per 1-hour video)}} \\
+        SportCLIP + ArcFace                      & per 1-hour video               & 1279.14 min \\
+        SportCLIP + TransFace                    & per 1-hour video               & 519.71 min \\
+        QD-DETR + ArcFace                        & per 1-hour video               & 1246.59 min \\
+        QD-DETR + TransFace                      & per 1-hour video               & 487.15 min \\
+        \hline
+    \end{tabular}
+\end{table}
