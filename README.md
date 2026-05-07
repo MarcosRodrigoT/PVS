@@ -66,6 +66,14 @@ The final stage assigns highlight segments to specific athletes using two comple
 
 Both methods process ArcFace and TransFace independently, enabling direct comparison of CNN vs. Transformer-based face recognition under identical conditions.
 
+## Dataset
+
+The **Olympic Highlights** benchmark used to evaluate this system is publicly available at:
+
+**https://www.gti.ssr.upm.es/data/olympichighlights**
+
+It contains 20 full-length broadcast track-and-field videos (High Jump, Javelin, Long Jump, Pole Vault — 5 videos per event) with frame-level temporal annotations and athlete-identity labels.
+
 ## Key Features
 
 - **Separation of Concerns**: Video summarization and identity analysis operate independently, enabling modular comparison of different models
@@ -526,10 +534,15 @@ See `requirements.txt` for specific versions.
 
 ## Citation
 
-If you use this system in your research, please cite:
+If you use this system or dataset in your research, please cite:
 
-```
-[Citation information to be added]
+```bibtex
+@article{rodrigo2025pvs,
+  title   = {Automatic Sports Video Summarization with Identity-Aware Highlight Selection},
+  author  = {Rodrigo, Marcos and Cuevas, Carlos and Garc{\'i}a, Narciso},
+  journal = {Image and Vision Computing},
+  note    = {Under review}
+}
 ```
 
 ## License
