@@ -1,0 +1,230 @@
+Event type,First frame,Last frame,Num. frames,Identity
+Not a highlight,0,4372,4373,
+Uncertainty,4373,4387,15,
+Highlight,4388,4525,138,Dubovitskaya
+Uncertainty,4526,4555,30,
+Not a highlight,4556,5037,482,
+Uncertainty,5038,5052,15,
+Highlight,5053,5212,160,Levchenko
+Uncertainty,5213,5242,30,
+Not a highlight,5243,5839,597,
+Uncertainty,5840,5854,15,
+Highlight,5855,5997,143,Stanciu
+Uncertainty,5998,6027,30,
+Not a highlight,6028,6945,918,
+Uncertainty,6946,6960,15,
+Highlight,6961,7120,160,Olyslagers
+Uncertainty,7121,7150,30,
+Not a highlight,7151,7305,155,
+Uncertainty,7306,7320,15,
+Highlight,7321,7493,173,Olyslagers
+Uncertainty,7494,7523,30,
+Not a highlight,7524,7825,302,
+Uncertainty,7826,7840,15,
+Highlight,7841,7984,144,Gusin
+Uncertainty,7985,8014,30,
+Not a highlight,8015,8174,160,
+Uncertainty,8175,8189,15,
+Highlight,8190,8400,211,Gusin
+Uncertainty,8401,8430,30,
+Not a highlight,8431,8780,350,
+Uncertainty,8781,8795,15,
+Highlight,8796,8967,172,Apostolovski
+Uncertainty,8968,8997,30,
+Not a highlight,8998,9868,871,
+Uncertainty,9869,9883,15,
+Highlight,9884,10061,178,Honsel
+Uncertainty,10062,10091,30,
+Not a highlight,10092,10215,124,
+Uncertainty,10216,10230,15,
+Highlight,10231,10367,137,Honsel
+Uncertainty,10368,10397,30,
+Not a highlight,10398,10923,526,
+Uncertainty,10924,10938,15,
+Highlight,10939,11077,139,Topic
+Uncertainty,11078,11107,30,
+Not a highlight,11108,11216,109,
+Uncertainty,11217,11231,15,
+Highlight,11232,11328,97,Topic
+Uncertainty,11329,11358,30,
+Not a highlight,11359,11762,404,
+Uncertainty,11763,11777,15,
+Highlight,11778,11940,163,Dubovitskaya
+Uncertainty,11941,11970,30,
+Not a highlight,11971,12171,201,
+Uncertainty,12172,12186,15,
+Highlight,12187,12450,264,Dubovitskaya
+Uncertainty,12451,12480,30,
+Not a highlight,12481,13389,909,
+Uncertainty,13390,13404,15,
+Highlight,13405,13571,167,Lake
+Uncertainty,13572,13601,30,
+Not a highlight,13602,13770,169,
+Uncertainty,13771,13785,15,
+Highlight,13786,13925,140,Lake
+Uncertainty,13926,13955,30,
+Not a highlight,13956,14752,797,
+Uncertainty,14753,14767,15,
+Highlight,14768,14940,173,Levchenko
+Uncertainty,14941,14970,30,
+Not a highlight,14971,15142,172,
+Uncertainty,15143,15157,15,
+Highlight,15158,15279,122,Levchenko
+Uncertainty,15280,15309,30,
+Not a highlight,15310,16922,1613,
+Uncertainty,16923,16937,15,
+Highlight,16938,17095,158,Olyslagers
+Uncertainty,17096,17125,30,
+Not a highlight,17126,17227,102,
+Uncertainty,17228,17242,15,
+Highlight,17243,17333,91,Olyslagers
+Uncertainty,17334,17363,30,
+Not a highlight,17364,18386,1023,
+Uncertainty,18387,18401,15,
+Highlight,18402,18554,153,Mahuchikh
+Uncertainty,18555,18584,30,
+Not a highlight,18585,19168,584,
+Uncertainty,19169,19183,15,
+Highlight,19184,19340,157,Apostolovski
+Uncertainty,19341,19370,30,
+Not a highlight,19371,19484,114,
+Uncertainty,19485,19499,15,
+Highlight,19500,19657,158,Apostolovski
+Uncertainty,19658,19687,30,
+Not a highlight,19688,20042,355,
+Uncertainty,20043,20057,15,
+Highlight,20058,20182,125,Honsel
+Uncertainty,20183,20212,30,
+Not a highlight,20213,20403,191,
+Uncertainty,20404,20418,15,
+Highlight,20419,20540,122,Honsel
+Uncertainty,20541,20570,30,
+Not a highlight,20571,21105,535,
+Uncertainty,21106,21120,15,
+Highlight,21121,21274,154,Topic
+Uncertainty,21275,21304,30,
+Not a highlight,21305,21393,89,
+Uncertainty,21394,21408,15,
+Highlight,21409,21515,107,Topic
+Uncertainty,21516,21545,30,
+Not a highlight,21546,22549,1004,
+Uncertainty,22550,22564,15,
+Highlight,22565,22722,158,Dubovitskaya
+Uncertainty,22723,22752,30,
+Not a highlight,22753,23050,298,
+Uncertainty,23051,23065,15,
+Highlight,23066,23201,136,Dubovitskaya
+Uncertainty,23202,23231,30,
+Not a highlight,23232,24445,1214,
+Uncertainty,24446,24460,15,
+Highlight,24461,24623,163,Lake
+Uncertainty,24624,24653,30,
+Not a highlight,24654,24939,286,
+Uncertainty,24940,24954,15,
+Highlight,24955,25077,123,Lake
+Uncertainty,25078,25107,30,
+Not a highlight,25108,25766,659,
+Uncertainty,25767,25781,15,
+Highlight,25782,25945,164,Gusin
+Uncertainty,25946,25975,30,
+Not a highlight,25976,26215,240,
+Uncertainty,26216,26230,15,
+Highlight,26231,26360,130,Gusin
+Uncertainty,26361,26390,30,
+Not a highlight,26391,27496,1106,
+Uncertainty,27497,27511,15,
+Highlight,27512,27691,180,Honsel
+Uncertainty,27692,27721,30,
+Not a highlight,27722,27818,97,
+Uncertainty,27819,27833,15,
+Highlight,27834,27918,85,Honsel
+Uncertainty,27919,27948,30,
+Not a highlight,27949,28790,842,
+Uncertainty,28791,28805,15,
+Highlight,28806,29025,220,Olyslagers
+Uncertainty,29026,29055,30,
+Not a highlight,29056,29483,428,
+Uncertainty,29484,29498,15,
+Highlight,29499,29687,189,Olyslagers
+Uncertainty,29688,29717,30,
+Not a highlight,29718,29913,196,
+Uncertainty,29914,29928,15,
+Highlight,29929,30047,119,Olyslagers
+Uncertainty,30048,30077,30,
+Not a highlight,30078,31020,943,
+Uncertainty,31021,31035,15,
+Highlight,31036,31168,133,Mahuchikh
+Uncertainty,31169,31198,30,
+Not a highlight,31199,31873,675,
+Uncertainty,31874,31888,15,
+Highlight,31889,32021,133,Apostolovski
+Uncertainty,32022,32051,30,
+Not a highlight,32052,32164,113,
+Uncertainty,32165,32179,15,
+Highlight,32180,32330,151,Apostolovski
+Uncertainty,32331,32360,30,
+Not a highlight,32361,33318,958,
+Uncertainty,33319,33333,15,
+Highlight,33334,33473,140,Mahuchikh
+Uncertainty,33474,33503,30,
+Not a highlight,33504,33657,154,
+Uncertainty,33658,33672,15,
+Highlight,33673,33769,97,Mahuchikh
+Uncertainty,33770,33799,30,
+Not a highlight,33800,34358,559,
+Uncertainty,34359,34373,15,
+Highlight,34374,34547,174,Apostolovski
+Uncertainty,34548,34577,30,
+Not a highlight,34578,34830,253,
+Uncertainty,34831,34845,15,
+Highlight,34846,34976,131,Apostolovski
+Uncertainty,34977,35006,30,
+Not a highlight,35007,35568,562,
+Uncertainty,35569,35583,15,
+Highlight,35584,35835,252,Apostolovski
+Uncertainty,35836,35865,30,
+Not a highlight,35866,36560,695,
+Uncertainty,36561,36575,15,
+Highlight,36576,36712,137,Topic
+Uncertainty,36713,36742,30,
+Not a highlight,36743,36966,224,
+Uncertainty,36967,36981,15,
+Highlight,36982,37142,161,Topic
+Uncertainty,37143,37172,30,
+Not a highlight,37173,38155,983,
+Uncertainty,38156,38170,15,
+Highlight,38171,38330,160,Olyslagers
+Uncertainty,38331,38360,30,
+Not a highlight,38361,38500,140,
+Uncertainty,38501,38515,15,
+Highlight,38516,38638,123,Olyslagers
+Uncertainty,38639,38668,30,
+Not a highlight,38669,40519,1851,
+Uncertainty,40520,40534,15,
+Highlight,40535,40723,189,Lake
+Uncertainty,40724,40753,30,
+Not a highlight,40754,41446,693,
+Uncertainty,41447,41461,15,
+Highlight,41462,41652,191,Honsel
+Uncertainty,41653,41682,30,
+Not a highlight,41683,41954,272,
+Uncertainty,41955,41969,15,
+Highlight,41970,42098,129,Honsel
+Uncertainty,42099,42128,30,
+Not a highlight,42129,42666,538,
+Uncertainty,42667,42681,15,
+Highlight,42682,42863,182,Olyslagers
+Uncertainty,42864,42893,30,
+Not a highlight,42894,43228,335,
+Uncertainty,43229,43243,15,
+Highlight,43244,43377,134,Olyslagers
+Uncertainty,43378,43407,30,
+Not a highlight,43408,44529,1122,
+Uncertainty,44530,44544,15,
+Highlight,44545,44713,169,Mahuchikh
+Uncertainty,44714,44743,30,
+Not a highlight,44744,45294,551,
+Uncertainty,45295,45309,15,
+Highlight,45310,45488,179,Olyslagers
+Uncertainty,45489,45518,30,
+Not a highlight,45519,46689,1171,

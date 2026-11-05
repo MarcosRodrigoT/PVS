@@ -1,0 +1,186 @@
+Event type,First frame,Last frame,Num. frames,Identity
+Not a highlight,0,8827,8828,
+Uncertainty,8828,8842,15,
+Highlight,8843,9357,515,Nilsen
+Uncertainty,9358,9387,30,
+Not a highlight,9388,9891,504,
+Uncertainty,9892,9906,15,
+Highlight,9907,11000,1094,Nilsen
+Uncertainty,11001,11030,30,
+Not a highlight,11031,12341,1311,
+Uncertainty,12342,12356,15,
+Highlight,12357,12742,386,Braz
+Uncertainty,12743,12772,30,
+Not a highlight,12773,13416,644,
+Uncertainty,13417,13431,15,
+Highlight,13432,14657,1226,Braz
+Uncertainty,14658,14687,30,
+Not a highlight,14688,15995,1308,
+Uncertainty,15996,16010,15,
+Highlight,16011,16424,414,Obiena
+Uncertainty,16425,16454,30,
+Not a highlight,16455,16914,460,
+Uncertainty,16915,16929,15,
+Highlight,16930,17924,995,Obiena
+Uncertainty,17925,17954,30,
+Not a highlight,17955,20244,2290,
+Uncertainty,20245,20259,15,
+Highlight,20260,20752,493,Duplantis
+Uncertainty,20753,20782,30,
+Not a highlight,20783,21180,398,
+Uncertainty,21181,21195,15,
+Highlight,21196,21491,296,Duplantis
+Uncertainty,21492,21521,30,
+Not a highlight,21522,21680,159,
+Uncertainty,21681,21695,15,
+Highlight,21696,22130,435,Duplantis
+Uncertainty,22131,22160,30,
+Not a highlight,22161,22794,634,
+Uncertainty,22795,22809,15,
+Highlight,22810,23269,460,Lavillenie
+Uncertainty,23270,23299,30,
+Not a highlight,23300,24454,1155,
+Uncertainty,24455,24469,15,
+Highlight,24470,25301,832,Lavillenie
+Uncertainty,25302,25331,30,
+Not a highlight,25332,26323,992,
+Uncertainty,26324,26338,15,
+Highlight,26339,26765,427,Nilsen
+Uncertainty,26766,26795,30,
+Not a highlight,26796,27283,488,
+Uncertainty,27284,27298,15,
+Highlight,27299,28695,1397,Nilsen
+Uncertainty,28696,28725,30,
+Not a highlight,28726,29790,1065,
+Uncertainty,29791,29805,15,
+Highlight,29806,30178,373,Duplantis
+Uncertainty,30179,30208,30,
+Not a highlight,30209,30861,653,
+Uncertainty,30862,30876,15,
+Highlight,30877,31499,623,Duplantis
+Uncertainty,31500,31529,30,
+Not a highlight,31530,33621,2092,
+Uncertainty,33622,33636,15,
+Highlight,33637,34045,409,Lavillenie
+Uncertainty,34046,34075,30,
+Not a highlight,34076,34871,796,
+Uncertainty,34872,34886,15,
+Highlight,34887,35696,810,Lavillenie
+Uncertainty,35697,35726,30,
+Not a highlight,35727,37286,1560,
+Uncertainty,37287,37301,15,
+Highlight,37302,38038,737,Nilsen
+Uncertainty,38039,38068,30,
+Not a highlight,38069,38743,675,
+Uncertainty,38744,38758,15,
+Highlight,38759,39741,983,Nilsen
+Uncertainty,39742,39771,30,
+Not a highlight,39772,40491,720,
+Uncertainty,40492,40506,15,
+Highlight,40507,40880,374,Braz
+Uncertainty,40881,40910,30,
+Not a highlight,40911,43294,2384,
+Uncertainty,43295,43309,15,
+Highlight,43310,43788,479,Obiena
+Uncertainty,43789,43818,30,
+Not a highlight,43819,44713,895,
+Uncertainty,44714,44728,15,
+Highlight,44729,45390,662,Obiena
+Uncertainty,45391,45420,30,
+Not a highlight,45421,48180,2760,
+Uncertainty,48181,48195,15,
+Highlight,48196,48608,413,Duplantis
+Uncertainty,48609,48638,30,
+Not a highlight,48639,49351,713,
+Uncertainty,49352,49366,15,
+Highlight,49367,50547,1181,Duplantis
+Uncertainty,50548,50577,30,
+Not a highlight,50578,51427,850,
+Uncertainty,51428,51442,15,
+Highlight,51443,52080,638,Lavillenie
+Uncertainty,52081,52110,30,
+Not a highlight,52111,52386,276,
+Uncertainty,52387,52401,15,
+Highlight,52402,52842,441,Braz
+Uncertainty,52843,52872,30,
+Not a highlight,52873,54175,1303,
+Uncertainty,54176,54190,15,
+Highlight,54191,54578,388,Obiena
+Uncertainty,54579,54608,30,
+Not a highlight,54609,55295,687,
+Uncertainty,55296,55310,15,
+Highlight,55311,55749,439,Obiena
+Uncertainty,55750,55779,30,
+Not a highlight,55780,56671,892,
+Uncertainty,56672,56686,15,
+Highlight,56687,57169,483,Lavillenie
+Uncertainty,57170,57199,30,
+Not a highlight,57200,60430,3231,
+Uncertainty,60431,60445,15,
+Highlight,60446,60829,384,Nilsen
+Uncertainty,60830,60859,30,
+Not a highlight,60860,61541,682,
+Uncertainty,61542,61556,15,
+Highlight,61557,62025,469,Braz
+Uncertainty,62026,62055,30,
+Not a highlight,62056,63160,1105,
+Uncertainty,63161,63175,15,
+Highlight,63176,63711,536,Braz
+Uncertainty,63712,63741,30,
+Not a highlight,63742,65075,1334,
+Uncertainty,65076,65090,15,
+Highlight,65091,65511,421,Obiena
+Uncertainty,65512,65541,30,
+Not a highlight,65542,67376,1835,
+Uncertainty,67377,67391,15,
+Highlight,67392,67780,389,Duplantis
+Uncertainty,67781,67810,30,
+Not a highlight,67811,68606,796,
+Uncertainty,68607,68621,15,
+Highlight,68622,69695,1074,Duplantis
+Uncertainty,69696,69725,30,
+Not a highlight,69726,70458,733,
+Uncertainty,70459,70473,15,
+Highlight,70474,70811,338,Nilsen
+Uncertainty,70812,70841,30,
+Not a highlight,70842,71874,1033,
+Uncertainty,71875,71889,15,
+Highlight,71890,72332,443,Obiena
+Uncertainty,72333,72362,30,
+Not a highlight,72363,75641,3279,
+Uncertainty,75642,75656,15,
+Highlight,75657,76052,396,Nilsen
+Uncertainty,76053,76082,30,
+Not a highlight,76083,77196,1114,
+Uncertainty,77197,77211,15,
+Highlight,77212,77721,510,Nilsen
+Uncertainty,77722,77751,30,
+Not a highlight,77752,79915,2164,
+Uncertainty,79916,79930,15,
+Highlight,79931,80372,442,Obiena
+Uncertainty,80373,80402,30,
+Not a highlight,80403,86198,5796,
+Uncertainty,86199,86213,15,
+Highlight,86214,86633,420,Duplantis
+Uncertainty,86634,86663,30,
+Not a highlight,86664,88192,1529,
+Uncertainty,88193,88207,15,
+Highlight,88208,89100,893,Duplantis
+Uncertainty,89101,89130,30,
+Not a highlight,89131,89695,565,
+Uncertainty,89696,89710,15,
+Highlight,89711,90052,342,Duplantis
+Uncertainty,90053,90082,30,
+Not a highlight,90083,94635,4553,
+Uncertainty,94636,94650,15,
+Highlight,94651,95162,512,Duplantis
+Uncertainty,95163,95192,30,
+Not a highlight,95193,99551,4359,
+Uncertainty,99552,99566,15,
+Highlight,99567,100455,889,Duplantis
+Uncertainty,100456,100485,30,
+Not a highlight,100486,101403,918,
+Uncertainty,101404,101418,15,
+Highlight,101419,102215,797,Duplantis
+Uncertainty,102216,102245,30,
+Not a highlight,102246,106482,4237,

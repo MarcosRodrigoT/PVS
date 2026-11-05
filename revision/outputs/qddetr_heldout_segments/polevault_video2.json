@@ -1,0 +1,541 @@
+{
+  "video_name": "polevault_video2",
+  "model": "qddetr",
+  "checkpoint": "/home/mrt/Projects/QD-DETR/results/hl-video_tef-olympic_bench_heldout_fold1-2026_10_29_11_29_27/model_best.ckpt",
+  "fps": 25.0,
+  "query": "highlight moments in this sports video",
+  "total_segments": 59,
+  "segments": [
+    {
+      "segment_id": 13,
+      "start_frame": 3383,
+      "end_frame": 3524,
+      "start_time": 135.32,
+      "end_time": 140.96,
+      "duration_frames": 142,
+      "duration_seconds": 5.68
+    },
+    {
+      "segment_id": 15,
+      "start_frame": 4398,
+      "end_frame": 4687,
+      "start_time": 175.92,
+      "end_time": 187.48,
+      "duration_frames": 290,
+      "duration_seconds": 11.6
+    },
+    {
+      "segment_id": 18,
+      "start_frame": 5420,
+      "end_frame": 5852,
+      "start_time": 216.8,
+      "end_time": 234.08,
+      "duration_frames": 433,
+      "duration_seconds": 17.32
+    },
+    {
+      "segment_id": 20,
+      "start_frame": 6566,
+      "end_frame": 6882,
+      "start_time": 262.64,
+      "end_time": 275.28,
+      "duration_frames": 317,
+      "duration_seconds": 12.68
+    },
+    {
+      "segment_id": 22,
+      "start_frame": 7205,
+      "end_frame": 7557,
+      "start_time": 288.2,
+      "end_time": 302.28,
+      "duration_frames": 353,
+      "duration_seconds": 14.12
+    },
+    {
+      "segment_id": 23,
+      "start_frame": 7952,
+      "end_frame": 8209,
+      "start_time": 318.08,
+      "end_time": 328.36,
+      "duration_frames": 258,
+      "duration_seconds": 10.32
+    },
+    {
+      "segment_id": 24,
+      "start_frame": 8677,
+      "end_frame": 8980,
+      "start_time": 347.08,
+      "end_time": 359.2,
+      "duration_frames": 304,
+      "duration_seconds": 12.16
+    },
+    {
+      "segment_id": 26,
+      "start_frame": 9309,
+      "end_frame": 9745,
+      "start_time": 372.36,
+      "end_time": 389.8,
+      "duration_frames": 437,
+      "duration_seconds": 17.48
+    },
+    {
+      "segment_id": 27,
+      "start_frame": 9956,
+      "end_frame": 10217,
+      "start_time": 398.24,
+      "end_time": 408.68,
+      "duration_frames": 262,
+      "duration_seconds": 10.48
+    },
+    {
+      "segment_id": 29,
+      "start_frame": 10705,
+      "end_frame": 11047,
+      "start_time": 428.2,
+      "end_time": 441.88,
+      "duration_frames": 343,
+      "duration_seconds": 13.72
+    },
+    {
+      "segment_id": 30,
+      "start_frame": 11525,
+      "end_frame": 11818,
+      "start_time": 461.0,
+      "end_time": 472.72,
+      "duration_frames": 294,
+      "duration_seconds": 11.76
+    },
+    {
+      "segment_id": 32,
+      "start_frame": 12135,
+      "end_frame": 12455,
+      "start_time": 485.4,
+      "end_time": 498.2,
+      "duration_frames": 321,
+      "duration_seconds": 12.84
+    },
+    {
+      "segment_id": 33,
+      "start_frame": 12974,
+      "end_frame": 13206,
+      "start_time": 518.96,
+      "end_time": 528.24,
+      "duration_frames": 233,
+      "duration_seconds": 9.32
+    },
+    {
+      "segment_id": 34,
+      "start_frame": 13587,
+      "end_frame": 13826,
+      "start_time": 543.48,
+      "end_time": 553.04,
+      "duration_frames": 240,
+      "duration_seconds": 9.6
+    },
+    {
+      "segment_id": 36,
+      "start_frame": 14258,
+      "end_frame": 14585,
+      "start_time": 570.32,
+      "end_time": 583.4,
+      "duration_frames": 328,
+      "duration_seconds": 13.12
+    },
+    {
+      "segment_id": 37,
+      "start_frame": 14749,
+      "end_frame": 15004,
+      "start_time": 589.96,
+      "end_time": 600.16,
+      "duration_frames": 256,
+      "duration_seconds": 10.24
+    },
+    {
+      "segment_id": 40,
+      "start_frame": 15449,
+      "end_frame": 15696,
+      "start_time": 617.96,
+      "end_time": 627.84,
+      "duration_frames": 248,
+      "duration_seconds": 9.92
+    },
+    {
+      "segment_id": 42,
+      "start_frame": 15977,
+      "end_frame": 16292,
+      "start_time": 639.08,
+      "end_time": 651.68,
+      "duration_frames": 316,
+      "duration_seconds": 12.64
+    },
+    {
+      "segment_id": 43,
+      "start_frame": 16519,
+      "end_frame": 16677,
+      "start_time": 660.76,
+      "end_time": 667.08,
+      "duration_frames": 159,
+      "duration_seconds": 6.36
+    },
+    {
+      "segment_id": 44,
+      "start_frame": 16899,
+      "end_frame": 17020,
+      "start_time": 675.96,
+      "end_time": 680.8,
+      "duration_frames": 122,
+      "duration_seconds": 4.88
+    },
+    {
+      "segment_id": 45,
+      "start_frame": 17181,
+      "end_frame": 17267,
+      "start_time": 687.24,
+      "end_time": 690.68,
+      "duration_frames": 87,
+      "duration_seconds": 3.48
+    },
+    {
+      "segment_id": 46,
+      "start_frame": 17538,
+      "end_frame": 17803,
+      "start_time": 701.52,
+      "end_time": 712.12,
+      "duration_frames": 266,
+      "duration_seconds": 10.64
+    },
+    {
+      "segment_id": 48,
+      "start_frame": 18120,
+      "end_frame": 18697,
+      "start_time": 724.8,
+      "end_time": 747.88,
+      "duration_frames": 578,
+      "duration_seconds": 23.12
+    },
+    {
+      "segment_id": 49,
+      "start_frame": 19051,
+      "end_frame": 19295,
+      "start_time": 762.04,
+      "end_time": 771.8,
+      "duration_frames": 245,
+      "duration_seconds": 9.8
+    },
+    {
+      "segment_id": 50,
+      "start_frame": 19501,
+      "end_frame": 19642,
+      "start_time": 780.04,
+      "end_time": 785.68,
+      "duration_frames": 142,
+      "duration_seconds": 5.68
+    },
+    {
+      "segment_id": 51,
+      "start_frame": 19927,
+      "end_frame": 20235,
+      "start_time": 797.08,
+      "end_time": 809.4,
+      "duration_frames": 309,
+      "duration_seconds": 12.36
+    },
+    {
+      "segment_id": 52,
+      "start_frame": 20478,
+      "end_frame": 20619,
+      "start_time": 819.12,
+      "end_time": 824.76,
+      "duration_frames": 142,
+      "duration_seconds": 5.68
+    },
+    {
+      "segment_id": 53,
+      "start_frame": 20998,
+      "end_frame": 21334,
+      "start_time": 839.92,
+      "end_time": 853.36,
+      "duration_frames": 337,
+      "duration_seconds": 13.48
+    },
+    {
+      "segment_id": 55,
+      "start_frame": 21752,
+      "end_frame": 22043,
+      "start_time": 870.08,
+      "end_time": 881.72,
+      "duration_frames": 292,
+      "duration_seconds": 11.68
+    },
+    {
+      "segment_id": 59,
+      "start_frame": 23091,
+      "end_frame": 23265,
+      "start_time": 923.64,
+      "end_time": 930.6,
+      "duration_frames": 175,
+      "duration_seconds": 7.0
+    },
+    {
+      "segment_id": 60,
+      "start_frame": 23737,
+      "end_frame": 23964,
+      "start_time": 949.48,
+      "end_time": 958.56,
+      "duration_frames": 228,
+      "duration_seconds": 9.12
+    },
+    {
+      "segment_id": 62,
+      "start_frame": 24363,
+      "end_frame": 24710,
+      "start_time": 974.52,
+      "end_time": 988.4,
+      "duration_frames": 348,
+      "duration_seconds": 13.92
+    },
+    {
+      "segment_id": 64,
+      "start_frame": 25374,
+      "end_frame": 25644,
+      "start_time": 1014.96,
+      "end_time": 1025.76,
+      "duration_frames": 271,
+      "duration_seconds": 10.84
+    },
+    {
+      "segment_id": 66,
+      "start_frame": 26154,
+      "end_frame": 26423,
+      "start_time": 1046.16,
+      "end_time": 1056.92,
+      "duration_frames": 270,
+      "duration_seconds": 10.8
+    },
+    {
+      "segment_id": 67,
+      "start_frame": 26517,
+      "end_frame": 26658,
+      "start_time": 1060.68,
+      "end_time": 1066.32,
+      "duration_frames": 142,
+      "duration_seconds": 5.68
+    },
+    {
+      "segment_id": 68,
+      "start_frame": 27144,
+      "end_frame": 27411,
+      "start_time": 1085.76,
+      "end_time": 1096.44,
+      "duration_frames": 268,
+      "duration_seconds": 10.72
+    },
+    {
+      "segment_id": 69,
+      "start_frame": 27703,
+      "end_frame": 28038,
+      "start_time": 1108.12,
+      "end_time": 1121.52,
+      "duration_frames": 336,
+      "duration_seconds": 13.44
+    },
+    {
+      "segment_id": 71,
+      "start_frame": 28456,
+      "end_frame": 29000,
+      "start_time": 1138.24,
+      "end_time": 1160.0,
+      "duration_frames": 545,
+      "duration_seconds": 21.8
+    },
+    {
+      "segment_id": 73,
+      "start_frame": 29582,
+      "end_frame": 29694,
+      "start_time": 1183.28,
+      "end_time": 1187.76,
+      "duration_frames": 113,
+      "duration_seconds": 4.52
+    },
+    {
+      "segment_id": 75,
+      "start_frame": 30551,
+      "end_frame": 30847,
+      "start_time": 1222.04,
+      "end_time": 1233.88,
+      "duration_frames": 297,
+      "duration_seconds": 11.88
+    },
+    {
+      "segment_id": 77,
+      "start_frame": 31721,
+      "end_frame": 32002,
+      "start_time": 1268.84,
+      "end_time": 1280.08,
+      "duration_frames": 282,
+      "duration_seconds": 11.28
+    },
+    {
+      "segment_id": 82,
+      "start_frame": 33400,
+      "end_frame": 33650,
+      "start_time": 1336.0,
+      "end_time": 1346.0,
+      "duration_frames": 251,
+      "duration_seconds": 10.04
+    },
+    {
+      "segment_id": 84,
+      "start_frame": 34207,
+      "end_frame": 34726,
+      "start_time": 1368.28,
+      "end_time": 1389.04,
+      "duration_frames": 520,
+      "duration_seconds": 20.8
+    },
+    {
+      "segment_id": 85,
+      "start_frame": 34899,
+      "end_frame": 35009,
+      "start_time": 1395.96,
+      "end_time": 1400.36,
+      "duration_frames": 111,
+      "duration_seconds": 4.44
+    },
+    {
+      "segment_id": 89,
+      "start_frame": 36356,
+      "end_frame": 36630,
+      "start_time": 1454.24,
+      "end_time": 1465.2,
+      "duration_frames": 275,
+      "duration_seconds": 11.0
+    },
+    {
+      "segment_id": 90,
+      "start_frame": 36727,
+      "end_frame": 36809,
+      "start_time": 1469.08,
+      "end_time": 1472.36,
+      "duration_frames": 83,
+      "duration_seconds": 3.32
+    },
+    {
+      "segment_id": 92,
+      "start_frame": 37554,
+      "end_frame": 37898,
+      "start_time": 1502.16,
+      "end_time": 1515.92,
+      "duration_frames": 345,
+      "duration_seconds": 13.8
+    },
+    {
+      "segment_id": 94,
+      "start_frame": 38442,
+      "end_frame": 38877,
+      "start_time": 1537.68,
+      "end_time": 1555.08,
+      "duration_frames": 436,
+      "duration_seconds": 17.44
+    },
+    {
+      "segment_id": 95,
+      "start_frame": 38976,
+      "end_frame": 39352,
+      "start_time": 1559.04,
+      "end_time": 1574.08,
+      "duration_frames": 377,
+      "duration_seconds": 15.08
+    },
+    {
+      "segment_id": 97,
+      "start_frame": 40045,
+      "end_frame": 40300,
+      "start_time": 1601.8,
+      "end_time": 1612.0,
+      "duration_frames": 256,
+      "duration_seconds": 10.24
+    },
+    {
+      "segment_id": 99,
+      "start_frame": 40722,
+      "end_frame": 40862,
+      "start_time": 1628.88,
+      "end_time": 1634.48,
+      "duration_frames": 141,
+      "duration_seconds": 5.64
+    },
+    {
+      "segment_id": 100,
+      "start_frame": 40941,
+      "end_frame": 41181,
+      "start_time": 1637.64,
+      "end_time": 1647.24,
+      "duration_frames": 241,
+      "duration_seconds": 9.64
+    },
+    {
+      "segment_id": 101,
+      "start_frame": 41268,
+      "end_frame": 41454,
+      "start_time": 1650.72,
+      "end_time": 1658.16,
+      "duration_frames": 187,
+      "duration_seconds": 7.48
+    },
+    {
+      "segment_id": 102,
+      "start_frame": 41907,
+      "end_frame": 42290,
+      "start_time": 1676.28,
+      "end_time": 1691.6,
+      "duration_frames": 384,
+      "duration_seconds": 15.36
+    },
+    {
+      "segment_id": 103,
+      "start_frame": 42514,
+      "end_frame": 42842,
+      "start_time": 1700.56,
+      "end_time": 1713.68,
+      "duration_frames": 329,
+      "duration_seconds": 13.16
+    },
+    {
+      "segment_id": 107,
+      "start_frame": 44551,
+      "end_frame": 44816,
+      "start_time": 1782.04,
+      "end_time": 1792.64,
+      "duration_frames": 266,
+      "duration_seconds": 10.64
+    },
+    {
+      "segment_id": 108,
+      "start_frame": 45148,
+      "end_frame": 45303,
+      "start_time": 1805.92,
+      "end_time": 1812.12,
+      "duration_frames": 156,
+      "duration_seconds": 6.24
+    },
+    {
+      "segment_id": 109,
+      "start_frame": 45403,
+      "end_frame": 45515,
+      "start_time": 1816.12,
+      "end_time": 1820.6,
+      "duration_frames": 113,
+      "duration_seconds": 4.52
+    },
+    {
+      "segment_id": 111,
+      "start_frame": 46050,
+      "end_frame": 46175,
+      "start_time": 1842.0,
+      "end_time": 1847.0,
+      "duration_frames": 126,
+      "duration_seconds": 5.04
+    }
+  ]
+}

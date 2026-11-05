@@ -1,0 +1,142 @@
+Event type,First frame,Last frame,Num. frames,Identity
+Not a highlight,0,5378,5379,
+Uncertainty,5379,5393,15,
+Highlight,5394,5693,300,Kirt
+Uncertainty,5694,5723,30,
+Not a highlight,5724,5851,128,
+Uncertainty,5852,5866,15,
+Highlight,5867,6222,356,Kirt
+Uncertainty,6223,6252,30,
+Not a highlight,6253,6818,566,
+Uncertainty,6819,6833,15,
+Highlight,6834,7117,284,Hofmann
+Uncertainty,7118,7147,30,
+Not a highlight,7148,7319,172,
+Uncertainty,7320,7334,15,
+Highlight,7335,7741,407,Hofmann
+Uncertainty,7742,7771,30,
+Not a highlight,7772,8917,1146,
+Uncertainty,8918,8932,15,
+Highlight,8933,9217,285,Rohler
+Uncertainty,9218,9247,30,
+Not a highlight,9248,9877,630,
+Uncertainty,9878,9892,15,
+Highlight,9893,10094,202,Rohler
+Uncertainty,10095,10124,30,
+Not a highlight,10125,10351,227,
+Uncertainty,10352,10366,15,
+Highlight,10367,10635,269,Strobinders
+Uncertainty,10636,10665,30,
+Not a highlight,10666,10781,116,
+Uncertainty,10782,10796,15,
+Highlight,10797,11099,303,Strobinders
+Uncertainty,11100,11129,30,
+Not a highlight,11130,11555,426,
+Uncertainty,11556,11570,15,
+Highlight,11571,11855,285,Vetter
+Uncertainty,11856,11885,30,
+Not a highlight,11886,12100,215,
+Uncertainty,12101,12115,15,
+Highlight,12116,12396,281,Vetter
+Uncertainty,12397,12426,30,
+Not a highlight,12427,12864,438,
+Uncertainty,12865,12879,15,
+Highlight,12880,13232,353,Vadlejch
+Uncertainty,13233,13262,30,
+Not a highlight,13263,14422,1160,
+Uncertainty,14423,14437,15,
+Highlight,14438,14695,258,Hofmann
+Uncertainty,14696,14725,30,
+Not a highlight,14726,14993,268,
+Uncertainty,14994,15008,15,
+Highlight,15009,15413,405,Hofmann
+Uncertainty,15414,15443,30,
+Not a highlight,15444,15935,492,
+Uncertainty,15936,15950,15,
+Highlight,15951,16278,328,Rohler
+Uncertainty,16279,16308,30,
+Not a highlight,16309,16686,378,
+Uncertainty,16687,16701,15,
+Highlight,16702,17080,379,Rohler
+Uncertainty,17081,17110,30,
+Not a highlight,17111,17217,107,
+Uncertainty,17218,17232,15,
+Highlight,17233,17481,249,Krukowski
+Uncertainty,17482,17511,30,
+Not a highlight,17512,17728,217,
+Uncertainty,17729,17743,15,
+Highlight,17744,18030,287,Krukowski
+Uncertainty,18031,18060,30,
+Not a highlight,18061,18447,387,
+Uncertainty,18448,18462,15,
+Highlight,18463,18709,247,Mardare
+Uncertainty,18710,18739,30,
+Not a highlight,18740,18878,139,
+Uncertainty,18879,18893,15,
+Highlight,18894,19192,299,Mardare
+Uncertainty,19193,19222,30,
+Not a highlight,19223,19756,534,
+Uncertainty,19757,19771,15,
+Highlight,19772,20143,372,Rohler
+Uncertainty,20144,20173,30,
+Not a highlight,20174,20436,263,
+Uncertainty,20437,20451,15,
+Highlight,20452,20842,391,Rohler
+Uncertainty,20843,20872,30,
+Not a highlight,20873,21630,758,
+Uncertainty,21631,21645,15,
+Highlight,21646,21929,284,Mardare
+Uncertainty,21930,21959,30,
+Not a highlight,21960,22079,120,
+Uncertainty,22080,22094,15,
+Highlight,22095,22370,276,Mardare
+Uncertainty,22371,22400,30,
+Not a highlight,22401,22729,329,
+Uncertainty,22730,22744,15,
+Highlight,22745,23024,280,Vetter
+Uncertainty,23025,23054,30,
+Not a highlight,23055,23175,121,
+Uncertainty,23176,23190,15,
+Highlight,23191,23468,278,Vetter
+Uncertainty,23469,23498,30,
+Not a highlight,23499,24879,1381,
+Uncertainty,24880,24894,15,
+Highlight,24895,25184,290,Krukowski
+Uncertainty,25185,25214,30,
+Not a highlight,25215,25366,152,
+Uncertainty,25367,25381,15,
+Highlight,25382,25646,265,Krukowski
+Uncertainty,25647,25676,30,
+Not a highlight,25677,26242,566,
+Uncertainty,26243,26257,15,
+Highlight,26258,26531,274,Hofmann
+Uncertainty,26532,26561,30,
+Not a highlight,26562,28084,1523,
+Uncertainty,28085,28099,15,
+Highlight,28100,28390,291,Ruuskanen
+Uncertainty,28391,28420,30,
+Not a highlight,28421,30291,1871,
+Uncertainty,30292,30306,15,
+Highlight,30307,30583,277,Krukowski
+Uncertainty,30584,30613,30,
+Not a highlight,30614,32283,1670,
+Uncertainty,32284,32298,15,
+Highlight,32299,32584,286,Kirt
+Uncertainty,32585,32614,30,
+Not a highlight,32615,32814,200,
+Uncertainty,32815,32829,15,
+Highlight,32830,33150,321,Kirt
+Uncertainty,33151,33180,30,
+Not a highlight,33181,33908,728,
+Uncertainty,33909,33923,15,
+Highlight,33924,34201,278,Hofmann
+Uncertainty,34202,34231,30,
+Not a highlight,34232,34498,267,
+Uncertainty,34499,34513,15,
+Highlight,34514,34905,392,Hofmann
+Uncertainty,34906,34935,30,
+Not a highlight,34936,35601,666,
+Uncertainty,35602,35616,15,
+Highlight,35617,35876,260,Rohler
+Uncertainty,35877,35906,30,
+Not a highlight,35907,40802,4896,

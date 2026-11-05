@@ -1,0 +1,85 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}\setlength{\parskip}{5pt}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries Olympic Highlights Dataset (v1.1)}\\[4pt]
+{\large A benchmark for identity-aware sports video summarization}\\[6pt]
+Marcos Rodrigo \quad Carlos Cuevas \quad Narciso Garc\'{i}a\\
+Grupo de Tratamiento de Im\'{a}genes (GTI), Information Processing and Telecommunications Center (IPTC),\\ Universidad Polit\'{e}cnica de Madrid (UPM), Madrid, Spain --- \texttt{marcos.rodrigo@upm.es}
+\end{center}
+
+\section*{Overview}
+Olympic Highlights contains 20 full-length broadcast replays of track-and-field finals (high jump, javelin, long jump and pole vault; five per event) from nine World Athletics and European Athletics championships held between 2015 and 2025, published on the official YouTube channels of these organizations. The videos total 10.2 hours and contain 938 highlight events, each labeled with the athlete who performs it (186 athlete--video instances, 137 distinct athletes). Each video is annotated at frame level with three segment types:
+\begin{itemize}
+\item \textbf{Highlight (HL)}: the attempt, from the start of the approach or run-up to its visible outcome, with the athlete's identity (surname, read from the broadcast's name captions and bib numbers);
+\item \textbf{Uncertainty (UN)}: fixed tolerance bands of 15 frames before and 30 frames after every highlight;
+\item \textbf{Not a highlight (NHL)}: all remaining footage.
+\end{itemize}
+All annotations were produced by one annotator.
+
+\section*{Contents}
+\begin{verbatim}
+OlympicHighlights_v1.1/
+|-- videos.csv          sources and metadata of the 20 videos
+|-- High Jump/          high_jump_1.csv ... high_jump_5.csv
+|-- Javelin/            javelin_1.csv   ... javelin_5.csv
+|-- Long Jump/          long_jump_1.csv ... long_jump_5.csv
+`-- Pole Vault/         pole_vault_1.csv ... pole_vault_5.csv
+\end{verbatim}
+Each annotation file lists, in chronological order and covering the whole video, the columns \texttt{Event type} (\texttt{Highlight}, \texttt{Not a highlight} or \texttt{Uncertainty}), \texttt{First frame} and \texttt{Last frame} (inclusive), \texttt{Num.\ frames}, and \texttt{Identity} (only for highlights). \textbf{Frame indices refer to the native frame rate and frame count given in \texttt{videos.csv}} (25\,fps for 15 videos, 50\,fps for four and 23.976\,fps for one). If a downloaded copy has a different frame rate, convert indices to time as \texttt{frame / fps} with the listed \texttt{fps}; the listed duration allows checking that the correct upload was obtained. \texttt{videos.csv} contains the columns \texttt{sport}, \texttt{ground\_truth\_file}, \texttt{url}, \texttt{competition}, \texttt{sex}, \texttt{venue}, \texttt{youtube\_title}, \texttt{channel}, \texttt{fps}, \texttt{frames}, \texttt{duration\_s}, \texttt{athletes} and \texttt{highlights}.
+
+A separate reproduction package provides, for every video, the highlight proposals of SportCLIP and of the held-out QD-DETR models, the resemblance curves and the reference embeddings (ArcFace and TransFace) used in the associated paper, and the QD-DETR cross-validation splits; together with the evaluation code at \url{https://github.com/MarcosRodrigoT/PVS} (folder \texttt{revision/}), they reproduce all reported results without the videos. Videos and reference photographs are not redistributed for copyright reasons.
+
+\section*{Statistics}
+\begin{center}\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}l l c c r r r r r r r@{}}
+\toprule
+Video & Source & Sex & Venue & fps & Dur.\ (min) & Athl. & HL & HL avg (s) & HL (\%) & UN (\%)\\
+\midrule
+{High jump V1} & WCH Beijing 2015 & M & O & 25.00 & 32.3 & 8 & 58 & 8.0 & 24.2 & 5.4\\
+{High jump V2} & WCH London 2017 & M & O & 25.00 & 32.5 & 11 & 59 & 5.4 & 16.3 & 5.4\\
+{High jump V3} & WCH Oregon 2022 & M & O & 50.00 & 35.8 & 13 & 56 & 7.4 & 19.4 & 2.3\\
+{High jump V4} & WICH Glasgow 2024 & M & I & 25.00 & 20.1 & 8 & 32 & 5.8 & 15.3 & 4.8\\
+{High jump V5} & WICH Glasgow 2024 & W & I & 25.00 & 31.1 & 10 & 57 & 6.1 & 18.7 & 5.5\\
+\addlinespace
+{Javelin V1} & ECH Berlin 2018 & M & O & 25.00 & 27.2 & 9 & 35 & 12.1 & 26.0 & 3.9\\
+{Javelin V2} & WCH London 2017 & M & O & 25.00 & 24.1 & 7 & 37 & 11.7 & 30.1 & 4.6\\
+{Javelin V3} & WCH Doha 2019 & M & O & 25.00 & 22.9 & 10 & 34 & 11.4 & 28.2 & 4.4\\
+{Javelin V4} & WCH Doha 2019 & W & O & 25.00 & 18.5 & 8 & 31 & 8.9 & 24.9 & 5.0\\
+{Javelin V5} & WCH Oregon 2022 & W & O & 50.00 & 30.5 & 8 & 43 & 13.3 & 31.3 & 2.1\\
+\addlinespace
+{Long jump V1} & WICH Birmingham 2018 & M & I & 25.00 & 29.7 & 10 & 48 & 10.8 & 29.1 & 4.8\\
+{Long jump V2} & EICH Apeldoorn 2025 & M & I & 25.00 & 36.3 & 8 & 81 & 10.9 & 40.8 & 6.7\\
+{Long jump V3} & WCH London 2017 & M & O & 25.00 & 35.7 & 11 & 50 & 13.4 & 31.4 & 4.2\\
+{Long jump V4} & WCH Doha 2019 & M & O & 25.00 & 47.2 & 12 & 57 & 12.9 & 26.1 & 3.6\\
+{Long jump V5} & WCH Oregon 2022 & M & O & 23.98 & 28.5 & 10 & 35 & 15.1 & 31.1 & 3.8\\
+\addlinespace
+{Pole vault V1} & ECH Berlin 2018 & M & O & 25.00 & 25.9 & 7 & 43 & 10.9 & 30.4 & 5.0\\
+{Pole vault V2} & WCH London 2017 & M & O & 25.00 & 31.3 & 12 & 41 & 11.2 & 24.6 & 3.9\\
+{Pole vault V3} & WCH Oregon 2022 & M & O & 50.00 & 35.5 & 5 & 46 & 12.0 & 26.0 & 1.9\\
+{Pole vault V4} & WICH Belgrade 2022 & M & I & 25.00 & 37.6 & 11 & 47 & 12.5 & 26.2 & 3.7\\
+{Pole vault V5} & WCH Oregon 2022 & W & O & 50.00 & 29.8 & 8 & 48 & 10.4 & 27.9 & 2.4\\
+\bottomrule
+\end{tabular}\end{center}
+WCH: World Championships; WICH: World Indoor Championships; ECH: European Championships; EICH: European Indoor Championships; O/I: outdoor/indoor.
+
+\section*{Evaluation protocol}
+A predicted personalized highlight (a segment assigned to an athlete) is a true positive if it has temporal IoU $\geq0.3$ with a not-yet-matched highlight of the same athlete; predictions are matched one-to-one in temporal order, choosing the ground-truth event with the largest IoU. Unmatched predictions are false positives and unmatched highlights false negatives. Recall, precision and F-score are computed per video and averaged over videos. For identity-agnostic frame-level evaluation, frames in UN bands are excluded.
+
+\section*{Changes with respect to v1.0}
+\begin{itemize}
+\item The annotation files now include the athlete identity of every highlight.
+\item Corrected links: Javelin 2 (\url{https://www.youtube.com/watch?v=e1L93ySj38s}), Long Jump 3 (\url{https://www.youtube.com/watch?v=wNpA02SNgUg}), Pole Vault 2 (\url{https://www.youtube.com/watch?v=s2nMjCKPE2M}) and Pole Vault 5 (\url{https://www.youtube.com/watch?v=Lbi-LLiAso8}); all links were verified (November 2026) to match the annotated durations.
+\item \texttt{videos.csv} now lists frame rate, frame count, duration and source of every video (v1.0 incorrectly stated a fixed rate of 30\,fps), and the statistics table has been corrected.
+\item Corrected identity label in Javelin 3 (``Valdejch'' $\rightarrow$ ``Vadlejch'', 2 events).
+\end{itemize}
+
+\section*{Citation}
+M.~Rodrigo, C.~Cuevas, and N.~Garc\'{i}a, ``Automatic Sports Video Summarization with Identity-Aware Highlight Selection,'' \emph{Image and Vision Computing}, under review.
+\end{document}

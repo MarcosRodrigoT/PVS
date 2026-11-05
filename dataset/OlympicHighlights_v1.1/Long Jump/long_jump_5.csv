@@ -1,0 +1,142 @@
+Event type,First frame,Last frame,Num. frames,Identity
+Not a highlight,0,3647,3648,
+Uncertainty,3648,3662,15,
+Highlight,3663,3984,322,Pinnock
+Uncertainty,3985,4014,30,
+Not a highlight,4015,4163,149,
+Uncertainty,4164,4178,15,
+Highlight,4179,4528,350,Pinnock
+Uncertainty,4529,4558,30,
+Not a highlight,4559,5052,494,
+Uncertainty,5053,5067,15,
+Highlight,5068,5345,278,Mccarter
+Uncertainty,5346,5375,30,
+Not a highlight,5376,5536,161,
+Uncertainty,5537,5551,15,
+Highlight,5552,6172,621,Mccarter
+Uncertainty,6173,6202,30,
+Not a highlight,6203,7296,1094,
+Uncertainty,7297,7311,15,
+Highlight,7312,7627,316,Sreeshankar
+Uncertainty,7628,7657,30,
+Not a highlight,7658,7791,134,
+Uncertainty,7792,7806,15,
+Highlight,7807,8229,423,Sreeshankar
+Uncertainty,8230,8259,30,
+Not a highlight,8260,8573,314,
+Uncertainty,8574,8588,15,
+Highlight,8589,8874,286,Caceres
+Uncertainty,8875,8904,30,
+Not a highlight,8905,9059,155,
+Uncertainty,9060,9074,15,
+Highlight,9075,9609,535,Caceres
+Uncertainty,9610,9639,30,
+Not a highlight,9640,10283,644,
+Uncertainty,10284,10298,15,
+Highlight,10299,10604,306,Frayne
+Uncertainty,10605,10634,30,
+Not a highlight,10635,10816,182,
+Uncertainty,10817,10831,15,
+Highlight,10832,11395,564,Frayne
+Uncertainty,11396,11425,30,
+Not a highlight,11426,11709,284,
+Uncertainty,11710,11724,15,
+Highlight,11725,12012,288,Tentoglou
+Uncertainty,12013,12042,30,
+Not a highlight,12043,12226,184,
+Uncertainty,12227,12241,15,
+Highlight,12242,12889,648,Tentoglou
+Uncertainty,12890,12919,30,
+Not a highlight,12920,13563,644,
+Uncertainty,13564,13578,15,
+Highlight,13579,13868,290,Dendy
+Uncertainty,13869,13898,30,
+Not a highlight,13899,14046,148,
+Uncertainty,14047,14061,15,
+Highlight,14062,14510,449,Dendy
+Uncertainty,14511,14540,30,
+Not a highlight,14541,15634,1094,
+Uncertainty,15635,15649,15,
+Highlight,15650,15922,273,Masso
+Uncertainty,15923,15952,30,
+Not a highlight,15953,16103,151,
+Uncertainty,16104,16118,15,
+Highlight,16119,16754,636,Masso
+Uncertainty,16755,16784,30,
+Not a highlight,16785,17308,524,
+Uncertainty,17309,17323,15,
+Highlight,17324,17599,276,Ehammer
+Uncertainty,17600,17629,30,
+Not a highlight,17630,17806,177,
+Uncertainty,17807,17821,15,
+Highlight,17822,18005,184,Ehammer
+Uncertainty,18006,18035,30,
+Not a highlight,18036,18210,175,
+Uncertainty,18211,18225,15,
+Highlight,18226,18410,185,Ehammer
+Uncertainty,18411,18440,30,
+Not a highlight,18441,19894,1454,
+Uncertainty,19895,19909,15,
+Highlight,19910,20182,273,Masso
+Uncertainty,20183,20212,30,
+Not a highlight,20213,20328,116,
+Uncertainty,20329,20343,15,
+Highlight,20344,20706,363,Masso
+Uncertainty,20707,20736,30,
+Not a highlight,20737,22730,1994,
+Uncertainty,22731,22745,15,
+Highlight,22746,23064,319,Tentoglou
+Uncertainty,23065,23094,30,
+Not a highlight,23095,23260,166,
+Uncertainty,23261,23275,15,
+Highlight,23276,23746,471,Tentoglou
+Uncertainty,23747,23776,30,
+Not a highlight,23777,25320,1544,
+Uncertainty,25321,25335,15,
+Highlight,25336,25600,265,Dendy
+Uncertainty,25601,25630,30,
+Not a highlight,25631,25981,351,
+Uncertainty,25982,25996,15,
+Highlight,25997,26350,354,Dendy
+Uncertainty,26351,26380,30,
+Not a highlight,26381,27184,804,
+Uncertainty,27185,27199,15,
+Highlight,27200,27476,277,Wang
+Uncertainty,27477,27506,30,
+Not a highlight,27507,27813,307,
+Uncertainty,27814,27828,15,
+Highlight,27829,28163,335,Wang
+Uncertainty,28164,28193,30,
+Not a highlight,28194,29139,946,
+Uncertainty,29140,29154,15,
+Highlight,29155,29451,297,Mccarter
+Uncertainty,29452,29481,30,
+Not a highlight,29482,29611,130,
+Uncertainty,29612,29626,15,
+Highlight,29627,30087,461,Mccarter
+Uncertainty,30088,30117,30,
+Not a highlight,30118,31661,1544,
+Uncertainty,31662,31676,15,
+Highlight,31677,31961,285,Masso
+Uncertainty,31962,31991,30,
+Not a highlight,31992,32154,163,
+Uncertainty,32155,32169,15,
+Highlight,32170,32627,458,Masso
+Uncertainty,32628,32657,30,
+Not a highlight,32658,33391,734,
+Uncertainty,33392,33406,15,
+Highlight,33407,33641,235,Ehammer
+Uncertainty,33642,33671,30,
+Not a highlight,33672,34028,357,
+Uncertainty,34029,34043,15,
+Highlight,34044,34450,407,Ehammer
+Uncertainty,34451,34480,30,
+Not a highlight,34481,35451,971,
+Uncertainty,35452,35466,15,
+Highlight,35467,35815,349,Tentoglou
+Uncertainty,35816,35845,30,
+Not a highlight,35846,36084,239,
+Uncertainty,36085,36099,15,
+Highlight,36100,36459,360,Tentoglou
+Uncertainty,36460,36489,30,
+Not a highlight,36490,40938,4449,

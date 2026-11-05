@@ -1,0 +1,132 @@
+{
+  "fold0": {
+    "train": [
+      "highjump_video2",
+      "highjump_video3",
+      "highjump_video4",
+      "highjump_video5",
+      "javelin_video2",
+      "javelin_video3",
+      "javelin_video4",
+      "javelin_video5",
+      "longjump_video2",
+      "longjump_video3",
+      "longjump_video4",
+      "longjump_video5",
+      "polevault_video2",
+      "polevault_video3",
+      "polevault_video4",
+      "polevault_video5"
+    ],
+    "test": [
+      "highjump_video1",
+      "javelin_video1",
+      "longjump_video1",
+      "polevault_video1"
+    ]
+  },
+  "fold1": {
+    "train": [
+      "highjump_video1",
+      "highjump_video3",
+      "highjump_video4",
+      "highjump_video5",
+      "javelin_video1",
+      "javelin_video3",
+      "javelin_video4",
+      "javelin_video5",
+      "longjump_video1",
+      "longjump_video3",
+      "longjump_video4",
+      "longjump_video5",
+      "polevault_video1",
+      "polevault_video3",
+      "polevault_video4",
+      "polevault_video5"
+    ],
+    "test": [
+      "highjump_video2",
+      "javelin_video2",
+      "longjump_video2",
+      "polevault_video2"
+    ]
+  },
+  "fold2": {
+    "train": [
+      "highjump_video1",
+      "highjump_video2",
+      "highjump_video4",
+      "highjump_video5",
+      "javelin_video1",
+      "javelin_video2",
+      "javelin_video4",
+      "javelin_video5",
+      "longjump_video1",
+      "longjump_video2",
+      "longjump_video4",
+      "longjump_video5",
+      "polevault_video1",
+      "polevault_video2",
+      "polevault_video4",
+      "polevault_video5"
+    ],
+    "test": [
+      "highjump_video3",
+      "javelin_video3",
+      "longjump_video3",
+      "polevault_video3"
+    ]
+  },
+  "fold3": {
+    "train": [
+      "highjump_video1",
+      "highjump_video2",
+      "highjump_video3",
+      "highjump_video5",
+      "javelin_video1",
+      "javelin_video2",
+      "javelin_video3",
+      "javelin_video5",
+      "longjump_video1",
+      "longjump_video2",
+      "longjump_video3",
+      "longjump_video5",
+      "polevault_video1",
+      "polevault_video2",
+      "polevault_video3",
+      "polevault_video5"
+    ],
+    "test": [
+      "highjump_video4",
+      "javelin_video4",
+      "longjump_video4",
+      "polevault_video4"
+    ]
+  },
+  "fold4": {
+    "train": [
+      "highjump_video1",
+      "highjump_video2",
+      "highjump_video3",
+      "highjump_video4",
+      "javelin_video1",
+      "javelin_video2",
+      "javelin_video3",
+      "javelin_video4",
+      "longjump_video1",
+      "longjump_video2",
+      "longjump_video3",
+      "longjump_video4",
+      "polevault_video1",
+      "polevault_video2",
+      "polevault_video3",
+      "polevault_video4"
+    ],
+    "test": [
+      "highjump_video5",
+      "javelin_video5",
+      "longjump_video5",
+      "polevault_video5"
+    ]
+  }
+}

@@ -1,0 +1,4094 @@
+[
+  {
+    "video": "highjump_video1",
+    "athlete": "baba",
+    "arcface": {
+      "face": "frame_007135_face_0",
+      "time": 285.4,
+      "similarity": 0.891454,
+      "nearest_athlete": "baba",
+      "dist_nearest": 1.1200000000000045,
+      "dist_own": 1.1200000000000045,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_015102_face_0",
+      "time": 604.08,
+      "similarity": 0.815866,
+      "nearest_athlete": "baba",
+      "dist_nearest": 8.079999999999927,
+      "dist_own": 8.079999999999927,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video1",
+    "athlete": "barshim",
+    "arcface": {
+      "face": "frame_014226_face_0",
+      "time": 569.04,
+      "similarity": 0.85692,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 5.960000000000036,
+      "dist_own": 5.960000000000036,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_006155_face_0",
+      "time": 246.2,
+      "similarity": 0.8729,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 0.0,
+      "dist_own": 0.0,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video1",
+    "athlete": "bondarenko",
+    "arcface": {
+      "face": "frame_032564_face_3",
+      "time": 1302.56,
+      "similarity": 0.84867,
+      "nearest_athlete": "bondarenko",
+      "dist_nearest": 1.4400000000000546,
+      "dist_own": 1.4400000000000546,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_032852_face_0",
+      "time": 1314.08,
+      "similarity": 0.806828,
+      "nearest_athlete": "bondarenko",
+      "dist_nearest": 4.319999999999936,
+      "dist_own": 4.319999999999936,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video1",
+    "athlete": "drouin",
+    "arcface": {
+      "face": "frame_027992_face_0",
+      "time": 1119.68,
+      "similarity": 0.827453,
+      "nearest_athlete": "drouin",
+      "dist_nearest": 4.880000000000109,
+      "dist_own": 4.880000000000109,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_018808_face_0",
+      "time": 752.32,
+      "similarity": 0.855383,
+      "nearest_athlete": "baba",
+      "dist_nearest": 10.879999999999995,
+      "dist_own": 32.319999999999936,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video1",
+    "athlete": "starc",
+    "arcface": {
+      "face": "frame_011240_face_0",
+      "time": 449.6,
+      "similarity": 0.853781,
+      "nearest_athlete": "drouin",
+      "dist_nearest": 10.520000000000039,
+      "dist_own": 17.159999999999968,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_011578_face_0",
+      "time": 463.12,
+      "similarity": 0.866291,
+      "nearest_athlete": "starc",
+      "dist_nearest": 3.6399999999999864,
+      "dist_own": 3.6399999999999864,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video1",
+    "athlete": "thomas",
+    "arcface": {
+      "face": "frame_031505_face_0",
+      "time": 1260.2,
+      "similarity": 0.827448,
+      "nearest_athlete": "thomas",
+      "dist_nearest": 4.279999999999973,
+      "dist_own": 4.279999999999973,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_016046_face_0",
+      "time": 641.84,
+      "similarity": 0.818055,
+      "nearest_athlete": "thomas",
+      "dist_nearest": 4.719999999999914,
+      "dist_own": 4.719999999999914,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video1",
+    "athlete": "tsyplakov",
+    "arcface": {
+      "face": "frame_021106_face_0",
+      "time": 844.24,
+      "similarity": 0.862717,
+      "nearest_athlete": "tsyplakov",
+      "dist_nearest": 5.399999999999977,
+      "dist_own": 5.399999999999977,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_020449_face_1",
+      "time": 817.96,
+      "similarity": 0.814892,
+      "nearest_athlete": "drouin",
+      "dist_nearest": 9.56000000000006,
+      "dist_own": 31.67999999999995,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video1",
+    "athlete": "zhang",
+    "arcface": {
+      "face": "frame_023109_face_0",
+      "time": 924.36,
+      "similarity": 0.934485,
+      "nearest_athlete": "zhang",
+      "dist_nearest": 5.240000000000009,
+      "dist_own": 5.240000000000009,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_023107_face_0",
+      "time": 924.28,
+      "similarity": 0.889161,
+      "nearest_athlete": "zhang",
+      "dist_nearest": 5.32000000000005,
+      "dist_own": 5.32000000000005,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video2",
+    "athlete": "barshim",
+    "arcface": {
+      "face": "frame_005953_face_0",
+      "time": 238.12,
+      "similarity": 0.86171,
+      "nearest_athlete": "przybylko",
+      "dist_nearest": 3.240000000000009,
+      "dist_own": 12.919999999999987,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_025379_face_1",
+      "time": 1015.16,
+      "similarity": 0.864255,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 4.080000000000041,
+      "dist_own": 4.080000000000041,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video2",
+    "athlete": "bondarenko",
+    "arcface": {
+      "face": "frame_002784_face_0",
+      "time": 111.36,
+      "similarity": 0.838126,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 56.44000000000001,
+      "dist_own": 571.6,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_002785_face_0",
+      "time": 111.4,
+      "similarity": 0.79919,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 56.400000000000006,
+      "dist_own": 571.5600000000001,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video2",
+    "athlete": "ghazal",
+    "arcface": {
+      "face": "frame_038163_face_0",
+      "time": 1526.52,
+      "similarity": 0.889315,
+      "nearest_athlete": "ghazal",
+      "dist_nearest": 3.0799999999999272,
+      "dist_own": 3.0799999999999272,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_038166_face_0",
+      "time": 1526.64,
+      "similarity": 0.889428,
+      "nearest_athlete": "ghazal",
+      "dist_nearest": 3.2000000000000455,
+      "dist_own": 3.2000000000000455,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video2",
+    "athlete": "grabarz",
+    "arcface": {
+      "face": "frame_002555_face_0",
+      "time": 102.2,
+      "similarity": 0.832303,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 65.60000000000001,
+      "dist_own": 440.92,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_029615_face_0",
+      "time": 1184.6,
+      "similarity": 0.803537,
+      "nearest_athlete": "grabarz",
+      "dist_nearest": 6.039999999999964,
+      "dist_own": 6.039999999999964,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video2",
+    "athlete": "ivanov",
+    "arcface": {
+      "face": "frame_002284_face_0",
+      "time": 91.36,
+      "similarity": 0.866395,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 76.44000000000001,
+      "dist_own": 402.68,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_002190_face_0",
+      "time": 87.6,
+      "similarity": 0.801887,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 80.20000000000002,
+      "dist_own": 406.44000000000005,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video2",
+    "athlete": "ivanyuk",
+    "arcface": {
+      "face": "frame_014364_face_0",
+      "time": 574.56,
+      "similarity": 0.850174,
+      "nearest_athlete": "ivanyuk",
+      "dist_nearest": 5.600000000000023,
+      "dist_own": 5.600000000000023,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_045791_face_0",
+      "time": 1831.64,
+      "similarity": 0.831445,
+      "nearest_athlete": "lysenko",
+      "dist_nearest": 18.440000000000055,
+      "dist_own": 541.3200000000002,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video2",
+    "athlete": "lysenko",
+    "arcface": {
+      "face": "frame_043588_face_0",
+      "time": 1743.52,
+      "similarity": 0.906457,
+      "nearest_athlete": "lysenko",
+      "dist_nearest": 4.6400000000001,
+      "dist_own": 4.6400000000001,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_014989_face_0",
+      "time": 599.56,
+      "similarity": 0.88673,
+      "nearest_athlete": "lysenko",
+      "dist_nearest": 9.360000000000014,
+      "dist_own": 9.360000000000014,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video2",
+    "athlete": "mcbride",
+    "arcface": {
+      "face": "frame_001458_face_0",
+      "time": 58.32,
+      "similarity": 0.907635,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 109.48000000000002,
+      "dist_own": 238.28000000000003,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_021897_face_0",
+      "time": 875.88,
+      "similarity": 0.893303,
+      "nearest_athlete": "mcbride",
+      "dist_nearest": 3.080000000000041,
+      "dist_own": 3.080000000000041,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video2",
+    "athlete": "onnen",
+    "arcface": {
+      "face": "frame_002088_face_0",
+      "time": 83.52,
+      "similarity": 0.833857,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 84.28000000000002,
+      "dist_own": 365.96000000000004,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_002090_face_0",
+      "time": 83.6,
+      "similarity": 0.849975,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 84.20000000000002,
+      "dist_own": 365.88,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video2",
+    "athlete": "przybylko",
+    "arcface": {
+      "face": "frame_000980_face_0",
+      "time": 39.2,
+      "similarity": 0.777893,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 128.60000000000002,
+      "dist_own": 173.16000000000003,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_030354_face_0",
+      "time": 1214.16,
+      "similarity": 0.828217,
+      "nearest_athlete": "ghazal",
+      "dist_nearest": 11.240000000000009,
+      "dist_own": 20.159999999999854,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video2",
+    "athlete": "rivera",
+    "arcface": {
+      "face": "frame_003077_face_0",
+      "time": 123.08,
+      "similarity": 0.785165,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 44.72000000000001,
+      "dist_own": 640.9599999999999,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_003111_face_0",
+      "time": 124.44,
+      "similarity": 0.72581,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 43.360000000000014,
+      "dist_own": 639.5999999999999,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "baden",
+    "arcface": {
+      "face": "frame_066052_face_0",
+      "time": 1321.04,
+      "similarity": 0.900473,
+      "nearest_athlete": "baden",
+      "dist_nearest": 13.6400000000001,
+      "dist_own": 13.6400000000001,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_066053_face_0",
+      "time": 1321.06,
+      "similarity": 0.839501,
+      "nearest_athlete": "baden",
+      "dist_nearest": 13.620000000000118,
+      "dist_own": 13.620000000000118,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "barshim",
+    "arcface": {
+      "face": "frame_093963_face_0",
+      "time": 1879.26,
+      "similarity": 0.7295,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 5.599999999999909,
+      "dist_own": 5.599999999999909,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_093982_face_0",
+      "time": 1879.64,
+      "similarity": 0.672229,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 5.2199999999998,
+      "dist_own": 5.2199999999998,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "harrison",
+    "arcface": {
+      "face": "frame_063082_face_0",
+      "time": 1261.64,
+      "similarity": 0.809635,
+      "nearest_athlete": "harrison",
+      "dist_nearest": 0.4799999999997908,
+      "dist_own": 0.4799999999997908,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_008297_face_0",
+      "time": 165.94,
+      "similarity": 0.814835,
+      "nearest_athlete": "rivera",
+      "dist_nearest": 77.72,
+      "dist_own": 572.24,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "kapitolnik",
+    "arcface": {
+      "face": "frame_041657_face_0",
+      "time": 833.14,
+      "similarity": 0.769536,
+      "nearest_athlete": "baden",
+      "dist_nearest": 5.5,
+      "dist_own": 8.899999999999977,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_015617_face_0",
+      "time": 312.34,
+      "similarity": 0.795517,
+      "nearest_athlete": "kapitolnik",
+      "dist_nearest": 4.539999999999964,
+      "dist_own": 4.539999999999964,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "lovett",
+    "arcface": {
+      "face": "frame_052507_face_0",
+      "time": 1050.14,
+      "similarity": 0.856496,
+      "nearest_athlete": "shinno",
+      "dist_nearest": 21.38000000000011,
+      "dist_own": 27.819999999999936,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_052502_face_0",
+      "time": 1050.04,
+      "similarity": 0.823878,
+      "nearest_athlete": "shinno",
+      "dist_nearest": 21.279999999999973,
+      "dist_own": 27.920000000000073,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "mcewen",
+    "arcface": {
+      "face": "frame_007355_face_0",
+      "time": 147.1,
+      "similarity": 0.74494,
+      "nearest_athlete": "rivera",
+      "dist_nearest": 96.56,
+      "dist_own": 835.3199999999999,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_076545_face_0",
+      "time": 1530.9,
+      "similarity": 0.803425,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 16.580000000000155,
+      "dist_own": 35.61999999999989,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "protsenko",
+    "arcface": {
+      "face": "frame_090681_face_1",
+      "time": 1813.62,
+      "similarity": 0.767532,
+      "nearest_athlete": "protsenko",
+      "dist_nearest": 25.45999999999981,
+      "dist_own": 25.45999999999981,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_077970_face_0",
+      "time": 1559.4,
+      "similarity": 0.780012,
+      "nearest_athlete": "mcewen",
+      "dist_nearest": 7.119999999999891,
+      "dist_own": 167.20000000000005,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "przybylko",
+    "arcface": {
+      "face": "frame_044998_face_0",
+      "time": 899.96,
+      "similarity": 0.773359,
+      "nearest_athlete": "przybylko",
+      "dist_nearest": 6.419999999999959,
+      "dist_own": 6.419999999999959,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_005216_face_0",
+      "time": 104.32,
+      "similarity": 0.814143,
+      "nearest_athlete": "rivera",
+      "dist_nearest": 139.34,
+      "dist_own": 313.2,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "rivera",
+    "arcface": {
+      "face": "frame_010843_face_0",
+      "time": 216.86,
+      "similarity": 0.784749,
+      "nearest_athlete": "rivera",
+      "dist_nearest": 26.799999999999983,
+      "dist_own": 26.799999999999983,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_017036_face_0",
+      "time": 340.72,
+      "similarity": 0.743757,
+      "nearest_athlete": "rivera",
+      "dist_nearest": 12.079999999999984,
+      "dist_own": 12.079999999999984,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "shinno",
+    "arcface": {
+      "face": "frame_031656_face_0",
+      "time": 633.12,
+      "similarity": 0.85377,
+      "nearest_athlete": "shinno",
+      "dist_nearest": 8.82000000000005,
+      "dist_own": 8.82000000000005,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_029672_face_0",
+      "time": 593.44,
+      "similarity": 0.81072,
+      "nearest_athlete": "shinno",
+      "dist_nearest": 9.839999999999918,
+      "dist_own": 9.839999999999918,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "tamberi",
+    "arcface": {
+      "face": "frame_083362_face_0",
+      "time": 1667.24,
+      "similarity": 0.81377,
+      "nearest_athlete": "tamberi",
+      "dist_nearest": 16.680000000000064,
+      "dist_own": 16.680000000000064,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_058147_face_0",
+      "time": 1162.94,
+      "similarity": 0.778665,
+      "nearest_athlete": "zayas",
+      "dist_nearest": 26.12000000000012,
+      "dist_own": 45.87999999999988,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "woo",
+    "arcface": {
+      "face": "frame_096614_face_0",
+      "time": 1932.28,
+      "similarity": 0.880957,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 20.579999999999927,
+      "dist_own": 24.420000000000073,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_096126_face_0",
+      "time": 1922.52,
+      "similarity": 0.820676,
+      "nearest_athlete": "barshim",
+      "dist_nearest": 10.819999999999936,
+      "dist_own": 34.180000000000064,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video3",
+    "athlete": "zayas",
+    "arcface": {
+      "face": "frame_057022_face_0",
+      "time": 1140.44,
+      "similarity": 0.774143,
+      "nearest_athlete": "zayas",
+      "dist_nearest": 3.6200000000001182,
+      "dist_own": 3.6200000000001182,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_057016_face_0",
+      "time": 1140.32,
+      "similarity": 0.761773,
+      "nearest_athlete": "zayas",
+      "dist_nearest": 3.5,
+      "dist_own": 3.5,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video4",
+    "athlete": "doroshchuk",
+    "arcface": {
+      "face": "frame_004218_face_0",
+      "time": 168.72,
+      "similarity": 0.888219,
+      "nearest_athlete": "doroshchuk",
+      "dist_nearest": 15.640000000000015,
+      "dist_own": 15.640000000000015,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_004345_face_0",
+      "time": 173.8,
+      "similarity": 0.802381,
+      "nearest_athlete": "doroshchuk",
+      "dist_nearest": 10.560000000000002,
+      "dist_own": 10.560000000000002,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video4",
+    "athlete": "kerr",
+    "arcface": {
+      "face": "frame_013861_face_0",
+      "time": 554.44,
+      "similarity": 0.915052,
+      "nearest_athlete": "kobielski",
+      "dist_nearest": 7.760000000000105,
+      "dist_own": 14.319999999999936,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_024016_face_0",
+      "time": 960.64,
+      "similarity": 0.8365,
+      "nearest_athlete": "kerr",
+      "dist_nearest": 35.0,
+      "dist_own": 35.0,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video4",
+    "athlete": "kobielski",
+    "arcface": {
+      "face": "frame_013408_face_0",
+      "time": 536.32,
+      "similarity": 0.875559,
+      "nearest_athlete": "kobielski",
+      "dist_nearest": 4.3599999999999,
+      "dist_own": 4.3599999999999,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_013405_face_0",
+      "time": 536.2,
+      "similarity": 0.8756,
+      "nearest_athlete": "kobielski",
+      "dist_nearest": 4.4799999999999045,
+      "dist_own": 4.4799999999999045,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video4",
+    "athlete": "mcewen",
+    "arcface": {
+      "face": "frame_015471_face_0",
+      "time": 618.84,
+      "similarity": 0.81558,
+      "nearest_athlete": "mcewen",
+      "dist_nearest": 4.480000000000018,
+      "dist_own": 4.480000000000018,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_003304_face_0",
+      "time": 132.16,
+      "similarity": 0.872604,
+      "nearest_athlete": "doroshchuk",
+      "dist_nearest": 52.20000000000002,
+      "dist_own": 107.24000000000001,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video4",
+    "athlete": "rivera",
+    "arcface": {
+      "face": "frame_012141_face_0",
+      "time": 485.64,
+      "similarity": 0.7432,
+      "nearest_athlete": "woo",
+      "dist_nearest": 8.039999999999964,
+      "dist_own": 9.480000000000018,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_012124_face_0",
+      "time": 484.96,
+      "similarity": 0.718909,
+      "nearest_athlete": "woo",
+      "dist_nearest": 7.359999999999957,
+      "dist_own": 10.160000000000025,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video4",
+    "athlete": "stefela",
+    "arcface": {
+      "face": "frame_002072_face_0",
+      "time": 82.88,
+      "similarity": 0.844065,
+      "nearest_athlete": "doroshchuk",
+      "dist_nearest": 101.48000000000002,
+      "dist_own": 175.07999999999998,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_016615_face_0",
+      "time": 664.6,
+      "similarity": 0.870667,
+      "nearest_athlete": "stefela",
+      "dist_nearest": 4.199999999999932,
+      "dist_own": 4.199999999999932,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video4",
+    "athlete": "turner",
+    "arcface": {
+      "face": "frame_001558_face_0",
+      "time": 62.32,
+      "similarity": 0.856556,
+      "nearest_athlete": "doroshchuk",
+      "dist_nearest": 122.04000000000002,
+      "dist_own": 388.84000000000003,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_001556_face_0",
+      "time": 62.24,
+      "similarity": 0.868248,
+      "nearest_athlete": "doroshchuk",
+      "dist_nearest": 122.12,
+      "dist_own": 388.92,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video4",
+    "athlete": "woo",
+    "arcface": {
+      "face": "frame_014592_face_0",
+      "time": 583.68,
+      "similarity": 0.885733,
+      "nearest_athlete": "kerr",
+      "dist_nearest": 9.43999999999994,
+      "dist_own": 21.120000000000005,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_012016_face_0",
+      "time": 480.64,
+      "similarity": 0.830956,
+      "nearest_athlete": "woo",
+      "dist_nearest": 3.0399999999999636,
+      "dist_own": 3.0399999999999636,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video5",
+    "athlete": "apostolovski",
+    "arcface": {
+      "face": "frame_018634_face_0",
+      "time": 745.36,
+      "similarity": 0.839372,
+      "nearest_athlete": "mahuchikh",
+      "dist_nearest": 3.2000000000000455,
+      "dist_own": 22.0,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_031375_face_1",
+      "time": 1255.0,
+      "similarity": 0.758321,
+      "nearest_athlete": "mahuchikh",
+      "dist_nearest": 8.279999999999973,
+      "dist_own": 20.559999999999945,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video5",
+    "athlete": "dubovitskaya",
+    "arcface": {
+      "face": "frame_011734_face_0",
+      "time": 469.36,
+      "similarity": 0.853575,
+      "nearest_athlete": "dubovitskaya",
+      "dist_nearest": 1.759999999999991,
+      "dist_own": 1.759999999999991,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_011739_face_0",
+      "time": 469.56,
+      "similarity": 0.746051,
+      "nearest_athlete": "dubovitskaya",
+      "dist_nearest": 1.5600000000000023,
+      "dist_own": 1.5600000000000023,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video5",
+    "athlete": "gusin",
+    "arcface": {
+      "face": "frame_000650_face_0",
+      "time": 26.0,
+      "similarity": 0.812143,
+      "nearest_athlete": "dubovitskaya",
+      "dist_nearest": 149.52,
+      "dist_own": 287.64,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_000654_face_0",
+      "time": 26.16,
+      "similarity": 0.821642,
+      "nearest_athlete": "dubovitskaya",
+      "dist_nearest": 149.36,
+      "dist_own": 287.47999999999996,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video5",
+    "athlete": "honsel",
+    "arcface": {
+      "face": "frame_000955_face_0",
+      "time": 38.2,
+      "similarity": 0.824298,
+      "nearest_athlete": "dubovitskaya",
+      "dist_nearest": 137.32,
+      "dist_own": 357.16,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_026807_face_0",
+      "time": 1072.28,
+      "similarity": 0.80138,
+      "nearest_athlete": "gusin",
+      "dist_nearest": 17.87999999999988,
+      "dist_own": 28.200000000000045,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video5",
+    "athlete": "lake",
+    "arcface": {
+      "face": "frame_013241_face_0",
+      "time": 529.64,
+      "similarity": 0.864937,
+      "nearest_athlete": "lake",
+      "dist_nearest": 6.560000000000059,
+      "dist_own": 6.560000000000059,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_003183_face_0",
+      "time": 127.32,
+      "similarity": 0.835841,
+      "nearest_athlete": "dubovitskaya",
+      "dist_nearest": 48.20000000000002,
+      "dist_own": 408.88000000000005,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video5",
+    "athlete": "levchenko",
+    "arcface": {
+      "face": "frame_004717_face_0",
+      "time": 188.68,
+      "similarity": 0.754816,
+      "nearest_athlete": "dubovitskaya",
+      "dist_nearest": 7.680000000000007,
+      "dist_own": 13.439999999999998,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_014467_face_1",
+      "time": 578.68,
+      "similarity": 0.765634,
+      "nearest_athlete": "levchenko",
+      "dist_nearest": 12.040000000000077,
+      "dist_own": 12.040000000000077,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video5",
+    "athlete": "mahuchikh",
+    "arcface": {
+      "face": "frame_004025_face_0",
+      "time": 161.0,
+      "similarity": 0.778805,
+      "nearest_athlete": "dubovitskaya",
+      "dist_nearest": 14.52000000000001,
+      "dist_own": 575.08,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_017906_face_0",
+      "time": 716.24,
+      "similarity": 0.727039,
+      "nearest_athlete": "mahuchikh",
+      "dist_nearest": 19.840000000000032,
+      "dist_own": 19.840000000000032,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video5",
+    "athlete": "olyslagers",
+    "arcface": {
+      "face": "frame_031424_face_0",
+      "time": 1256.96,
+      "similarity": 0.996035,
+      "nearest_athlete": "mahuchikh",
+      "dist_nearest": 10.240000000000009,
+      "dist_own": 55.07999999999993,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_003561_face_0",
+      "time": 142.44,
+      "similarity": 0.788751,
+      "nearest_athlete": "dubovitskaya",
+      "dist_nearest": 33.08000000000001,
+      "dist_own": 136.0,
+      "plausible": false
+    }
+  },
+  {
+    "video": "highjump_video5",
+    "athlete": "stanciu",
+    "arcface": {
+      "face": "frame_005669_face_0",
+      "time": 226.76,
+      "similarity": 0.842784,
+      "nearest_athlete": "stanciu",
+      "dist_nearest": 7.439999999999998,
+      "dist_own": 7.439999999999998,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_005811_face_0",
+      "time": 232.44,
+      "similarity": 0.822468,
+      "nearest_athlete": "stanciu",
+      "dist_nearest": 1.759999999999991,
+      "dist_own": 1.759999999999991,
+      "plausible": true
+    }
+  },
+  {
+    "video": "highjump_video5",
+    "athlete": "topic",
+    "arcface": {
+      "face": "frame_020946_face_0",
+      "time": 837.84,
+      "similarity": 0.850485,
+      "nearest_athlete": "topic",
+      "dist_nearest": 7.0,
+      "dist_own": 7.0,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_020859_face_0",
+      "time": 834.36,
+      "similarity": 0.797169,
+      "nearest_athlete": "topic",
+      "dist_nearest": 10.480000000000018,
+      "dist_own": 10.480000000000018,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video1",
+    "athlete": "hofmann",
+    "arcface": {
+      "face": "frame_014024_face_0",
+      "time": 560.96,
+      "similarity": 0.863381,
+      "nearest_athlete": "hofmann",
+      "dist_nearest": 16.559999999999945,
+      "dist_own": 16.559999999999945,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_014405_face_0",
+      "time": 576.2,
+      "similarity": 0.770161,
+      "nearest_athlete": "hofmann",
+      "dist_nearest": 1.3199999999999363,
+      "dist_own": 1.3199999999999363,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video1",
+    "athlete": "kirt",
+    "arcface": {
+      "face": "frame_005708_face_0",
+      "time": 228.32,
+      "similarity": 0.854848,
+      "nearest_athlete": "kirt",
+      "dist_nearest": 0.5999999999999943,
+      "dist_own": 0.5999999999999943,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_031731_face_0",
+      "time": 1269.24,
+      "similarity": 0.844743,
+      "nearest_athlete": "kirt",
+      "dist_nearest": 22.720000000000027,
+      "dist_own": 22.720000000000027,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video1",
+    "athlete": "krukowski",
+    "arcface": {
+      "face": "frame_004230_face_0",
+      "time": 169.2,
+      "similarity": 0.842757,
+      "nearest_athlete": "kirt",
+      "dist_nearest": 46.56,
+      "dist_own": 520.1200000000001,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_029655_face_0",
+      "time": 1186.2,
+      "similarity": 0.84548,
+      "nearest_athlete": "krukowski",
+      "dist_nearest": 26.079999999999927,
+      "dist_own": 26.079999999999927,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video1",
+    "athlete": "mardare",
+    "arcface": {
+      "face": "frame_021603_face_0",
+      "time": 864.12,
+      "similarity": 0.762525,
+      "nearest_athlete": "mardare",
+      "dist_nearest": 1.7200000000000273,
+      "dist_own": 1.7200000000000273,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_018764_face_0",
+      "time": 750.56,
+      "similarity": 0.778262,
+      "nearest_athlete": "mardare",
+      "dist_nearest": 2.199999999999932,
+      "dist_own": 2.199999999999932,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video1",
+    "athlete": "rohler",
+    "arcface": {
+      "face": "frame_004827_face_0",
+      "time": 193.08,
+      "similarity": 0.89201,
+      "nearest_athlete": "kirt",
+      "dist_nearest": 22.67999999999998,
+      "dist_own": 164.23999999999998,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_004796_face_0",
+      "time": 191.84,
+      "similarity": 0.846174,
+      "nearest_athlete": "kirt",
+      "dist_nearest": 23.919999999999987,
+      "dist_own": 165.48,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video1",
+    "athlete": "ruuskanen",
+    "arcface": {
+      "face": "frame_003863_face_0",
+      "time": 154.52,
+      "similarity": 0.832071,
+      "nearest_athlete": "kirt",
+      "dist_nearest": 61.23999999999998,
+      "dist_own": 969.48,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_027975_face_0",
+      "time": 1119.0,
+      "similarity": 0.819447,
+      "nearest_athlete": "ruuskanen",
+      "dist_nearest": 5.0,
+      "dist_own": 5.0,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video1",
+    "athlete": "strobinders",
+    "arcface": {
+      "face": "frame_000200_face_1",
+      "time": 8.0,
+      "similarity": 0.783469,
+      "nearest_athlete": "kirt",
+      "dist_nearest": 207.76,
+      "dist_own": 406.68,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_000202_face_1",
+      "time": 8.08,
+      "similarity": 0.707125,
+      "nearest_athlete": "kirt",
+      "dist_nearest": 207.67999999999998,
+      "dist_own": 406.6,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video1",
+    "athlete": "vadlejch",
+    "arcface": {
+      "face": "frame_002181_face_2",
+      "time": 87.24,
+      "similarity": 0.837627,
+      "nearest_athlete": "kirt",
+      "dist_nearest": 128.51999999999998,
+      "dist_own": 427.96000000000004,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_002607_face_0",
+      "time": 104.28,
+      "similarity": 0.803826,
+      "nearest_athlete": "kirt",
+      "dist_nearest": 111.47999999999999,
+      "dist_own": 410.9200000000001,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video1",
+    "athlete": "vetter",
+    "arcface": {
+      "face": "frame_011908_face_0",
+      "time": 476.32,
+      "similarity": 0.896071,
+      "nearest_athlete": "vetter",
+      "dist_nearest": 2.1200000000000045,
+      "dist_own": 2.1200000000000045,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_038793_face_0",
+      "time": 1551.72,
+      "similarity": 0.850543,
+      "nearest_athlete": "rohler",
+      "dist_nearest": 116.68000000000006,
+      "dist_own": 613.0,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video2",
+    "athlete": "frydrych",
+    "arcface": {
+      "face": "frame_001784_face_0",
+      "time": 71.36,
+      "similarity": 0.846997,
+      "nearest_athlete": "vetter",
+      "dist_nearest": 91.96,
+      "dist_own": 405.08,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_023656_face_0",
+      "time": 946.24,
+      "similarity": 0.839268,
+      "nearest_athlete": "frydrych",
+      "dist_nearest": 1.7200000000000273,
+      "dist_own": 1.7200000000000273,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video2",
+    "athlete": "kiriazis",
+    "arcface": {
+      "face": "frame_026167_face_0",
+      "time": 1046.68,
+      "similarity": 0.885695,
+      "nearest_athlete": "walcott",
+      "dist_nearest": 11.560000000000173,
+      "dist_own": 14.279999999999973,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_001505_face_0",
+      "time": 60.2,
+      "similarity": 0.790244,
+      "nearest_athlete": "vetter",
+      "dist_nearest": 103.11999999999999,
+      "dist_own": 622.16,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video2",
+    "athlete": "pitkamaki",
+    "arcface": {
+      "face": "frame_002685_face_0",
+      "time": 107.4,
+      "similarity": 0.765821,
+      "nearest_athlete": "vetter",
+      "dist_nearest": 55.91999999999999,
+      "dist_own": 285.48,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_002617_face_0",
+      "time": 104.68,
+      "similarity": 0.808116,
+      "nearest_athlete": "vetter",
+      "dist_nearest": 58.639999999999986,
+      "dist_own": 288.2,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video2",
+    "athlete": "rohler",
+    "arcface": {
+      "face": "frame_007246_face_0",
+      "time": 289.84,
+      "similarity": 0.879299,
+      "nearest_athlete": "rohler",
+      "dist_nearest": 5.520000000000039,
+      "dist_own": 5.520000000000039,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_019685_face_0",
+      "time": 787.4,
+      "similarity": 0.868986,
+      "nearest_athlete": "rohler",
+      "dist_nearest": 5.399999999999977,
+      "dist_own": 5.399999999999977,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video2",
+    "athlete": "vadlejch",
+    "arcface": {
+      "face": "frame_006026_face_0",
+      "time": 241.04,
+      "similarity": 0.853651,
+      "nearest_athlete": "vadlejch",
+      "dist_nearest": 5.800000000000011,
+      "dist_own": 5.800000000000011,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_000626_face_0",
+      "time": 25.04,
+      "similarity": 0.873089,
+      "nearest_athlete": "vetter",
+      "dist_nearest": 138.28,
+      "dist_own": 221.8,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video2",
+    "athlete": "vetter",
+    "arcface": {
+      "face": "frame_003675_face_0",
+      "time": 147.0,
+      "similarity": 0.869821,
+      "nearest_athlete": "vetter",
+      "dist_nearest": 16.319999999999993,
+      "dist_own": 16.319999999999993,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_001296_face_0",
+      "time": 51.84,
+      "similarity": 0.822948,
+      "nearest_athlete": "vetter",
+      "dist_nearest": 111.47999999999999,
+      "dist_own": 111.47999999999999,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video2",
+    "athlete": "walcott",
+    "arcface": {
+      "face": "frame_024828_face_0",
+      "time": 993.12,
+      "similarity": 0.895661,
+      "nearest_athlete": "frydrych",
+      "dist_nearest": 13.120000000000005,
+      "dist_own": 13.67999999999995,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_000395_face_0",
+      "time": 15.8,
+      "similarity": 0.861346,
+      "nearest_athlete": "vetter",
+      "dist_nearest": 147.51999999999998,
+      "dist_own": 991.0,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video3",
+    "athlete": "amb",
+    "arcface": {
+      "face": "frame_024328_face_0",
+      "time": 973.12,
+      "similarity": 0.812311,
+      "nearest_athlete": "amb",
+      "dist_nearest": 7.039999999999964,
+      "dist_own": 7.039999999999964,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_023186_face_0",
+      "time": 927.44,
+      "similarity": 0.782861,
+      "nearest_athlete": "amb",
+      "dist_nearest": 4.719999999999914,
+      "dist_own": 4.719999999999914,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video3",
+    "athlete": "etelatalo",
+    "arcface": {
+      "face": "frame_020817_face_0",
+      "time": 832.68,
+      "similarity": 0.756346,
+      "nearest_athlete": "peters",
+      "dist_nearest": 36.24000000000001,
+      "dist_own": 303.36,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_020828_face_0",
+      "time": 833.12,
+      "similarity": 0.750936,
+      "nearest_athlete": "peters",
+      "dist_nearest": 35.799999999999955,
+      "dist_own": 302.91999999999996,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video3",
+    "athlete": "kirt",
+    "arcface": {
+      "face": "frame_001470_face_0",
+      "time": 58.8,
+      "similarity": 0.849387,
+      "nearest_athlete": "walcott",
+      "dist_nearest": 165.83999999999997,
+      "dist_own": 255.32,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_001465_face_0",
+      "time": 58.6,
+      "similarity": 0.849594,
+      "nearest_athlete": "walcott",
+      "dist_nearest": 166.04,
+      "dist_own": 255.52,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video3",
+    "athlete": "krukowski",
+    "arcface": {
+      "face": "frame_025057_face_0",
+      "time": 1002.28,
+      "similarity": 0.874153,
+      "nearest_athlete": "krukowski",
+      "dist_nearest": 5.0,
+      "dist_own": 5.0,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_024526_face_0",
+      "time": 981.04,
+      "similarity": 0.852573,
+      "nearest_athlete": "krukowski",
+      "dist_nearest": 7.759999999999991,
+      "dist_own": 7.759999999999991,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video3",
+    "athlete": "peters",
+    "arcface": {
+      "face": "frame_009862_face_0",
+      "time": 394.48,
+      "similarity": 0.800726,
+      "nearest_athlete": "peters",
+      "dist_nearest": 4.720000000000027,
+      "dist_own": 4.720000000000027,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_021701_face_0",
+      "time": 868.04,
+      "similarity": 0.787541,
+      "nearest_athlete": "peters",
+      "dist_nearest": 0.8799999999999955,
+      "dist_own": 0.8799999999999955,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video3",
+    "athlete": "vadlejch",
+    "arcface": {
+      "face": "frame_004666_face_0",
+      "time": 186.64,
+      "similarity": 0.847825,
+      "nearest_athlete": "walcott",
+      "dist_nearest": 38.0,
+      "dist_own": 908.0400000000001,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_003952_face_0",
+      "time": 158.08,
+      "similarity": 0.810852,
+      "nearest_athlete": "walcott",
+      "dist_nearest": 66.55999999999997,
+      "dist_own": 936.6,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video3",
+    "athlete": "vetter",
+    "arcface": {
+      "face": "frame_004800_face_0",
+      "time": 192.0,
+      "similarity": 0.829893,
+      "nearest_athlete": "walcott",
+      "dist_nearest": 32.639999999999986,
+      "dist_own": 81.27999999999997,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_005205_face_0",
+      "time": 208.2,
+      "similarity": 0.791483,
+      "nearest_athlete": "walcott",
+      "dist_nearest": 16.439999999999998,
+      "dist_own": 65.07999999999998,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video3",
+    "athlete": "walcott",
+    "arcface": {
+      "face": "frame_004124_face_0",
+      "time": 164.96,
+      "similarity": 0.879008,
+      "nearest_athlete": "walcott",
+      "dist_nearest": 59.67999999999998,
+      "dist_own": 59.67999999999998,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_005023_face_0",
+      "time": 200.92,
+      "similarity": 0.840563,
+      "nearest_athlete": "walcott",
+      "dist_nearest": 23.72,
+      "dist_own": 23.72,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video3",
+    "athlete": "weber",
+    "arcface": {
+      "face": "frame_026410_face_0",
+      "time": 1056.4,
+      "similarity": 0.835787,
+      "nearest_athlete": "weber",
+      "dist_nearest": 4.440000000000055,
+      "dist_own": 4.440000000000055,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_026396_face_0",
+      "time": 1055.84,
+      "similarity": 0.855248,
+      "nearest_athlete": "weber",
+      "dist_nearest": 3.8799999999998818,
+      "dist_own": 3.8799999999998818,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video3",
+    "athlete": "yego",
+    "arcface": {
+      "face": "frame_014707_face_0",
+      "time": 588.28,
+      "similarity": 0.72133,
+      "nearest_athlete": "yego",
+      "dist_nearest": 5.8799999999999955,
+      "dist_own": 5.8799999999999955,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_014722_face_0",
+      "time": 588.88,
+      "similarity": 0.765561,
+      "nearest_athlete": "yego",
+      "dist_nearest": 5.279999999999973,
+      "dist_own": 5.279999999999973,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video4",
+    "athlete": "barber",
+    "arcface": {
+      "face": "frame_022717_face_0",
+      "time": 908.68,
+      "similarity": 0.841397,
+      "nearest_athlete": "liu",
+      "dist_nearest": 4.480000000000018,
+      "dist_own": 149.2399999999999,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_017299_face_0",
+      "time": 691.96,
+      "similarity": 0.781959,
+      "nearest_athlete": "winger",
+      "dist_nearest": 9.639999999999986,
+      "dist_own": 36.799999999999955,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video4",
+    "athlete": "hussong",
+    "arcface": {
+      "face": "frame_023329_face_0",
+      "time": 933.16,
+      "similarity": 0.996667,
+      "nearest_athlete": "liu",
+      "dist_nearest": 12.559999999999945,
+      "dist_own": 105.48000000000002,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_009165_face_0",
+      "time": 366.6,
+      "similarity": 0.845572,
+      "nearest_athlete": "hussong",
+      "dist_nearest": 7.479999999999961,
+      "dist_own": 7.479999999999961,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video4",
+    "athlete": "khaladovich",
+    "arcface": {
+      "face": "frame_014142_face_0",
+      "time": 565.68,
+      "similarity": 0.785147,
+      "nearest_athlete": "lyu",
+      "dist_nearest": 11.120000000000005,
+      "dist_own": 11.520000000000095,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_014428_face_0",
+      "time": 577.12,
+      "similarity": 0.790076,
+      "nearest_athlete": "khaladovich",
+      "dist_nearest": 0.08000000000004093,
+      "dist_own": 0.08000000000004093,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video4",
+    "athlete": "liu",
+    "arcface": {
+      "face": "frame_001967_face_0",
+      "time": 78.68,
+      "similarity": 0.909056,
+      "nearest_athlete": "ogrodnikova",
+      "dist_nearest": 100.84,
+      "dist_own": 171.48,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_015366_face_0",
+      "time": 614.64,
+      "similarity": 0.823994,
+      "nearest_athlete": "khaladovich",
+      "dist_nearest": 13.960000000000036,
+      "dist_own": 101.36000000000001,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video4",
+    "athlete": "lyu",
+    "arcface": {
+      "face": "frame_021465_face_0",
+      "time": 858.6,
+      "similarity": 0.829691,
+      "nearest_athlete": "lyu",
+      "dist_nearest": 5.199999999999932,
+      "dist_own": 5.199999999999932,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_008872_face_0",
+      "time": 354.88,
+      "similarity": 0.80119,
+      "nearest_athlete": "lyu",
+      "dist_nearest": 3.519999999999982,
+      "dist_own": 3.519999999999982,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video4",
+    "athlete": "ogrodnikova",
+    "arcface": {
+      "face": "frame_000459_face_0",
+      "time": 18.36,
+      "similarity": 0.820543,
+      "nearest_athlete": "ogrodnikova",
+      "dist_nearest": 161.16000000000003,
+      "dist_own": 161.16000000000003,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_004315_face_0",
+      "time": 172.6,
+      "similarity": 0.765647,
+      "nearest_athlete": "ogrodnikova",
+      "dist_nearest": 6.920000000000016,
+      "dist_own": 6.920000000000016,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video4",
+    "athlete": "spotakova",
+    "arcface": {
+      "face": "frame_011379_face_0",
+      "time": 455.16,
+      "similarity": 0.826259,
+      "nearest_athlete": "spotakova",
+      "dist_nearest": 9.67999999999995,
+      "dist_own": 9.67999999999995,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_011347_face_0",
+      "time": 453.88,
+      "similarity": 0.899219,
+      "nearest_athlete": "spotakova",
+      "dist_nearest": 10.95999999999998,
+      "dist_own": 10.95999999999998,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video4",
+    "athlete": "winger",
+    "arcface": {
+      "face": "frame_016313_face_0",
+      "time": 652.52,
+      "similarity": 0.81552,
+      "nearest_athlete": "winger",
+      "dist_nearest": 7.240000000000009,
+      "dist_own": 7.240000000000009,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_016343_face_0",
+      "time": 653.72,
+      "similarity": 0.778792,
+      "nearest_athlete": "winger",
+      "dist_nearest": 6.039999999999964,
+      "dist_own": 6.039999999999964,
+      "plausible": true
+    }
+  },
+  {
+    "video": "javelin_video5",
+    "athlete": "barber",
+    "arcface": {
+      "face": "frame_007488_face_0",
+      "time": 149.76,
+      "similarity": 0.857314,
+      "nearest_athlete": "little",
+      "dist_nearest": 18.82000000000002,
+      "dist_own": 338.46000000000004,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_007441_face_0",
+      "time": 148.82,
+      "similarity": 0.790485,
+      "nearest_athlete": "little",
+      "dist_nearest": 19.76000000000002,
+      "dist_own": 339.40000000000003,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video5",
+    "athlete": "kitaguchi",
+    "arcface": {
+      "face": "frame_086672_face_0",
+      "time": 1733.44,
+      "similarity": 0.851162,
+      "nearest_athlete": "liu",
+      "dist_nearest": 177.46000000000004,
+      "dist_own": 342.22,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_083488_face_0",
+      "time": 1669.76,
+      "similarity": 0.827341,
+      "nearest_athlete": "liu",
+      "dist_nearest": 113.77999999999997,
+      "dist_own": 278.53999999999996,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video5",
+    "athlete": "little",
+    "arcface": {
+      "face": "frame_074693_face_0",
+      "time": 1493.86,
+      "similarity": 0.882739,
+      "nearest_athlete": "little",
+      "dist_nearest": 10.5,
+      "dist_own": 10.5,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_003899_face_0",
+      "time": 77.98,
+      "similarity": 0.828827,
+      "nearest_athlete": "little",
+      "dist_nearest": 90.60000000000001,
+      "dist_own": 90.60000000000001,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video5",
+    "athlete": "liu",
+    "arcface": {
+      "face": "frame_078178_face_0",
+      "time": 1563.56,
+      "similarity": 0.877709,
+      "nearest_athlete": "liu",
+      "dist_nearest": 7.579999999999927,
+      "dist_own": 7.579999999999927,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_005867_face_1",
+      "time": 117.34,
+      "similarity": 0.857921,
+      "nearest_athlete": "little",
+      "dist_nearest": 51.24000000000001,
+      "dist_own": 106.57999999999998,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video5",
+    "athlete": "muze",
+    "arcface": {
+      "face": "frame_065604_face_0",
+      "time": 1312.08,
+      "similarity": 0.858769,
+      "nearest_athlete": "muze",
+      "dist_nearest": 7.519999999999982,
+      "dist_own": 7.519999999999982,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_050596_face_0",
+      "time": 1011.92,
+      "similarity": 0.835488,
+      "nearest_athlete": "liu",
+      "dist_nearest": 5.340000000000032,
+      "dist_own": 6.839999999999918,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video5",
+    "athlete": "ogrodnikova",
+    "arcface": {
+      "face": "frame_037401_face_0",
+      "time": 748.02,
+      "similarity": 0.808574,
+      "nearest_athlete": "ogrodnikova",
+      "dist_nearest": 7.460000000000036,
+      "dist_own": 7.460000000000036,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_005438_face_0",
+      "time": 108.76,
+      "similarity": 0.786369,
+      "nearest_athlete": "little",
+      "dist_nearest": 59.82000000000001,
+      "dist_own": 646.72,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video5",
+    "athlete": "rani",
+    "arcface": {
+      "face": "frame_004615_face_0",
+      "time": 92.3,
+      "similarity": 0.789801,
+      "nearest_athlete": "little",
+      "dist_nearest": 76.28000000000002,
+      "dist_own": 564.0200000000001,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_004577_face_0",
+      "time": 91.54,
+      "similarity": 0.871972,
+      "nearest_athlete": "little",
+      "dist_nearest": 77.04,
+      "dist_own": 564.7800000000001,
+      "plausible": false
+    }
+  },
+  {
+    "video": "javelin_video5",
+    "athlete": "winger",
+    "arcface": {
+      "face": "frame_070771_face_0",
+      "time": 1415.42,
+      "similarity": 0.851881,
+      "nearest_athlete": "winger",
+      "dist_nearest": 21.299999999999955,
+      "dist_own": 21.299999999999955,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_081199_face_0",
+      "time": 1623.98,
+      "similarity": 0.7928,
+      "nearest_athlete": "liu",
+      "dist_nearest": 68.0,
+      "dist_own": 177.70000000000005,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video1",
+    "athlete": "caceres",
+    "arcface": {
+      "face": "frame_006265_face_0",
+      "time": 250.6,
+      "similarity": 0.862973,
+      "nearest_athlete": "caceres",
+      "dist_nearest": 27.32000000000002,
+      "dist_own": 27.32000000000002,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_006164_face_0",
+      "time": 246.56,
+      "similarity": 0.809991,
+      "nearest_athlete": "caceres",
+      "dist_nearest": 31.360000000000014,
+      "dist_own": 31.360000000000014,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video1",
+    "athlete": "dendy",
+    "arcface": {
+      "face": "frame_018268_face_0",
+      "time": 730.72,
+      "similarity": 0.826025,
+      "nearest_athlete": "dendy",
+      "dist_nearest": 4.1200000000000045,
+      "dist_own": 4.1200000000000045,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_031024_face_0",
+      "time": 1240.96,
+      "similarity": 0.772256,
+      "nearest_athlete": "dendy",
+      "dist_nearest": 6.720000000000027,
+      "dist_own": 6.720000000000027,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video1",
+    "athlete": "echevarria",
+    "arcface": {
+      "face": "frame_039521_face_0",
+      "time": 1580.84,
+      "similarity": 0.90636,
+      "nearest_athlete": "echevarria",
+      "dist_nearest": 2.400000000000091,
+      "dist_own": 2.400000000000091,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_039533_face_0",
+      "time": 1581.32,
+      "similarity": 0.900154,
+      "nearest_athlete": "echevarria",
+      "dist_nearest": 1.9200000000000728,
+      "dist_own": 1.9200000000000728,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video1",
+    "athlete": "juska",
+    "arcface": {
+      "face": "frame_009857_face_0",
+      "time": 394.28,
+      "similarity": 0.871545,
+      "nearest_athlete": "juska",
+      "dist_nearest": 1.5600000000000023,
+      "dist_own": 1.5600000000000023,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_009783_face_0",
+      "time": 391.32,
+      "similarity": 0.825306,
+      "nearest_athlete": "juska",
+      "dist_nearest": 4.519999999999982,
+      "dist_own": 4.519999999999982,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video1",
+    "athlete": "lawson",
+    "arcface": {
+      "face": "frame_037980_face_0",
+      "time": 1519.2,
+      "similarity": 0.857572,
+      "nearest_athlete": "lawson",
+      "dist_nearest": 9.480000000000018,
+      "dist_own": 9.480000000000018,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_020702_face_1",
+      "time": 828.08,
+      "similarity": 0.794582,
+      "nearest_athlete": "lawson",
+      "dist_nearest": 1.599999999999909,
+      "dist_own": 1.599999999999909,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video1",
+    "athlete": "manyonga",
+    "arcface": {
+      "face": "frame_034676_face_0",
+      "time": 1387.04,
+      "similarity": 0.920506,
+      "nearest_athlete": "manyonga",
+      "dist_nearest": 2.9600000000000364,
+      "dist_own": 2.9600000000000364,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_022197_face_0",
+      "time": 887.88,
+      "similarity": 0.845392,
+      "nearest_athlete": "manyonga",
+      "dist_nearest": 13.480000000000018,
+      "dist_own": 13.480000000000018,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video1",
+    "athlete": "samaai",
+    "arcface": {
+      "face": "frame_018193_face_0",
+      "time": 727.72,
+      "similarity": 0.99694,
+      "nearest_athlete": "dendy",
+      "dist_nearest": 1.1200000000000045,
+      "dist_own": 27.600000000000023,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_016618_face_0",
+      "time": 664.72,
+      "similarity": 0.879964,
+      "nearest_athlete": "samaai",
+      "dist_nearest": 5.439999999999941,
+      "dist_own": 5.439999999999941,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video1",
+    "athlete": "shi",
+    "arcface": {
+      "face": "frame_011186_face_0",
+      "time": 447.44,
+      "similarity": 0.800968,
+      "nearest_athlete": "shi",
+      "dist_nearest": 10.639999999999986,
+      "dist_own": 10.639999999999986,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_011193_face_0",
+      "time": 447.72,
+      "similarity": 0.781088,
+      "nearest_athlete": "shi",
+      "dist_nearest": 10.359999999999957,
+      "dist_own": 10.359999999999957,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video1",
+    "athlete": "smith",
+    "arcface": {
+      "face": "frame_012682_face_0",
+      "time": 507.28,
+      "similarity": 0.768079,
+      "nearest_athlete": "smith",
+      "dist_nearest": 15.240000000000009,
+      "dist_own": 15.240000000000009,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_012607_face_1",
+      "time": 504.28,
+      "similarity": 0.816135,
+      "nearest_athlete": "smith",
+      "dist_nearest": 18.24000000000001,
+      "dist_own": 18.24000000000001,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video1",
+    "athlete": "tentoglou",
+    "arcface": {
+      "face": "frame_008357_face_0",
+      "time": 334.28,
+      "similarity": 0.823714,
+      "nearest_athlete": "tentoglou",
+      "dist_nearest": 4.080000000000041,
+      "dist_own": 4.080000000000041,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_006966_face_0",
+      "time": 278.64,
+      "similarity": 0.771204,
+      "nearest_athlete": "caceres",
+      "dist_nearest": 0.0,
+      "dist_own": 59.72000000000003,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video2",
+    "athlete": "balde",
+    "arcface": {
+      "face": "frame_049438_face_0",
+      "time": 1977.52,
+      "similarity": 0.797815,
+      "nearest_athlete": "guerra",
+      "dist_nearest": 0.44000000000005457,
+      "dist_own": 4.680000000000064,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_040206_face_0",
+      "time": 1608.24,
+      "similarity": 0.77411,
+      "nearest_athlete": "balde",
+      "dist_nearest": 3.839999999999918,
+      "dist_own": 3.839999999999918,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video2",
+    "athlete": "furlani",
+    "arcface": {
+      "face": "frame_052005_face_0",
+      "time": 2080.2,
+      "similarity": 0.853241,
+      "nearest_athlete": "furlani",
+      "dist_nearest": 16.960000000000036,
+      "dist_own": 16.960000000000036,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_046371_face_0",
+      "time": 1854.84,
+      "similarity": 0.839661,
+      "nearest_athlete": "juska",
+      "dist_nearest": 5.519999999999982,
+      "dist_own": 171.07999999999993,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video2",
+    "athlete": "guerra",
+    "arcface": {
+      "face": "frame_008589_face_0",
+      "time": 343.56,
+      "similarity": 0.88904,
+      "nearest_athlete": "guerra",
+      "dist_nearest": 1.8000000000000114,
+      "dist_own": 1.8000000000000114,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_033212_face_0",
+      "time": 1328.48,
+      "similarity": 0.832049,
+      "nearest_athlete": "guerra",
+      "dist_nearest": 1.7200000000000273,
+      "dist_own": 1.7200000000000273,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video2",
+    "athlete": "juska",
+    "arcface": {
+      "face": "frame_000427_face_1",
+      "time": 17.08,
+      "similarity": 0.906176,
+      "nearest_athlete": "juska",
+      "dist_nearest": 90.44,
+      "dist_own": 90.44,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_021362_face_0",
+      "time": 854.48,
+      "similarity": 0.82631,
+      "nearest_athlete": "saraboyukov",
+      "dist_nearest": 21.680000000000064,
+      "dist_own": 25.079999999999927,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video2",
+    "athlete": "lescay",
+    "arcface": {
+      "face": "frame_022981_face_0",
+      "time": 919.24,
+      "similarity": 0.840588,
+      "nearest_athlete": "lescay",
+      "dist_nearest": 0.9600000000000364,
+      "dist_own": 0.9600000000000364,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_023002_face_0",
+      "time": 920.08,
+      "similarity": 0.803732,
+      "nearest_athlete": "lescay",
+      "dist_nearest": 0.12000000000000455,
+      "dist_own": 0.12000000000000455,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video2",
+    "athlete": "montler",
+    "arcface": {
+      "face": "frame_031303_face_0",
+      "time": 1252.12,
+      "similarity": 0.862062,
+      "nearest_athlete": "montler",
+      "dist_nearest": 2.9199999999998454,
+      "dist_own": 2.9199999999998454,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_036861_face_0",
+      "time": 1474.44,
+      "similarity": 0.831663,
+      "nearest_athlete": "montler",
+      "dist_nearest": 1.4800000000000182,
+      "dist_own": 1.4800000000000182,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video2",
+    "athlete": "saraboyukov",
+    "arcface": {
+      "face": "frame_015112_face_0",
+      "time": 604.48,
+      "similarity": 0.855721,
+      "nearest_athlete": "lescay",
+      "dist_nearest": 9.240000000000009,
+      "dist_own": 111.68,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_038900_face_0",
+      "time": 1556.0,
+      "similarity": 0.757532,
+      "nearest_athlete": "guerra",
+      "dist_nearest": 8.039999999999964,
+      "dist_own": 8.759999999999991,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video2",
+    "athlete": "trajkovski",
+    "arcface": {
+      "face": "frame_024695_face_0",
+      "time": 987.8,
+      "similarity": 0.815729,
+      "nearest_athlete": "trajkovski",
+      "dist_nearest": 4.1200000000000045,
+      "dist_own": 4.1200000000000045,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_025542_face_0",
+      "time": 1021.68,
+      "similarity": 0.803072,
+      "nearest_athlete": "trajkovski",
+      "dist_nearest": 2.0799999999999272,
+      "dist_own": 2.0799999999999272,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video3",
+    "athlete": "forbes",
+    "arcface": {
+      "face": "frame_003192_face_0",
+      "time": 127.68,
+      "similarity": 0.781748,
+      "nearest_athlete": "lapierre",
+      "dist_nearest": 123.35999999999999,
+      "dist_own": 894.4000000000001,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_025184_face_0",
+      "time": 1007.36,
+      "similarity": 0.783297,
+      "nearest_athlete": "forbes",
+      "dist_nearest": 14.720000000000027,
+      "dist_own": 14.720000000000027,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video3",
+    "athlete": "lapierre",
+    "arcface": {
+      "face": "frame_001584_face_1",
+      "time": 63.36,
+      "similarity": 0.855141,
+      "nearest_athlete": "lapierre",
+      "dist_nearest": 187.68,
+      "dist_own": 187.68,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_005086_face_0",
+      "time": 203.44,
+      "similarity": 0.828072,
+      "nearest_athlete": "lapierre",
+      "dist_nearest": 47.599999999999994,
+      "dist_own": 47.599999999999994,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video3",
+    "athlete": "lasa",
+    "arcface": {
+      "face": "frame_003666_face_1",
+      "time": 146.64,
+      "similarity": 0.905741,
+      "nearest_athlete": "lapierre",
+      "dist_nearest": 104.4,
+      "dist_own": 1121.6399999999999,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_003722_face_1",
+      "time": 148.88,
+      "similarity": 0.877216,
+      "nearest_athlete": "lapierre",
+      "dist_nearest": 102.16,
+      "dist_own": 1119.4,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video3",
+    "athlete": "lawson",
+    "arcface": {
+      "face": "frame_048254_face_0",
+      "time": 1930.16,
+      "similarity": 0.870886,
+      "nearest_athlete": "lawson",
+      "dist_nearest": 14.240000000000009,
+      "dist_own": 14.240000000000009,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_002314_face_1",
+      "time": 92.56,
+      "similarity": 0.825527,
+      "nearest_athlete": "lapierre",
+      "dist_nearest": 158.48,
+      "dist_own": 373.56,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video3",
+    "athlete": "manyonga",
+    "arcface": {
+      "face": "frame_018140_face_0",
+      "time": 725.6,
+      "similarity": 0.987193,
+      "nearest_athlete": "manyonga",
+      "dist_nearest": 5.439999999999941,
+      "dist_own": 5.439999999999941,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_018155_face_1",
+      "time": 726.2,
+      "similarity": 0.967369,
+      "nearest_athlete": "manyonga",
+      "dist_nearest": 4.839999999999918,
+      "dist_own": 4.839999999999918,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video3",
+    "athlete": "masso",
+    "arcface": {
+      "face": "frame_022015_face_0",
+      "time": 880.6,
+      "similarity": 0.828416,
+      "nearest_athlete": "masso",
+      "dist_nearest": 9.199999999999932,
+      "dist_own": 9.199999999999932,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_009789_face_0",
+      "time": 391.56,
+      "similarity": 0.776905,
+      "nearest_athlete": "masso",
+      "dist_nearest": 3.240000000000009,
+      "dist_own": 3.240000000000009,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video3",
+    "athlete": "menkov",
+    "arcface": {
+      "face": "frame_003287_face_1",
+      "time": 131.48,
+      "similarity": 0.880507,
+      "nearest_athlete": "lapierre",
+      "dist_nearest": 119.56,
+      "dist_own": 541.52,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_027992_face_0",
+      "time": 1119.68,
+      "similarity": 0.859026,
+      "nearest_athlete": "menkov",
+      "dist_nearest": 7.839999999999918,
+      "dist_own": 7.839999999999918,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video3",
+    "athlete": "samaai",
+    "arcface": {
+      "face": "frame_049261_face_72",
+      "time": 1970.44,
+      "similarity": 0.996766,
+      "nearest_athlete": "lawson",
+      "dist_nearest": 14.080000000000155,
+      "dist_own": 168.4000000000001,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_013323_face_0",
+      "time": 532.92,
+      "similarity": 0.852918,
+      "nearest_athlete": "samaai",
+      "dist_nearest": 8.800000000000068,
+      "dist_own": 8.800000000000068,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video3",
+    "athlete": "shi",
+    "arcface": {
+      "face": "frame_003984_face_0",
+      "time": 159.36,
+      "similarity": 0.842365,
+      "nearest_athlete": "lapierre",
+      "dist_nearest": 91.67999999999998,
+      "dist_own": 1185.44,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_003500_face_0",
+      "time": 140.0,
+      "similarity": 0.798866,
+      "nearest_athlete": "lapierre",
+      "dist_nearest": 111.03999999999999,
+      "dist_own": 1204.8,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video3",
+    "athlete": "torneus",
+    "arcface": {
+      "face": "frame_029894_face_0",
+      "time": 1195.76,
+      "similarity": 0.892565,
+      "nearest_athlete": "torneus",
+      "dist_nearest": 0.0,
+      "dist_own": 0.0,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_003540_face_1",
+      "time": 141.6,
+      "similarity": 0.876079,
+      "nearest_athlete": "lapierre",
+      "dist_nearest": 109.44,
+      "dist_own": 1053.8400000000001,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video3",
+    "athlete": "wang",
+    "arcface": {
+      "face": "frame_014997_face_0",
+      "time": 599.88,
+      "similarity": 0.791631,
+      "nearest_athlete": "wang",
+      "dist_nearest": 4.399999999999977,
+      "dist_own": 4.399999999999977,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_018146_face_0",
+      "time": 725.84,
+      "similarity": 0.61212,
+      "nearest_athlete": "manyonga",
+      "dist_nearest": 5.199999999999932,
+      "dist_own": 77.84000000000003,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "caceres",
+    "arcface": {
+      "face": "frame_051583_face_0",
+      "time": 2063.32,
+      "similarity": 0.87256,
+      "nearest_athlete": "hashioka",
+      "dist_nearest": 22.160000000000082,
+      "dist_own": 22.759999999999764,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_051419_face_0",
+      "time": 2056.76,
+      "similarity": 0.790639,
+      "nearest_athlete": "hashioka",
+      "dist_nearest": 15.600000000000136,
+      "dist_own": 29.31999999999971,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "echevarria",
+    "arcface": {
+      "face": "frame_012822_face_0",
+      "time": 512.88,
+      "similarity": 0.898997,
+      "nearest_athlete": "echevarria",
+      "dist_nearest": 0.5600000000000591,
+      "dist_own": 0.5600000000000591,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_012812_face_0",
+      "time": 512.48,
+      "similarity": 0.828164,
+      "nearest_athlete": "echevarria",
+      "dist_nearest": 0.9600000000000364,
+      "dist_own": 0.9600000000000364,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "gayle",
+    "arcface": {
+      "face": "frame_009602_face_0",
+      "time": 384.08,
+      "similarity": 0.81389,
+      "nearest_athlete": "gayle",
+      "dist_nearest": 8.079999999999984,
+      "dist_own": 8.079999999999984,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_042807_face_0",
+      "time": 1712.28,
+      "similarity": 0.874453,
+      "nearest_athlete": "gayle",
+      "dist_nearest": 16.559999999999945,
+      "dist_own": 16.559999999999945,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "hashioka",
+    "arcface": {
+      "face": "frame_036718_face_0",
+      "time": 1468.72,
+      "similarity": 0.832301,
+      "nearest_athlete": "echevarria",
+      "dist_nearest": 24.839999999999918,
+      "dist_own": 37.72000000000003,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_048437_face_0",
+      "time": 1937.48,
+      "similarity": 0.775867,
+      "nearest_athlete": "henderson",
+      "dist_nearest": 45.319999999999936,
+      "dist_own": 68.68000000000006,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "henderson",
+    "arcface": {
+      "face": "frame_063944_face_1",
+      "time": 2557.76,
+      "similarity": 0.85466,
+      "nearest_athlete": "henderson",
+      "dist_nearest": 64.40000000000009,
+      "dist_own": 64.40000000000009,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_064150_face_2",
+      "time": 2566.0,
+      "similarity": 0.832143,
+      "nearest_athlete": "henderson",
+      "dist_nearest": 72.63999999999987,
+      "dist_own": 72.63999999999987,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "manyonga",
+    "arcface": {
+      "face": "frame_054787_face_0",
+      "time": 2191.48,
+      "similarity": 0.899187,
+      "nearest_athlete": "wang",
+      "dist_nearest": 14.7199999999998,
+      "dist_own": 25.159999999999854,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_021234_face_0",
+      "time": 849.36,
+      "similarity": 0.822953,
+      "nearest_athlete": "manyonga",
+      "dist_nearest": 4.399999999999977,
+      "dist_own": 4.399999999999977,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "mccarter",
+    "arcface": {
+      "face": "frame_028688_face_0",
+      "time": 1147.52,
+      "similarity": 0.757575,
+      "nearest_athlete": "mccarter",
+      "dist_nearest": 3.2799999999999727,
+      "dist_own": 3.2799999999999727,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_028999_face_0",
+      "time": 1159.96,
+      "similarity": 0.679069,
+      "nearest_athlete": "mccarter",
+      "dist_nearest": 15.720000000000027,
+      "dist_own": 15.720000000000027,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "montler",
+    "arcface": {
+      "face": "frame_005660_face_0",
+      "time": 226.4,
+      "similarity": 0.826371,
+      "nearest_athlete": "wang",
+      "dist_nearest": 17.080000000000013,
+      "dist_own": 21.359999999999985,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_031602_face_0",
+      "time": 1264.08,
+      "similarity": 0.810549,
+      "nearest_athlete": "montler",
+      "dist_nearest": 3.0,
+      "dist_own": 3.0,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "samaai",
+    "arcface": {
+      "face": "frame_059757_face_1",
+      "time": 2390.28,
+      "similarity": 0.997178,
+      "nearest_athlete": "echevarria",
+      "dist_nearest": 1.6000000000003638,
+      "dist_own": 40.16000000000031,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_057693_face_0",
+      "time": 2307.72,
+      "similarity": 0.858855,
+      "nearest_athlete": "samaai",
+      "dist_nearest": 8.480000000000018,
+      "dist_own": 8.480000000000018,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "shiroyama",
+    "arcface": {
+      "face": "frame_009901_face_0",
+      "time": 396.04,
+      "similarity": 0.992767,
+      "nearest_athlete": "gayle",
+      "dist_nearest": 20.04000000000002,
+      "dist_own": 39.95999999999998,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_009906_face_0",
+      "time": 396.24,
+      "similarity": 0.984989,
+      "nearest_athlete": "gayle",
+      "dist_nearest": 20.24000000000001,
+      "dist_own": 39.75999999999999,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "tentoglou",
+    "arcface": {
+      "face": "frame_016885_face_0",
+      "time": 675.4,
+      "similarity": 0.856423,
+      "nearest_athlete": "tentoglou",
+      "dist_nearest": 4.759999999999991,
+      "dist_own": 4.759999999999991,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_016836_face_0",
+      "time": 673.44,
+      "similarity": 0.787837,
+      "nearest_athlete": "tentoglou",
+      "dist_nearest": 6.719999999999914,
+      "dist_own": 6.719999999999914,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video4",
+    "athlete": "wang",
+    "arcface": {
+      "face": "frame_004501_face_0",
+      "time": 180.04,
+      "similarity": 0.759908,
+      "nearest_athlete": "wang",
+      "dist_nearest": 0.0,
+      "dist_own": 0.0,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_069884_face_1",
+      "time": 2795.36,
+      "similarity": 0.65838,
+      "nearest_athlete": "echevarria",
+      "dist_nearest": 7.200000000000273,
+      "dist_own": 618.5999999999999,
+      "plausible": false
+    }
+  },
+  {
+    "video": "longjump_video5",
+    "athlete": "caceres",
+    "arcface": {
+      "face": "frame_008554_face_0",
+      "time": 356.7730833333333,
+      "similarity": 0.867253,
+      "nearest_athlete": "caceres",
+      "dist_nearest": 1.4597916666666606,
+      "dist_own": 1.4597916666666606,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_008574_face_0",
+      "time": 357.60724999999996,
+      "similarity": 0.806128,
+      "nearest_athlete": "caceres",
+      "dist_nearest": 0.6256250000000136,
+      "dist_own": 0.6256250000000136,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video5",
+    "athlete": "dendy",
+    "arcface": {
+      "face": "frame_013365_face_0",
+      "time": 557.431875,
+      "similarity": 0.795677,
+      "nearest_athlete": "dendy",
+      "dist_nearest": 8.925583333333293,
+      "dist_own": 8.925583333333293,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_014640_face_0",
+      "time": 610.6099999999999,
+      "similarity": 0.714169,
+      "nearest_athlete": "dendy",
+      "dist_nearest": 5.422083333333262,
+      "dist_own": 5.422083333333262,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video5",
+    "athlete": "ehammer",
+    "arcface": {
+      "face": "frame_033267_face_0",
+      "time": 1387.511125,
+      "similarity": 0.887402,
+      "nearest_athlete": "ehammer",
+      "dist_nearest": 5.839166666666642,
+      "dist_own": 5.839166666666642,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_033248_face_0",
+      "time": 1386.7186666666666,
+      "similarity": 0.806638,
+      "nearest_athlete": "ehammer",
+      "dist_nearest": 6.6316249999999854,
+      "dist_own": 6.6316249999999854,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video5",
+    "athlete": "frayne",
+    "arcface": {
+      "face": "frame_000938_face_0",
+      "time": 39.122416666666666,
+      "similarity": 0.792586,
+      "nearest_athlete": "pinnock",
+      "dist_nearest": 113.65520833333333,
+      "dist_own": 390.4317083333333,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_011019_face_0",
+      "time": 459.584125,
+      "similarity": 0.676918,
+      "nearest_athlete": "frayne",
+      "dist_nearest": 0.0,
+      "dist_own": 0.0,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video5",
+    "athlete": "masso",
+    "arcface": {
+      "face": "frame_014916_face_0",
+      "time": 622.1215,
+      "similarity": 0.838074,
+      "nearest_athlete": "dendy",
+      "dist_nearest": 16.93358333333333,
+      "dist_own": 30.613916666666682,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_015282_face_0",
+      "time": 637.38675,
+      "similarity": 0.834188,
+      "nearest_athlete": "masso",
+      "dist_nearest": 15.348666666666645,
+      "dist_own": 15.348666666666645,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video5",
+    "athlete": "mccarter",
+    "arcface": {
+      "face": "frame_004943_face_0",
+      "time": 206.16429166666666,
+      "similarity": 0.760943,
+      "nearest_athlete": "mccarter",
+      "dist_nearest": 5.213541666666657,
+      "dist_own": 5.213541666666657,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_030375_face_0",
+      "time": 1266.890625,
+      "similarity": 0.71547,
+      "nearest_athlete": "mccarter",
+      "dist_nearest": 12.012000000000171,
+      "dist_own": 12.012000000000171,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video5",
+    "athlete": "pinnock",
+    "arcface": {
+      "face": "frame_001178_face_0",
+      "time": 49.132416666666664,
+      "similarity": 0.801674,
+      "nearest_athlete": "pinnock",
+      "dist_nearest": 103.64520833333333,
+      "dist_own": 103.64520833333333,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_003491_face_0",
+      "time": 145.60379166666667,
+      "similarity": 0.812639,
+      "nearest_athlete": "pinnock",
+      "dist_nearest": 7.173833333333334,
+      "dist_own": 7.173833333333334,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video5",
+    "athlete": "sreeshankar",
+    "arcface": {
+      "face": "frame_007018_face_0",
+      "time": 292.7090833333333,
+      "similarity": 0.863806,
+      "nearest_athlete": "sreeshankar",
+      "dist_nearest": 12.262249999999995,
+      "dist_own": 12.262249999999995,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_007117_face_0",
+      "time": 296.8382083333333,
+      "similarity": 0.830346,
+      "nearest_athlete": "sreeshankar",
+      "dist_nearest": 8.133125000000007,
+      "dist_own": 8.133125000000007,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video5",
+    "athlete": "tentoglou",
+    "arcface": {
+      "face": "frame_035254_face_0",
+      "time": 1470.3855833333332,
+      "similarity": 0.862947,
+      "nearest_athlete": "tentoglou",
+      "dist_nearest": 8.883874999999989,
+      "dist_own": 8.883874999999989,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_035245_face_0",
+      "time": 1470.0102083333331,
+      "similarity": 0.806308,
+      "nearest_athlete": "tentoglou",
+      "dist_nearest": 9.259250000000065,
+      "dist_own": 9.259250000000065,
+      "plausible": true
+    }
+  },
+  {
+    "video": "longjump_video5",
+    "athlete": "wang",
+    "arcface": {
+      "face": "frame_026784_face_1",
+      "time": 1117.116,
+      "similarity": 0.779473,
+      "nearest_athlete": "wang",
+      "dist_nearest": 17.35066666666671,
+      "dist_own": 17.35066666666671,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_026496_face_0",
+      "time": 1105.1039999999998,
+      "similarity": 0.612888,
+      "nearest_athlete": "dendy",
+      "dist_nearest": 6.089416666666466,
+      "dist_own": 29.362666666666883,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video1",
+    "athlete": "duplantis",
+    "arcface": {
+      "face": "frame_034706_face_0",
+      "time": 1388.24,
+      "similarity": 0.834909,
+      "nearest_athlete": "lavillenie",
+      "dist_nearest": 15.799999999999955,
+      "dist_own": 228.76,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_032837_face_0",
+      "time": 1313.48,
+      "similarity": 0.80906,
+      "nearest_athlete": "lavillenie",
+      "dist_nearest": 51.11999999999989,
+      "dist_own": 154.0,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video1",
+    "athlete": "filippidis",
+    "arcface": {
+      "face": "frame_013523_face_0",
+      "time": 540.92,
+      "similarity": 0.86685,
+      "nearest_athlete": "filippidis",
+      "dist_nearest": 0.9600000000000364,
+      "dist_own": 0.9600000000000364,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_013513_face_0",
+      "time": 540.52,
+      "similarity": 0.860419,
+      "nearest_athlete": "filippidis",
+      "dist_nearest": 1.3600000000000136,
+      "dist_own": 1.3600000000000136,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video1",
+    "athlete": "guttormsen",
+    "arcface": {
+      "face": "frame_002065_face_0",
+      "time": 82.6,
+      "similarity": 0.755814,
+      "nearest_athlete": "lisek",
+      "dist_nearest": 94.68,
+      "dist_own": 548.12,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_001847_face_0",
+      "time": 73.88,
+      "similarity": 0.802106,
+      "nearest_athlete": "lisek",
+      "dist_nearest": 103.4,
+      "dist_own": 556.84,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video1",
+    "athlete": "lavillenie",
+    "arcface": {
+      "face": "frame_003293_face_2",
+      "time": 131.72,
+      "similarity": 0.898658,
+      "nearest_athlete": "lisek",
+      "dist_nearest": 45.56,
+      "dist_own": 175.32000000000002,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_033316_face_0",
+      "time": 1332.64,
+      "similarity": 0.908323,
+      "nearest_athlete": "lavillenie",
+      "dist_nearest": 31.95999999999981,
+      "dist_own": 31.95999999999981,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video1",
+    "athlete": "lisek",
+    "arcface": {
+      "face": "frame_001021_face_0",
+      "time": 40.84,
+      "similarity": 0.861374,
+      "nearest_athlete": "lisek",
+      "dist_nearest": 136.44,
+      "dist_own": 136.44,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_019069_face_0",
+      "time": 762.76,
+      "similarity": 0.797117,
+      "nearest_athlete": "lisek",
+      "dist_nearest": 2.7200000000000273,
+      "dist_own": 2.7200000000000273,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video1",
+    "athlete": "morgunov",
+    "arcface": {
+      "face": "frame_011316_face_0",
+      "time": 452.64,
+      "similarity": 0.858298,
+      "nearest_athlete": "morgunov",
+      "dist_nearest": 5.439999999999998,
+      "dist_own": 5.439999999999998,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_024451_face_0",
+      "time": 978.04,
+      "similarity": 0.813856,
+      "nearest_athlete": "morgunov",
+      "dist_nearest": 1.5600000000000591,
+      "dist_own": 1.5600000000000591,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video1",
+    "athlete": "wojciechowski",
+    "arcface": {
+      "face": "frame_003778_face_0",
+      "time": 151.12,
+      "similarity": 0.813293,
+      "nearest_athlete": "lisek",
+      "dist_nearest": 26.159999999999997,
+      "dist_own": 60.599999999999994,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_003770_face_0",
+      "time": 150.8,
+      "similarity": 0.826137,
+      "nearest_athlete": "lisek",
+      "dist_nearest": 26.47999999999999,
+      "dist_own": 60.91999999999999,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "art",
+    "arcface": {
+      "face": "frame_001468_face_0",
+      "time": 58.72,
+      "similarity": 0.812166,
+      "nearest_athlete": "art",
+      "dist_nearest": 117.6,
+      "dist_own": 117.6,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_001500_face_0",
+      "time": 60.0,
+      "similarity": 0.853703,
+      "nearest_athlete": "art",
+      "dist_nearest": 116.32,
+      "dist_own": 116.32,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "barber",
+    "arcface": {
+      "face": "frame_002388_face_0",
+      "time": 95.52,
+      "similarity": 0.896502,
+      "nearest_athlete": "art",
+      "dist_nearest": 80.8,
+      "dist_own": 334.68,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_002387_face_0",
+      "time": 95.48,
+      "similarity": 0.865792,
+      "nearest_athlete": "art",
+      "dist_nearest": 80.83999999999999,
+      "dist_own": 334.71999999999997,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "chapelle",
+    "arcface": {
+      "face": "frame_003294_face_0",
+      "time": 131.76,
+      "similarity": 0.833788,
+      "nearest_athlete": "art",
+      "dist_nearest": 44.56,
+      "dist_own": 509.08000000000004,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_003281_face_0",
+      "time": 131.24,
+      "similarity": 0.77774,
+      "nearest_athlete": "art",
+      "dist_nearest": 45.079999999999984,
+      "dist_own": 509.6,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "duplantis",
+    "arcface": {
+      "face": "frame_009905_face_0",
+      "time": 396.2,
+      "similarity": 0.834598,
+      "nearest_athlete": "duplantis",
+      "dist_nearest": 3.759999999999991,
+      "dist_own": 3.759999999999991,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_001624_face_0",
+      "time": 64.96,
+      "similarity": 0.746218,
+      "nearest_athlete": "art",
+      "dist_nearest": 111.36,
+      "dist_own": 335.0,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "holzdeppe",
+    "arcface": {
+      "face": "frame_006260_face_0",
+      "time": 250.4,
+      "similarity": 0.884732,
+      "nearest_athlete": "holzdeppe",
+      "dist_nearest": 15.200000000000017,
+      "dist_own": 15.200000000000017,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_006264_face_0",
+      "time": 250.56,
+      "similarity": 0.915524,
+      "nearest_athlete": "holzdeppe",
+      "dist_nearest": 15.04000000000002,
+      "dist_own": 15.04000000000002,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "kendricks",
+    "arcface": {
+      "face": "frame_046098_face_0",
+      "time": 1843.92,
+      "similarity": 0.868088,
+      "nearest_athlete": "lavillenie",
+      "dist_nearest": 50.72000000000003,
+      "dist_own": 156.4000000000001,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_033244_face_0",
+      "time": 1329.76,
+      "similarity": 0.817021,
+      "nearest_athlete": "kendricks",
+      "dist_nearest": 7.2000000000000455,
+      "dist_own": 7.2000000000000455,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "lavillenie",
+    "arcface": {
+      "face": "frame_030423_face_0",
+      "time": 1216.92,
+      "similarity": 0.880748,
+      "nearest_athlete": "lavillenie",
+      "dist_nearest": 7.240000000000009,
+      "dist_own": 7.240000000000009,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_029685_face_0",
+      "time": 1187.4,
+      "similarity": 0.905899,
+      "nearest_athlete": "wojciechowski",
+      "dist_nearest": 27.560000000000173,
+      "dist_own": 36.75999999999999,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "lisek",
+    "arcface": {
+      "face": "frame_043001_face_15",
+      "time": 1720.04,
+      "similarity": 0.863103,
+      "nearest_athlete": "kendricks",
+      "dist_nearest": 32.51999999999998,
+      "dist_own": 152.31999999999994,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_000907_face_0",
+      "time": 36.28,
+      "similarity": 0.790608,
+      "nearest_athlete": "art",
+      "dist_nearest": 140.04,
+      "dist_own": 314.15999999999997,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "marschall",
+    "arcface": {
+      "face": "frame_018944_face_0",
+      "time": 757.76,
+      "similarity": 0.826891,
+      "nearest_athlete": "marschall",
+      "dist_nearest": 5.639999999999986,
+      "dist_own": 5.639999999999986,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_018976_face_0",
+      "time": 759.04,
+      "similarity": 0.7737,
+      "nearest_athlete": "marschall",
+      "dist_nearest": 4.360000000000014,
+      "dist_own": 4.360000000000014,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "wojciechowski",
+    "arcface": {
+      "face": "frame_002848_face_0",
+      "time": 113.92,
+      "similarity": 0.780445,
+      "nearest_athlete": "art",
+      "dist_nearest": 62.39999999999999,
+      "dist_own": 477.2,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_002745_face_0",
+      "time": 109.8,
+      "similarity": 0.802719,
+      "nearest_athlete": "art",
+      "dist_nearest": 66.52,
+      "dist_own": 481.32,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "xue",
+    "arcface": {
+      "face": "frame_012810_face_0",
+      "time": 512.4,
+      "similarity": 0.850673,
+      "nearest_athlete": "xue",
+      "dist_nearest": 8.960000000000036,
+      "dist_own": 8.960000000000036,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_022819_face_0",
+      "time": 912.76,
+      "similarity": 0.747916,
+      "nearest_athlete": "lisek",
+      "dist_nearest": 31.360000000000014,
+      "dist_own": 38.0,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video2",
+    "athlete": "yao",
+    "arcface": {
+      "face": "frame_002578_face_0",
+      "time": 103.12,
+      "similarity": 0.842102,
+      "nearest_athlete": "art",
+      "dist_nearest": 73.19999999999999,
+      "dist_own": 217.2,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_007953_face_0",
+      "time": 318.12,
+      "similarity": 0.774337,
+      "nearest_athlete": "yao",
+      "dist_nearest": 2.1999999999999886,
+      "dist_own": 2.1999999999999886,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video3",
+    "athlete": "braz",
+    "arcface": {
+      "face": "frame_061330_face_0",
+      "time": 1226.6,
+      "similarity": 0.846989,
+      "nearest_athlete": "braz",
+      "dist_nearest": 4.540000000000191,
+      "dist_own": 4.540000000000191,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_061196_face_0",
+      "time": 1223.92,
+      "similarity": 0.758392,
+      "nearest_athlete": "braz",
+      "dist_nearest": 7.220000000000027,
+      "dist_own": 7.220000000000027,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video3",
+    "athlete": "duplantis",
+    "arcface": {
+      "face": "frame_066886_face_0",
+      "time": 1337.72,
+      "similarity": 0.833818,
+      "nearest_athlete": "duplantis",
+      "dist_nearest": 10.11999999999989,
+      "dist_own": 10.11999999999989,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_092797_face_0",
+      "time": 1855.94,
+      "similarity": 0.777484,
+      "nearest_athlete": "duplantis",
+      "dist_nearest": 37.07999999999993,
+      "dist_own": 37.07999999999993,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video3",
+    "athlete": "lavillenie",
+    "arcface": {
+      "face": "frame_056149_face_0",
+      "time": 1122.98,
+      "similarity": 0.838492,
+      "nearest_athlete": "obiena",
+      "dist_nearest": 8.0,
+      "dist_own": 10.759999999999991,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_056325_face_0",
+      "time": 1126.5,
+      "similarity": 0.881424,
+      "nearest_athlete": "lavillenie",
+      "dist_nearest": 7.240000000000009,
+      "dist_own": 7.240000000000009,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video3",
+    "athlete": "nilsen",
+    "arcface": {
+      "face": "frame_070352_face_0",
+      "time": 1407.04,
+      "similarity": 0.813298,
+      "nearest_athlete": "nilsen",
+      "dist_nearest": 2.4400000000000546,
+      "dist_own": 2.4400000000000546,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_059950_face_0",
+      "time": 1199.0,
+      "similarity": 0.765791,
+      "nearest_athlete": "nilsen",
+      "dist_nearest": 9.920000000000073,
+      "dist_own": 9.920000000000073,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video3",
+    "athlete": "obiena",
+    "arcface": {
+      "face": "frame_071620_face_0",
+      "time": 1432.4,
+      "similarity": 0.904127,
+      "nearest_athlete": "obiena",
+      "dist_nearest": 5.399999999999864,
+      "dist_own": 5.399999999999864,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_071697_face_0",
+      "time": 1433.94,
+      "similarity": 0.845016,
+      "nearest_athlete": "obiena",
+      "dist_nearest": 3.8599999999999,
+      "dist_own": 3.8599999999999,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video4",
+    "athlete": "braz",
+    "arcface": {
+      "face": "frame_038330_face_0",
+      "time": 1533.2,
+      "similarity": 0.866713,
+      "nearest_athlete": "braz",
+      "dist_nearest": 20.24000000000001,
+      "dist_own": 20.24000000000001,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_039209_face_0",
+      "time": 1568.36,
+      "similarity": 0.806472,
+      "nearest_athlete": "braz",
+      "dist_nearest": 6.879999999999882,
+      "dist_own": 6.879999999999882,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video4",
+    "athlete": "broeders",
+    "arcface": {
+      "face": "frame_023105_face_0",
+      "time": 924.2,
+      "similarity": 0.754912,
+      "nearest_athlete": "nilsen",
+      "dist_nearest": 5.079999999999927,
+      "dist_own": 654.4000000000001,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_001712_face_0",
+      "time": 68.48,
+      "similarity": 0.761639,
+      "nearest_athlete": "lightfoot",
+      "dist_nearest": 112.55999999999999,
+      "dist_own": 175.76,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video4",
+    "athlete": "collet",
+    "arcface": {
+      "face": "frame_009355_face_0",
+      "time": 374.2,
+      "similarity": 0.893807,
+      "nearest_athlete": "vloon",
+      "dist_nearest": 1.759999999999991,
+      "dist_own": 4.240000000000009,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_009363_face_0",
+      "time": 374.52,
+      "similarity": 0.825742,
+      "nearest_athlete": "vloon",
+      "dist_nearest": 2.079999999999984,
+      "dist_own": 3.920000000000016,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video4",
+    "athlete": "duplantis",
+    "arcface": {
+      "face": "frame_036756_face_0",
+      "time": 1470.24,
+      "similarity": 0.878415,
+      "nearest_athlete": "braz",
+      "dist_nearest": 48.039999999999964,
+      "dist_own": 112.96000000000004,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_015116_face_0",
+      "time": 604.64,
+      "similarity": 0.837906,
+      "nearest_athlete": "duplantis",
+      "dist_nearest": 34.879999999999995,
+      "dist_own": 34.879999999999995,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video4",
+    "athlete": "lavillenie",
+    "arcface": {
+      "face": "frame_032296_face_0",
+      "time": 1291.84,
+      "similarity": 0.676652,
+      "nearest_athlete": "duplantis",
+      "dist_nearest": 17.320000000000164,
+      "dist_own": 268.91999999999996,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_015952_face_0",
+      "time": 638.08,
+      "similarity": 0.6048,
+      "nearest_athlete": "duplantis",
+      "dist_nearest": 1.4399999999999409,
+      "dist_own": 185.27999999999997,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video4",
+    "athlete": "lightfoot",
+    "arcface": {
+      "face": "frame_002621_face_0",
+      "time": 104.84,
+      "similarity": 0.866276,
+      "nearest_athlete": "lightfoot",
+      "dist_nearest": 76.19999999999999,
+      "dist_own": 76.19999999999999,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_002587_face_0",
+      "time": 103.48,
+      "similarity": 0.785561,
+      "nearest_athlete": "lightfoot",
+      "dist_nearest": 77.55999999999999,
+      "dist_own": 77.55999999999999,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video4",
+    "athlete": "lillefosse",
+    "arcface": {
+      "face": "frame_017470_face_0",
+      "time": 698.8,
+      "similarity": 0.876002,
+      "nearest_athlete": "lillefosse",
+      "dist_nearest": 6.480000000000018,
+      "dist_own": 6.480000000000018,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_017262_face_0",
+      "time": 690.48,
+      "similarity": 0.834817,
+      "nearest_athlete": "duplantis",
+      "dist_nearest": 2.1200000000000045,
+      "dist_own": 14.799999999999955,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video4",
+    "athlete": "marschall",
+    "arcface": {
+      "face": "frame_037440_face_0",
+      "time": 1497.6,
+      "similarity": 0.894257,
+      "nearest_athlete": "braz",
+      "dist_nearest": 55.840000000000146,
+      "dist_own": 1006.9199999999998,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_037509_face_0",
+      "time": 1500.36,
+      "similarity": 0.871947,
+      "nearest_athlete": "braz",
+      "dist_nearest": 53.080000000000155,
+      "dist_own": 1009.6799999999998,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video4",
+    "athlete": "nilsen",
+    "arcface": {
+      "face": "frame_010322_face_0",
+      "time": 412.88,
+      "similarity": 0.846717,
+      "nearest_athlete": "nilsen",
+      "dist_nearest": 10.240000000000009,
+      "dist_own": 10.240000000000009,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_010548_face_0",
+      "time": 421.92,
+      "similarity": 0.781156,
+      "nearest_athlete": "nilsen",
+      "dist_nearest": 1.1999999999999886,
+      "dist_own": 1.1999999999999886,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video4",
+    "athlete": "vloon",
+    "arcface": {
+      "face": "frame_002148_face_0",
+      "time": 85.92,
+      "similarity": 0.854961,
+      "nearest_athlete": "lightfoot",
+      "dist_nearest": 95.11999999999999,
+      "dist_own": 248.32,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_002163_face_0",
+      "time": 86.52,
+      "similarity": 0.822957,
+      "nearest_athlete": "lightfoot",
+      "dist_nearest": 94.52,
+      "dist_own": 247.72000000000003,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video4",
+    "athlete": "zernikel",
+    "arcface": {
+      "face": "frame_001580_face_0",
+      "time": 63.2,
+      "similarity": 0.757552,
+      "nearest_athlete": "lightfoot",
+      "dist_nearest": 117.83999999999999,
+      "dist_own": 459.96,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_001594_face_0",
+      "time": 63.76,
+      "similarity": 0.787969,
+      "nearest_athlete": "lightfoot",
+      "dist_nearest": 117.28,
+      "dist_own": 459.4,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video5",
+    "athlete": "kennedy",
+    "arcface": {
+      "face": "frame_056353_face_0",
+      "time": 1127.06,
+      "similarity": 0.774505,
+      "nearest_athlete": "stefanidi",
+      "dist_nearest": 43.179999999999836,
+      "dist_own": 51.48000000000002,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_060740_face_0",
+      "time": 1214.8,
+      "similarity": 0.848745,
+      "nearest_athlete": "kennedy",
+      "dist_nearest": 30.460000000000036,
+      "dist_own": 30.460000000000036,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video5",
+    "athlete": "li",
+    "arcface": {
+      "face": "frame_031244_face_0",
+      "time": 624.88,
+      "similarity": 0.808502,
+      "nearest_athlete": "li",
+      "dist_nearest": 2.8799999999999955,
+      "dist_own": 2.8799999999999955,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_005156_face_0",
+      "time": 103.12,
+      "similarity": 0.792978,
+      "nearest_athlete": "murto",
+      "dist_nearest": 7.180000000000007,
+      "dist_own": 15.86,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video5",
+    "athlete": "morris",
+    "arcface": {
+      "face": "frame_081231_face_0",
+      "time": 1624.62,
+      "similarity": 0.783437,
+      "nearest_athlete": "morris",
+      "dist_nearest": 27.800000000000182,
+      "dist_own": 27.800000000000182,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_061174_face_0",
+      "time": 1223.48,
+      "similarity": 0.806663,
+      "nearest_athlete": "morris",
+      "dist_nearest": 27.660000000000082,
+      "dist_own": 27.660000000000082,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video5",
+    "athlete": "moser",
+    "arcface": {
+      "face": "frame_019766_face_0",
+      "time": 395.32,
+      "similarity": 0.750853,
+      "nearest_athlete": "moser",
+      "dist_nearest": 7.3799999999999955,
+      "dist_own": 7.3799999999999955,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_020034_face_0",
+      "time": 400.68,
+      "similarity": 0.825351,
+      "nearest_athlete": "moser",
+      "dist_nearest": 2.019999999999982,
+      "dist_own": 2.019999999999982,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video5",
+    "athlete": "murto",
+    "arcface": {
+      "face": "frame_029052_face_0",
+      "time": 581.04,
+      "similarity": 0.743141,
+      "nearest_athlete": "murto",
+      "dist_nearest": 1.1200000000000045,
+      "dist_own": 1.1200000000000045,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_003093_face_0",
+      "time": 61.86,
+      "similarity": 0.81724,
+      "nearest_athlete": "moser",
+      "dist_nearest": 0.3200000000000003,
+      "dist_own": 9.879999999999995,
+      "plausible": false
+    }
+  },
+  {
+    "video": "polevault_video5",
+    "athlete": "nageotte",
+    "arcface": {
+      "face": "frame_084565_face_0",
+      "time": 1691.3,
+      "similarity": 0.812294,
+      "nearest_athlete": "morris",
+      "dist_nearest": 29.919999999999845,
+      "dist_own": 155.1199999999999,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_077171_face_0",
+      "time": 1543.42,
+      "similarity": 0.813346,
+      "nearest_athlete": "nageotte",
+      "dist_nearest": 7.240000000000009,
+      "dist_own": 7.240000000000009,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video5",
+    "athlete": "stefanidi",
+    "arcface": {
+      "face": "frame_035305_face_0",
+      "time": 706.1,
+      "similarity": 0.738541,
+      "nearest_athlete": "stefanidi",
+      "dist_nearest": 1.7799999999999727,
+      "dist_own": 1.7799999999999727,
+      "plausible": true
+    },
+    "transface": {
+      "face": "frame_053637_face_0",
+      "time": 1072.74,
+      "similarity": 0.816105,
+      "nearest_athlete": "stefanidi",
+      "dist_nearest": 4.579999999999927,
+      "dist_own": 4.579999999999927,
+      "plausible": true
+    }
+  },
+  {
+    "video": "polevault_video5",
+    "athlete": "sutej",
+    "arcface": {
+      "face": "frame_041217_face_0",
+      "time": 824.34,
+      "similarity": 0.737707,
+      "nearest_athlete": "sutej",
+      "dist_nearest": 35.58000000000004,
+      "dist_own": 35.58000000000004,
+      "plausible": false
+    },
+    "transface": {
+      "face": "frame_025203_face_0",
+      "time": 504.06,
+      "similarity": 0.800435,
+      "nearest_athlete": "li",
+      "dist_nearest": 0.4200000000000159,
+      "dist_own": 20.079999999999984,
+      "plausible": false
+    }
+  }
+]

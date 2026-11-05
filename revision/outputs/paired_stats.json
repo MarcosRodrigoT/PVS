@@ -1,0 +1,562 @@
+{
+  "SportCLIP transface orig: SEQ - INS": {
+    "mean": 0.010361452174397986,
+    "ci": [
+      -0.01931765629026217,
+      0.04013701618570889
+    ],
+    "p_wilcoxon": 0.49800872802734375,
+    "wins": 11,
+    "losses": 9
+  },
+  "SportCLIP transface upd: SEQ - INS": {
+    "mean": 0.018392396651243155,
+    "ci": [
+      -0.0012224603955462814,
+      0.039799128590582725
+    ],
+    "p_wilcoxon": 0.34881019592285156,
+    "wins": 10,
+    "losses": 10
+  },
+  "SportCLIP transface SEQ: Upd - Orig": {
+    "mean": 0.04805609877553726,
+    "ci": [
+      0.027671794451847316,
+      0.06985496858934859
+    ],
+    "p_wilcoxon": 0.00014495849609375,
+    "wins": 15,
+    "losses": 3
+  },
+  "SportCLIP transface INS: Upd - Orig": {
+    "mean": 0.040025154298692085,
+    "ci": [
+      0.026008770305030578,
+      0.055131130254914625
+    ],
+    "p_wilcoxon": 3.62396240234375e-05,
+    "wins": 18,
+    "losses": 2
+  },
+  "SportCLIP arcface orig: SEQ - INS": {
+    "mean": 0.005221731648529576,
+    "ci": [
+      -0.04716766503034379,
+      0.05947069258829557
+    ],
+    "p_wilcoxon": 0.7380905151367188,
+    "wins": 8,
+    "losses": 11
+  },
+  "SportCLIP arcface upd: SEQ - INS": {
+    "mean": -0.026153832446790336,
+    "ci": [
+      -0.0820741757105101,
+      0.03008338788176313
+    ],
+    "p_wilcoxon": 0.2942523956298828,
+    "wins": 7,
+    "losses": 13
+  },
+  "SportCLIP arcface SEQ: Upd - Orig": {
+    "mean": -0.019231531260446157,
+    "ci": [
+      -0.08009438671154168,
+      0.045823798793408504
+    ],
+    "p_wilcoxon": 0.34881019592285156,
+    "wins": 9,
+    "losses": 11
+  },
+  "SportCLIP arcface INS: Upd - Orig": {
+    "mean": 0.012144032834873749,
+    "ci": [
+      -0.03094490676504889,
+      0.052078650168468785
+    ],
+    "p_wilcoxon": 0.42120361328125,
+    "wins": 9,
+    "losses": 6
+  },
+  "SportCLIP SEQ orig: TransFace - ArcFace": {
+    "mean": 0.21422958687309315,
+    "ci": [
+      0.14859013771829346,
+      0.2885051914100899
+    ],
+    "p_wilcoxon": 5.7220458984375e-06,
+    "wins": 19,
+    "losses": 1
+  },
+  "SportCLIP SEQ upd: TransFace - ArcFace": {
+    "mean": 0.2815172169090765,
+    "ci": [
+      0.21616231674074057,
+      0.34900553850151744
+    ],
+    "p_wilcoxon": 1.9073486328125e-06,
+    "wins": 20,
+    "losses": 0
+  },
+  "SportCLIP INS orig: TransFace - ArcFace": {
+    "mean": 0.2090898663472247,
+    "ci": [
+      0.13134623150863756,
+      0.287787861251993
+    ],
+    "p_wilcoxon": 3.814697265625e-06,
+    "wins": 19,
+    "losses": 1
+  },
+  "SportCLIP INS upd: TransFace - ArcFace": {
+    "mean": 0.236970987811043,
+    "ci": [
+      0.14952369897835271,
+      0.3268334742449041
+    ],
+    "p_wilcoxon": 2.6702880859375e-05,
+    "wins": 18,
+    "losses": 2
+  },
+  "QD-DETR transface orig: SEQ - INS": {
+    "mean": 0.00963547630926891,
+    "ci": [
+      -0.008790024736528661,
+      0.030086999607794627
+    ],
+    "p_wilcoxon": 0.8123550415039062,
+    "wins": 9,
+    "losses": 11
+  },
+  "QD-DETR transface upd: SEQ - INS": {
+    "mean": 0.0032273597966246542,
+    "ci": [
+      -0.013823063750344098,
+      0.021464028582260566
+    ],
+    "p_wilcoxon": 0.9272785186767578,
+    "wins": 11,
+    "losses": 9
+  },
+  "QD-DETR transface SEQ: Upd - Orig": {
+    "mean": 0.03722984532804093,
+    "ci": [
+      0.019570511350487662,
+      0.05575162738553012
+    ],
+    "p_wilcoxon": 0.002838134765625,
+    "wins": 14,
+    "losses": 5
+  },
+  "QD-DETR transface INS: Upd - Orig": {
+    "mean": 0.0436379618406852,
+    "ci": [
+      0.02879251778256593,
+      0.05989718544882707
+    ],
+    "p_wilcoxon": 8.20159912109375e-05,
+    "wins": 19,
+    "losses": 1
+  },
+  "QD-DETR arcface orig: SEQ - INS": {
+    "mean": -0.013535656521346907,
+    "ci": [
+      -0.07018366897453043,
+      0.04477325536480106
+    ],
+    "p_wilcoxon": 0.5458755493164062,
+    "wins": 7,
+    "losses": 13
+  },
+  "QD-DETR arcface upd: SEQ - INS": {
+    "mean": -0.04251086389855044,
+    "ci": [
+      -0.10224429846438271,
+      0.02095048584346107
+    ],
+    "p_wilcoxon": 0.3117942810058594,
+    "wins": 6,
+    "losses": 14
+  },
+  "QD-DETR arcface SEQ: Upd - Orig": {
+    "mean": -0.013814046621064908,
+    "ci": [
+      -0.07338470524163923,
+      0.05104515006362642
+    ],
+    "p_wilcoxon": 0.522613525390625,
+    "wins": 9,
+    "losses": 9
+  },
+  "QD-DETR arcface INS: Upd - Orig": {
+    "mean": 0.015161160756138626,
+    "ci": [
+      -0.02874427959617364,
+      0.06207852618250836
+    ],
+    "p_wilcoxon": 0.638671875,
+    "wins": 8,
+    "losses": 7
+  },
+  "QD-DETR SEQ orig: TransFace - ArcFace": {
+    "mean": 0.23584559064671212,
+    "ci": [
+      0.17034025140514344,
+      0.3047037579949208
+    ],
+    "p_wilcoxon": 3.814697265625e-06,
+    "wins": 19,
+    "losses": 1
+  },
+  "QD-DETR SEQ upd: TransFace - ArcFace": {
+    "mean": 0.28688948259581804,
+    "ci": [
+      0.22623480848063487,
+      0.3511354401862243
+    ],
+    "p_wilcoxon": 1.9073486328125e-06,
+    "wins": 20,
+    "losses": 0
+  },
+  "QD-DETR INS orig: TransFace - ArcFace": {
+    "mean": 0.21267445781609634,
+    "ci": [
+      0.13111172330576384,
+      0.29732307932882596
+    ],
+    "p_wilcoxon": 9.5367431640625e-06,
+    "wins": 18,
+    "losses": 2
+  },
+  "QD-DETR INS upd: TransFace - ArcFace": {
+    "mean": 0.24115125890064296,
+    "ci": [
+      0.1504929985299429,
+      0.3340607553193261
+    ],
+    "p_wilcoxon": 1.9073486328125e-05,
+    "wins": 18,
+    "losses": 1
+  },
+  "GT transface orig: SEQ - INS": {
+    "mean": 0.0580829040881933,
+    "ci": [
+      0.02992775676048324,
+      0.08705906109043525
+    ],
+    "p_wilcoxon": 0.0019855499267578125,
+    "wins": 17,
+    "losses": 3
+  },
+  "GT transface upd: SEQ - INS": {
+    "mean": 0.034458969724055606,
+    "ci": [
+      0.009563583121756626,
+      0.059876559686126346
+    ],
+    "p_wilcoxon": 0.023950576782226562,
+    "wins": 16,
+    "losses": 4
+  },
+  "GT transface SEQ: Upd - Orig": {
+    "mean": 0.050938619630673955,
+    "ci": [
+      0.02437778117479862,
+      0.07842813200014732
+    ],
+    "p_wilcoxon": 0.0025787353515625,
+    "wins": 14,
+    "losses": 3
+  },
+  "GT transface INS: Upd - Orig": {
+    "mean": 0.07456255399481165,
+    "ci": [
+      0.0536526561749082,
+      0.0976358052631271
+    ],
+    "p_wilcoxon": 5.7220458984375e-06,
+    "wins": 19,
+    "losses": 1
+  },
+  "GT arcface orig: SEQ - INS": {
+    "mean": 0.03300421528057795,
+    "ci": [
+      -0.023626430748553588,
+      0.09172596079931054
+    ],
+    "p_wilcoxon": 0.5958194732666016,
+    "wins": 11,
+    "losses": 9
+  },
+  "GT arcface upd: SEQ - INS": {
+    "mean": -0.038119550957574556,
+    "ci": [
+      -0.12788248196784532,
+      0.051455886498682976
+    ],
+    "p_wilcoxon": 0.4523754119873047,
+    "wins": 7,
+    "losses": 13
+  },
+  "GT arcface SEQ: Upd - Orig": {
+    "mean": -0.036711288335971065,
+    "ci": [
+      -0.1271289830873704,
+      0.06083483838563531
+    ],
+    "p_wilcoxon": 0.32472991943359375,
+    "wins": 8,
+    "losses": 10
+  },
+  "GT arcface INS: Upd - Orig": {
+    "mean": 0.03441247790218145,
+    "ci": [
+      -0.02482201113584196,
+      0.10122238727451575
+    ],
+    "p_wilcoxon": 0.25238037109375,
+    "wins": 10,
+    "losses": 5
+  },
+  "GT SEQ orig: TransFace - ArcFace": {
+    "mean": 0.2828373259513493,
+    "ci": [
+      0.19880196507525472,
+      0.3739200011634615
+    ],
+    "p_wilcoxon": 3.814697265625e-06,
+    "wins": 19,
+    "losses": 1
+  },
+  "GT SEQ upd: TransFace - ArcFace": {
+    "mean": 0.3704872339179943,
+    "ci": [
+      0.2755515712706332,
+      0.47006351177983363
+    ],
+    "p_wilcoxon": 1.9073486328125e-06,
+    "wins": 20,
+    "losses": 0
+  },
+  "GT INS orig: TransFace - ArcFace": {
+    "mean": 0.2577586371437339,
+    "ci": [
+      0.16019335826031544,
+      0.35923579937208855
+    ],
+    "p_wilcoxon": 1.9073486328125e-06,
+    "wins": 20,
+    "losses": 0
+  },
+  "GT INS upd: TransFace - ArcFace": {
+    "mean": 0.29790871323636414,
+    "ci": [
+      0.18770551264205915,
+      0.41186706236052534
+    ],
+    "p_wilcoxon": 3.814697265625e-06,
+    "wins": 19,
+    "losses": 0
+  },
+  "transface|SEQ|orig: QD-DETR - SportCLIP": {
+    "mean": 0.025021631496868278,
+    "ci": [
+      -0.0019472350965244062,
+      0.05686001828261474
+    ],
+    "p_wilcoxon": 0.2305126190185547,
+    "wins": 13,
+    "losses": 7
+  },
+  "transface|SEQ|upd: QD-DETR - SportCLIP": {
+    "mean": 0.014195378049371965,
+    "ci": [
+      -0.009284828086273164,
+      0.0397270003677324
+    ],
+    "p_wilcoxon": 0.47490501403808594,
+    "wins": 12,
+    "losses": 8
+  },
+  "transface|INS|orig: QD-DETR - SportCLIP": {
+    "mean": 0.02574760736199736,
+    "ci": [
+      0.0020321190556335123,
+      0.04953622280329412
+    ],
+    "p_wilcoxon": 0.10539817810058594,
+    "wins": 15,
+    "losses": 5
+  },
+  "transface|INS|upd: QD-DETR - SportCLIP": {
+    "mean": 0.02936041490399046,
+    "ci": [
+      0.00169990679297208,
+      0.058737826389415035
+    ],
+    "p_wilcoxon": 0.13272666931152344,
+    "wins": 13,
+    "losses": 7
+  },
+  "arcface|SEQ|orig: QD-DETR - SportCLIP": {
+    "mean": 0.0034056277232492613,
+    "ci": [
+      -0.01636198440902256,
+      0.02286903552483761
+    ],
+    "p_wilcoxon": 0.7841262817382812,
+    "wins": 10,
+    "losses": 10
+  },
+  "arcface|SEQ|upd: QD-DETR - SportCLIP": {
+    "mean": 0.008823112362630508,
+    "ci": [
+      -0.01847478776515455,
+      0.0371268949887531
+    ],
+    "p_wilcoxon": 0.8694877624511719,
+    "wins": 9,
+    "losses": 11
+  },
+  "arcface|INS|orig: QD-DETR - SportCLIP": {
+    "mean": 0.02216301589312574,
+    "ci": [
+      -0.0017926805428629122,
+      0.04499895250221926
+    ],
+    "p_wilcoxon": 0.168792724609375,
+    "wins": 12,
+    "losses": 7
+  },
+  "arcface|INS|upd: QD-DETR - SportCLIP": {
+    "mean": 0.02518014381439062,
+    "ci": [
+      -0.0020816731454622174,
+      0.05280476189335808
+    ],
+    "p_wilcoxon": 0.17685317993164062,
+    "wins": 12,
+    "losses": 8
+  },
+  "LOEO GT transface orig: PVS-SEQ - adjacent": {
+    "mean": 0.03804639383413892,
+    "ci": [
+      0.011211972857547105,
+      0.06961955008803739
+    ],
+    "p_wilcoxon": 0.0128631591796875,
+    "wins": 11,
+    "losses": 6
+  },
+  "LOEO GT transface upd: PVS-SEQ - adjacent": {
+    "mean": 0.034348166535627826,
+    "ci": [
+      0.01098683269149012,
+      0.05996243568219303
+    ],
+    "p_wilcoxon": 0.0149993896484375,
+    "wins": 13,
+    "losses": 4
+  },
+  "LOEO GT arcface orig: PVS-SEQ - adjacent": {
+    "mean": 0.05554085785103413,
+    "ci": [
+      0.02272240777293596,
+      0.08638348247897251
+    ],
+    "p_wilcoxon": 0.0599365234375,
+    "wins": 12,
+    "losses": 6
+  },
+  "LOEO GT arcface upd: PVS-SEQ - adjacent": {
+    "mean": 0.06766358791667129,
+    "ci": [
+      0.032401865036811195,
+      0.10276523511999916
+    ],
+    "p_wilcoxon": 0.01203155517578125,
+    "wins": 13,
+    "losses": 5
+  },
+  "LOEO SportCLIP transface orig: PVS-INS - inseg_vote": {
+    "mean": 0.009150506651998633,
+    "ci": [
+      -0.008178571065323622,
+      0.02735115363695074
+    ],
+    "p_wilcoxon": 0.5948867797851562,
+    "wins": 10,
+    "losses": 9
+  },
+  "LOEO SportCLIP transface upd: PVS-INS - inseg_vote": {
+    "mean": 0.022950769521594604,
+    "ci": [
+      0.0062810237229508565,
+      0.04072903403896551
+    ],
+    "p_wilcoxon": 0.05316925048828125,
+    "wins": 13,
+    "losses": 7
+  },
+  "LOEO SportCLIP arcface orig: PVS-SEQ - adjacent": {
+    "mean": 0.022589701289477085,
+    "ci": [
+      -0.0008149366617549827,
+      0.04675522583391434
+    ],
+    "p_wilcoxon": 0.2934989929199219,
+    "wins": 11,
+    "losses": 8
+  },
+  "LOEO SportCLIP arcface upd: PVS-SEQ - adjacent": {
+    "mean": 0.038059650200927164,
+    "ci": [
+      0.01143530726001925,
+      0.06608496215540423
+    ],
+    "p_wilcoxon": 0.049365997314453125,
+    "wins": 13,
+    "losses": 6
+  },
+  "LOEO QD-DETR transface orig: PVS-INS - inseg_vote": {
+    "mean": 0.010986405566450664,
+    "ci": [
+      -0.00605433046133819,
+      0.02892919476644872
+    ],
+    "p_wilcoxon": 0.2934989929199219,
+    "wins": 12,
+    "losses": 7
+  },
+  "LOEO QD-DETR transface upd: PVS-INS - inseg_vote": {
+    "mean": 0.004834575360639415,
+    "ci": [
+      -0.012206856719283534,
+      0.022565929149132895
+    ],
+    "p_wilcoxon": 0.6742229461669922,
+    "wins": 11,
+    "losses": 9
+  },
+  "LOEO QD-DETR arcface orig: PVS-SEQ - adjacent": {
+    "mean": 0.03194593564513784,
+    "ci": [
+      0.003801778132433611,
+      0.059787985934812764
+    ],
+    "p_wilcoxon": 0.14468765258789062,
+    "wins": 11,
+    "losses": 8
+  },
+  "LOEO QD-DETR arcface upd: PVS-SEQ - adjacent": {
+    "mean": 0.04724750852095953,
+    "ci": [
+      0.01722638139267643,
+      0.07757060152468907
+    ],
+    "p_wilcoxon": 0.040130615234375,
+    "wins": 14,
+    "losses": 5
+  }
+}

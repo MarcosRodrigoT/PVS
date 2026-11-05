@@ -1,0 +1,5 @@
+# Large or regenerable outputs (recreate with the scripts in experiments/)
+outputs/param_grid.json
+# Face crops of athletes (reference images are not redistributed)
+outputs/target_update_sheets/
+__pycache__/

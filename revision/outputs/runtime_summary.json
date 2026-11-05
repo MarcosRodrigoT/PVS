@@ -1,0 +1,87 @@
+{
+  "detect_ms_per_frame": 4.437225377688651,
+  "decode_read_ms_per_frame": 0.48575355608746046,
+  "crop_ms_per_face": 0.033026078789052726,
+  "transface_ms_per_face": 0.8690879260325205,
+  "arcface_ms_per_face": 0.6270650004457501,
+  "faces_per_frame_sparse": 2.250441609421001,
+  "fusion_s_per_video": 0.01103519162813124,
+  "sparse10_transface_s_per_video_min": 1.8529197347274309,
+  "sparse10_arcface_s_per_video_min": 1.7713603858100515,
+  "sparse10_frontend_s_per_video_min": 1.5597075733268204,
+  "dense_videos": [
+    "highjump_video1",
+    "highjump_video2",
+    "highjump_video3",
+    "highjump_video4",
+    "highjump_video5",
+    "javelin_video1",
+    "javelin_video2",
+    "javelin_video3",
+    "javelin_video4",
+    "javelin_video5",
+    "longjump_video1",
+    "longjump_video2",
+    "longjump_video3",
+    "longjump_video4",
+    "longjump_video5",
+    "polevault_video1",
+    "polevault_video2",
+    "polevault_video3",
+    "polevault_video4",
+    "polevault_video5"
+  ],
+  "dense_detect_ms_per_frame": 3.7910255578979153,
+  "dense_decode_ms_per_frame": 0.7544834258205487,
+  "dense_faces_per_frame": 2.052211671509306,
+  "dense_frontend_s_per_video_min": 8.364865050020255,
+  "dense_transface_s_per_video_min": 11.613535995981774,
+  "dense_arcface_s_per_video_min": 10.709852106167759,
+  "sportclip": [
+    {
+      "video": "polevault_video3",
+      "frames": 6000,
+      "decode_ms_per_frame": 0.8773300253296838,
+      "embed_ms_per_frame": 3.5390464696668764,
+      "pair_scoring_ms_per_frame": 0.02355531733095025
+    },
+    {
+      "video": "javelin_video2",
+      "frames": 3000,
+      "decode_ms_per_frame": 1.5816266753184511,
+      "embed_ms_per_frame": 7.840548851667336,
+      "pair_scoring_ms_per_frame": 0.05109158133564051
+    },
+    {
+      "video": "highjump_video1",
+      "frames": 3000,
+      "decode_ms_per_frame": 1.5804308966477645,
+      "embed_ms_per_frame": 7.928109077000651,
+      "pair_scoring_ms_per_frame": 0.5084116053330945
+    }
+  ],
+  "qddetr": [
+    {
+      "videos": 20,
+      "clips": 18376,
+      "ms_per_clip": 0.024775302365607134,
+      "ms_per_frame_25fps": 0.0004955060473121426
+    }
+  ],
+  "acc|QD-DETR|transface|SEQ|upd": {
+    "dense": 0.6982332066531599,
+    "sparse10_measured": 0.6949497073925417
+  },
+  "acc|SportCLIP|transface|SEQ|upd": {
+    "dense": 0.6840378286037881,
+    "sparse10_measured": 0.6756479398946358
+  },
+  "acc|QD-DETR|transface|INS|upd": {
+    "dense": 0.6950058468565353,
+    "sparse10_measured": 0.7028882882393055
+  },
+  "acc|GT|transface|SEQ|upd": {
+    "dense": 0.9006939016003586,
+    "sparse10_measured": 0.9026319392207904
+  }
+}

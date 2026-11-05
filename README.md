@@ -74,6 +74,30 @@ The **Olympic Highlights** benchmark used to evaluate this system is publicly av
 
 It contains 20 full-length broadcast track-and-field videos (High Jump, Javelin, Long Jump, Pole Vault — 5 videos per event) with frame-level temporal annotations and athlete-identity labels.
 
+## Revision experiments (Image and Vision Computing)
+
+The folder `revision/` contains everything used for the revised manuscript. All analyses run offline on the cached outputs of the pipeline (`video_summaries/`, `resemblance_results/`, `cropped_faces_embeddings/`), so face detection and embedding extraction do not need to be re-run.
+
+| Path | Purpose |
+|------|---------|
+| `revision/pvs_eval.py` | Evaluation library: strict one-to-one IoU matching per athlete, per-video metrics averaged over videos, assignment rules, baselines, bootstrap and paired tests |
+| `revision/qddetr_cv/` | Five held-out QD-DETR folds (one broadcast per event held out per fold): split generation, training and inference |
+| `revision/experiments/verify_legacy.py` | Reproduces every number of the originally submitted tables with the legacy protocol |
+| `revision/experiments/main_grid.py` | Corrected configuration grid (held-out QD-DETR, revised protocol) |
+| `revision/experiments/baselines.py`, `baselines_loeo.py` | Identity-aware baselines under identical proposals and recognizers |
+| `revision/experiments/param_sweep.py` | Sensitivity of the fusion settings and leave-one-event-out selection |
+| `revision/experiments/absent_targets.py`, `target_update_check.py` | Target update: exemplar verification, absent targets, verified update |
+| `revision/experiments/reel_quality.py` | IoU sweep, boundary errors, duration-based reel measures, boundary jitter |
+| `revision/experiments/sparse_sampling.py` | Accuracy of sparse face analysis (exact subsampling of the dense outputs) |
+| `revision/experiments/paired_stats.py`, `frame_level_vs.py`, `dataset_stats.py` | Paired statistics, summarizer evaluation, benchmark statistics and source verification |
+| `revision/runtime/` | Measured runtimes (detection-only SCRFD, batched embeddings, sparse end-to-end run, summarizers) |
+| `revision/figures/` | Figures and LaTeX tables of the manuscript |
+| `revision/outputs/` | JSON results behind every table and figure |
+
+Typical order: `qddetr_cv/make_folds.py` → `qddetr_cv/train_folds.sh` → `qddetr_cv/infer_heldout.py` (QD-DETR environment) → `experiments/*.py` → `figures/*.py`. The embedding-based experiments first require `experiments/cache_embeddings.py`.
+
+The Olympic Highlights annotations (v1.1, with athlete identities and verified source links) are in `dataset/OlympicHighlights_v1.1/`.
+
 ## Key Features
 
 - **Separation of Concerns**: Video summarization and identity analysis operate independently, enabling modular comparison of different models
@@ -325,7 +349,7 @@ results/
 When ground truth annotations are available (`data/<video>_identity.csv`), the system automatically evaluates assignment accuracy:
 
 - **IoU-based matching** (threshold: 0.3) between predicted and ground truth segments
-- **Many-to-many matching** handling multiple overlapping segments
+- The plots produced by `visualize_results.py` use the original (many-to-one) matching; the revised one-to-one protocol used in the paper is implemented in `revision/pvs_eval.py`
 - **Per-athlete metrics**: Ground truth count, predictions, correct matches, precision
 - Results displayed in table at bottom of `highlights_assigned.png`
 

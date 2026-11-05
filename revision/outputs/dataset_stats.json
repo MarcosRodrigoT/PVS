@@ -1,0 +1,526 @@
+{
+  "summary": {
+    "videos": 20,
+    "competitions": 9,
+    "years": [
+      2015,
+      2017,
+      2018,
+      2019,
+      2022,
+      2024,
+      2025
+    ],
+    "women_finals": 4,
+    "indoor": 5,
+    "total_hours": 10.208640161111111,
+    "events": 938,
+    "athlete_video_pairs": 186,
+    "unique_athletes": 137,
+    "athletes_per_video": [
+      5,
+      9.5,
+      13
+    ],
+    "events_per_athlete_video": [
+      1,
+      4.0,
+      15
+    ],
+    "recurring_athletes": 36,
+    "max_videos_per_athlete": 4,
+    "fps_values": [
+      23.976,
+      25.0,
+      50.0
+    ],
+    "un_band_frames_before": {
+      "15": 934,
+      "30": 4
+    },
+    "un_band_frames_after": {
+      "30": 938
+    }
+  },
+  "videos": [
+    {
+      "video": "highjump_video1",
+      "youtube_id": "zN-ANaOyveE",
+      "url": "https://www.youtube.com/watch?v=zN-ANaOyveE",
+      "youtube_title": "Men's High Jump Final | World Athletics Championships Beijing 2015",
+      "channel": "World Athletics",
+      "competition": "World Championships Beijing 2015",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 25.0,
+      "frames": 48419,
+      "duration_s": 1936.822857,
+      "athletes": 8,
+      "events": 58,
+      "hl_mean_s": 8.037241379310352
+    },
+    {
+      "video": "highjump_video2",
+      "youtube_id": "RHvoWHs2MFI",
+      "url": "https://www.youtube.com/watch?v=RHvoWHs2MFI",
+      "youtube_title": "Men's High Jump Final | World Athletics Championships London 2017",
+      "channel": "World Athletics",
+      "competition": "World Championships London 2017",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 25.0,
+      "frames": 48816,
+      "duration_s": 1952.705306,
+      "athletes": 11,
+      "events": 59,
+      "hl_mean_s": 5.36677966101695
+    },
+    {
+      "video": "highjump_video3",
+      "youtube_id": "UZhe_SVdXRc",
+      "url": "https://www.youtube.com/watch?v=UZhe_SVdXRc",
+      "youtube_title": "Men's High Jump Final | World Athletics Championships Oregon 2022",
+      "channel": "World Athletics",
+      "competition": "World Championships Oregon 2022",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 50.0,
+      "frames": 107320,
+      "duration_s": 2146.452608,
+      "athletes": 13,
+      "events": 56,
+      "hl_mean_s": 7.406785714285732
+    },
+    {
+      "video": "highjump_video4",
+      "youtube_id": "zC_qvKupyVs",
+      "url": "https://www.youtube.com/watch?v=zC_qvKupyVs",
+      "youtube_title": "Men's high jump final | World Athletics Indoor Championships Glasgow 24",
+      "channel": "World Athletics",
+      "competition": "World Indoor Championships Glasgow 2024",
+      "sex": "M",
+      "venue": "indoor",
+      "fps": 25.0,
+      "frames": 30212,
+      "duration_s": 1208.52898,
+      "athletes": 8,
+      "events": 32,
+      "hl_mean_s": 5.751250000000013
+    },
+    {
+      "video": "highjump_video5",
+      "youtube_id": "WtIWGLLpP9M",
+      "url": "https://www.youtube.com/watch?v=WtIWGLLpP9M",
+      "youtube_title": "Women's high jump final | World Athletics Indoor Championships Glasgow 24",
+      "channel": "World Athletics",
+      "competition": "World Indoor Championships Glasgow 2024",
+      "sex": "W",
+      "venue": "indoor",
+      "fps": 25.0,
+      "frames": 46689,
+      "duration_s": 1867.627392,
+      "athletes": 10,
+      "events": 57,
+      "hl_mean_s": 6.091929824561409
+    },
+    {
+      "video": "javelin_video1",
+      "youtube_id": "Huw8C64ZGeA",
+      "url": "https://www.youtube.com/watch?v=Huw8C64ZGeA",
+      "youtube_title": "Men's Javelin Final | Berlin 2018",
+      "channel": "European Athletics",
+      "competition": "European Championships Berlin 2018",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 25.0,
+      "frames": 40802,
+      "duration_s": 1632.130612,
+      "athletes": 9,
+      "events": 35,
+      "hl_mean_s": 12.065142857142844
+    },
+    {
+      "video": "javelin_video2",
+      "youtube_id": "e1L93ySj38s",
+      "url": "https://www.youtube.com/watch?v=e1L93ySj38s",
+      "youtube_title": "Men's Javelin Final | IAAF World Championships London 2017",
+      "channel": "World Athletics",
+      "competition": "World Championships London 2017",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 25.0,
+      "frames": 36194,
+      "duration_s": 1447.810612,
+      "athletes": 7,
+      "events": 37,
+      "hl_mean_s": 11.732972972972977
+    },
+    {
+      "video": "javelin_video3",
+      "youtube_id": "Hz1jQGYJqK4",
+      "url": "https://www.youtube.com/watch?v=Hz1jQGYJqK4",
+      "youtube_title": "Men's Javelin Final | World Athletics Championships Doha 2019",
+      "channel": "World Athletics",
+      "competition": "World Championships Doha 2019",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 25.0,
+      "frames": 34385,
+      "duration_s": 1375.457234,
+      "athletes": 10,
+      "events": 34,
+      "hl_mean_s": 11.365882352941185
+    },
+    {
+      "video": "javelin_video4",
+      "youtube_id": "oKXHkxbjMPg",
+      "url": "https://www.youtube.com/watch?v=oKXHkxbjMPg",
+      "youtube_title": "Women's Javelin Final | World Athletics Championships Doha 2019",
+      "channel": "World Athletics",
+      "competition": "World Championships Doha 2019",
+      "sex": "W",
+      "venue": "outdoor",
+      "fps": 25.0,
+      "frames": 27686,
+      "duration_s": 1107.498957,
+      "athletes": 8,
+      "events": 31,
+      "hl_mean_s": 8.860645161290327
+    },
+    {
+      "video": "javelin_video5",
+      "youtube_id": "aw2u7qP_a8A",
+      "url": "https://www.youtube.com/watch?v=aw2u7qP_a8A",
+      "youtube_title": "Women's Javelin Throw Final | World Athletics Championships Oregon 2022",
+      "channel": "World Athletics",
+      "competition": "World Championships Oregon 2022",
+      "sex": "W",
+      "venue": "outdoor",
+      "fps": 50.0,
+      "frames": 91464,
+      "duration_s": 1829.337687,
+      "athletes": 8,
+      "events": 43,
+      "hl_mean_s": 13.285581395348848
+    },
+    {
+      "video": "longjump_video1",
+      "youtube_id": "bZE4faCuw_I",
+      "url": "https://www.youtube.com/watch?v=bZE4faCuw_I",
+      "youtube_title": "Men's Long Jump | World Indoor Championships Birmingham 2018",
+      "channel": "World Athletics",
+      "competition": "World Indoor Championships Birmingham 2018",
+      "sex": "M",
+      "venue": "indoor",
+      "fps": 25.0,
+      "frames": 44551,
+      "duration_s": 1782.108299,
+      "athletes": 10,
+      "events": 48,
+      "hl_mean_s": 10.774166666666671
+    },
+    {
+      "video": "longjump_video2",
+      "youtube_id": "1i1crQyV3vM",
+      "url": "https://www.youtube.com/watch?v=1i1crQyV3vM",
+      "youtube_title": "Men's Long Jump Final | Apeldoorn 2025",
+      "channel": "European Athletics",
+      "competition": "European Indoor Championships Apeldoorn 2025",
+      "sex": "M",
+      "venue": "indoor",
+      "fps": 25.0,
+      "frames": 54492,
+      "duration_s": 2179.726803,
+      "athletes": 8,
+      "events": 81,
+      "hl_mean_s": 10.949135802469128
+    },
+    {
+      "video": "longjump_video3",
+      "youtube_id": "wNpA02SNgUg",
+      "url": "https://www.youtube.com/watch?v=wNpA02SNgUg",
+      "youtube_title": "Men's Long Jump Final | IAAF World Championships London 2017",
+      "channel": "World Athletics",
+      "competition": "World Championships London 2017",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 25.0,
+      "frames": 53527,
+      "duration_s": 2141.135238,
+      "athletes": 11,
+      "events": 50,
+      "hl_mean_s": 13.411199999999994
+    },
+    {
+      "video": "longjump_video4",
+      "youtube_id": "zoYtaNBXjKc",
+      "url": "https://www.youtube.com/watch?v=zoYtaNBXjKc",
+      "youtube_title": "Men's Long Jump Final | World Athletics Championships Doha 2019",
+      "channel": "World Athletics",
+      "competition": "World Championships Doha 2019",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 25.0,
+      "frames": 70734,
+      "duration_s": 2829.421134,
+      "athletes": 12,
+      "events": 57,
+      "hl_mean_s": 12.913684210526318
+    },
+    {
+      "video": "longjump_video5",
+      "youtube_id": "5Zs1QpOiM0w",
+      "url": "https://www.youtube.com/watch?v=5Zs1QpOiM0w",
+      "youtube_title": "Men's Long Jump Final | World Athletics Championships Oregon 2022",
+      "channel": "World Athletics",
+      "competition": "World Championships Oregon 2022",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 23.976023976023978,
+      "frames": 40938,
+      "duration_s": 1707.502585,
+      "athletes": 10,
+      "events": 35,
+      "hl_mean_s": 15.138933333333343
+    },
+    {
+      "video": "polevault_video1",
+      "youtube_id": "dDPAwOmxF7Y",
+      "url": "https://www.youtube.com/watch?v=dDPAwOmxF7Y",
+      "youtube_title": "Men's Pole Vault Final | Berlin 2018",
+      "channel": "European Athletics",
+      "competition": "European Championships Berlin 2018",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 25.0,
+      "frames": 38854,
+      "duration_s": 1554.227664,
+      "athletes": 7,
+      "events": 43,
+      "hl_mean_s": 10.932093023255828
+    },
+    {
+      "video": "polevault_video2",
+      "youtube_id": "s2nMjCKPE2M",
+      "url": "https://www.youtube.com/watch?v=s2nMjCKPE2M",
+      "youtube_title": "Men's Pole Vault Final | IAAF World Championships London 2017",
+      "channel": "World Athletics",
+      "competition": "World Championships London 2017",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 25.0,
+      "frames": 46966,
+      "duration_s": 1878.703311,
+      "athletes": 12,
+      "events": 41,
+      "hl_mean_s": 11.245853658536586
+    },
+    {
+      "video": "polevault_video3",
+      "youtube_id": "GpdNcHdPEpg",
+      "url": "https://www.youtube.com/watch?v=GpdNcHdPEpg",
+      "youtube_title": "Men's Pole Vault Final | World Athletics Championships Oregon 2022",
+      "channel": "World Athletics",
+      "competition": "World Championships Oregon 2022",
+      "sex": "M",
+      "venue": "outdoor",
+      "fps": 50.0,
+      "frames": 106482,
+      "duration_s": 2129.6878,
+      "athletes": 5,
+      "events": 46,
+      "hl_mean_s": 12.005217391304347
+    },
+    {
+      "video": "polevault_video4",
+      "youtube_id": "qeefjE74SXI",
+      "url": "https://www.youtube.com/watch?v=qeefjE74SXI",
+      "youtube_title": "Men's pole vault final | World Indoor Championships Belgrade 2022",
+      "channel": "World Athletics",
+      "competition": "World Indoor Championships Belgrade 2022",
+      "sex": "M",
+      "venue": "indoor",
+      "fps": 25.0,
+      "frames": 56330,
+      "duration_s": 2253.264399,
+      "athletes": 11,
+      "events": 47,
+      "hl_mean_s": 12.501276595744676
+    },
+    {
+      "video": "polevault_video5",
+      "youtube_id": "Lbi-LLiAso8",
+      "url": "https://www.youtube.com/watch?v=Lbi-LLiAso8",
+      "youtube_title": "Women's Pole Vault Final | World Athletics Championships Oregon 2022",
+      "channel": "World Athletics",
+      "competition": "World Championships Oregon 2022",
+      "sex": "W",
+      "venue": "outdoor",
+      "fps": 50.0,
+      "frames": 89545,
+      "duration_s": 1790.955102,
+      "athletes": 8,
+      "events": 48,
+      "hl_mean_s": 10.38291666666668
+    }
+  ],
+  "recurring_athletes": {
+    "barshim": [
+      "highjump_video1",
+      "highjump_video2",
+      "highjump_video3"
+    ],
+    "bondarenko": [
+      "highjump_video1",
+      "highjump_video2"
+    ],
+    "przybylko": [
+      "highjump_video2",
+      "highjump_video3"
+    ],
+    "rivera": [
+      "highjump_video2",
+      "highjump_video3",
+      "highjump_video4"
+    ],
+    "woo": [
+      "highjump_video3",
+      "highjump_video4"
+    ],
+    "mcewen": [
+      "highjump_video3",
+      "highjump_video4"
+    ],
+    "kirt": [
+      "javelin_video1",
+      "javelin_video3"
+    ],
+    "rohler": [
+      "javelin_video1",
+      "javelin_video2"
+    ],
+    "vetter": [
+      "javelin_video1",
+      "javelin_video2",
+      "javelin_video3"
+    ],
+    "vadlejch": [
+      "javelin_video1",
+      "javelin_video2",
+      "javelin_video3"
+    ],
+    "krukowski": [
+      "javelin_video1",
+      "javelin_video3"
+    ],
+    "walcott": [
+      "javelin_video2",
+      "javelin_video3"
+    ],
+    "ogrodnikova": [
+      "javelin_video4",
+      "javelin_video5"
+    ],
+    "liu": [
+      "javelin_video4",
+      "javelin_video5"
+    ],
+    "('barber', 'javelin')": [
+      "javelin_video4",
+      "javelin_video5"
+    ],
+    "winger": [
+      "javelin_video4",
+      "javelin_video5"
+    ],
+    "caceres": [
+      "longjump_video1",
+      "longjump_video4",
+      "longjump_video5"
+    ],
+    "tentoglou": [
+      "longjump_video1",
+      "longjump_video4",
+      "longjump_video5"
+    ],
+    "juska": [
+      "longjump_video1",
+      "longjump_video2"
+    ],
+    "shi": [
+      "longjump_video1",
+      "longjump_video3"
+    ],
+    "samaai": [
+      "longjump_video1",
+      "longjump_video3",
+      "longjump_video4"
+    ],
+    "lawson": [
+      "longjump_video1",
+      "longjump_video3"
+    ],
+    "dendy": [
+      "longjump_video1",
+      "longjump_video5"
+    ],
+    "echevarria": [
+      "longjump_video1",
+      "longjump_video4"
+    ],
+    "manyonga": [
+      "longjump_video1",
+      "longjump_video3",
+      "longjump_video4"
+    ],
+    "montler": [
+      "longjump_video2",
+      "longjump_video4"
+    ],
+    "masso": [
+      "longjump_video3",
+      "longjump_video5"
+    ],
+    "wang": [
+      "longjump_video3",
+      "longjump_video4",
+      "longjump_video5"
+    ],
+    "mccarter": [
+      "longjump_video4",
+      "longjump_video5"
+    ],
+    "lisek": [
+      "polevault_video1",
+      "polevault_video2"
+    ],
+    "wojciechowski": [
+      "polevault_video1",
+      "polevault_video2"
+    ],
+    "lavillenie": [
+      "polevault_video1",
+      "polevault_video2",
+      "polevault_video3",
+      "polevault_video4"
+    ],
+    "duplantis": [
+      "polevault_video1",
+      "polevault_video2",
+      "polevault_video3",
+      "polevault_video4"
+    ],
+    "marschall": [
+      "polevault_video2",
+      "polevault_video4"
+    ],
+    "nilsen": [
+      "polevault_video3",
+      "polevault_video4"
+    ],
+    "braz": [
+      "polevault_video3",
+      "polevault_video4"
+    ]
+  }
+}

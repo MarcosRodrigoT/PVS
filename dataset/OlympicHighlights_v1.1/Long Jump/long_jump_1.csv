@@ -1,0 +1,194 @@
+Event type,First frame,Last frame,Num. frames,Identity
+Not a highlight,0,6932,6933,
+Uncertainty,6933,6947,15,
+Highlight,6948,7195,248,Caceres
+Uncertainty,7196,7225,30,
+Not a highlight,7226,7336,111,
+Uncertainty,7337,7351,15,
+Highlight,7352,7656,305,Caceres
+Uncertainty,7657,7686,30,
+Not a highlight,7687,8443,757,
+Uncertainty,8444,8458,15,
+Highlight,8459,8704,246,Tentoglou
+Uncertainty,8705,8734,30,
+Not a highlight,8735,9009,275,
+Uncertainty,9010,9024,15,
+Highlight,9025,9345,321,Tentoglou
+Uncertainty,9346,9375,30,
+Not a highlight,9376,9880,505,
+Uncertainty,9881,9895,15,
+Highlight,9896,10139,244,Juska
+Uncertainty,10140,10169,30,
+Not a highlight,10170,10327,158,
+Uncertainty,10328,10342,15,
+Highlight,10343,10641,299,Juska
+Uncertainty,10642,10671,30,
+Not a highlight,10672,11436,765,
+Uncertainty,11437,11451,15,
+Highlight,11452,11663,212,Shi
+Uncertainty,11664,11693,30,
+Not a highlight,11694,11926,233,
+Uncertainty,11927,11941,15,
+Highlight,11942,12073,132,Shi
+Uncertainty,12074,12103,30,
+Not a highlight,12104,13047,944,
+Uncertainty,13048,13062,15,
+Highlight,13063,13323,261,Smith
+Uncertainty,13324,13353,30,
+Not a highlight,13354,13503,150,
+Uncertainty,13504,13518,15,
+Highlight,13519,13786,268,Smith
+Uncertainty,13787,13816,30,
+Not a highlight,13817,14495,679,
+Uncertainty,14496,14510,15,
+Highlight,14511,14754,244,Samaai
+Uncertainty,14755,14784,30,
+Not a highlight,14785,14936,152,
+Uncertainty,14937,14951,15,
+Highlight,14952,15237,286,Samaai
+Uncertainty,15238,15267,30,
+Not a highlight,15268,15608,341,
+Uncertainty,15609,15623,15,
+Highlight,15624,15861,238,Lawson
+Uncertainty,15862,15891,30,
+Not a highlight,15892,16035,144,
+Uncertainty,16036,16050,15,
+Highlight,16051,16310,260,Lawson
+Uncertainty,16311,16340,30,
+Not a highlight,16341,16738,398,
+Uncertainty,16739,16753,15,
+Highlight,16754,16984,231,Samaai
+Uncertainty,16985,17014,30,
+Not a highlight,17015,17216,202,
+Uncertainty,17217,17231,15,
+Highlight,17232,17503,272,Samaai
+Uncertainty,17504,17533,30,
+Not a highlight,17534,17893,360,
+Uncertainty,17894,17908,15,
+Highlight,17909,18165,257,Dendy
+Uncertainty,18166,18195,30,
+Not a highlight,18196,18392,197,
+Uncertainty,18393,18407,15,
+Highlight,18408,18722,315,Dendy
+Uncertainty,18723,18752,30,
+Not a highlight,18753,19043,291,
+Uncertainty,19044,19058,15,
+Highlight,19059,19289,231,Echevarria
+Uncertainty,19290,19319,30,
+Not a highlight,19320,19493,174,
+Uncertainty,19494,19508,15,
+Highlight,19509,19859,351,Echevarria
+Uncertainty,19860,19889,30,
+Not a highlight,19890,20726,837,
+Uncertainty,20727,20741,15,
+Highlight,20742,20997,256,Lawson
+Uncertainty,20998,21027,30,
+Not a highlight,21028,21187,160,
+Uncertainty,21188,21202,15,
+Highlight,21203,21445,243,Lawson
+Uncertainty,21446,21475,30,
+Not a highlight,21476,22518,1043,
+Uncertainty,22519,22533,15,
+Highlight,22534,22749,216,Manyonga
+Uncertainty,22750,22779,30,
+Not a highlight,22780,23240,461,
+Uncertainty,23241,23255,15,
+Highlight,23256,23494,239,Shi
+Uncertainty,23495,23524,30,
+Not a highlight,23525,23670,146,
+Uncertainty,23671,23685,15,
+Highlight,23686,23941,256,Shi
+Uncertainty,23942,23971,30,
+Not a highlight,23972,24440,469,
+Uncertainty,24441,24455,15,
+Highlight,24456,24666,211,Samaai
+Uncertainty,24667,24696,30,
+Not a highlight,24697,24960,264,
+Uncertainty,24961,24975,15,
+Highlight,24976,25310,335,Samaai
+Uncertainty,25311,25340,30,
+Not a highlight,25341,25630,290,
+Uncertainty,25631,25645,15,
+Highlight,25646,25928,283,Lawson
+Uncertainty,25929,25958,30,
+Not a highlight,25959,26088,130,
+Uncertainty,26089,26103,15,
+Highlight,26104,26424,321,Lawson
+Uncertainty,26425,26454,30,
+Not a highlight,26455,26773,319,
+Uncertainty,26774,26788,15,
+Highlight,26789,27019,231,Manyonga
+Uncertainty,27020,27049,30,
+Not a highlight,27050,27293,244,
+Uncertainty,27294,27308,15,
+Highlight,27309,27612,304,Manyonga
+Uncertainty,27613,27642,30,
+Not a highlight,27643,27957,315,
+Uncertainty,27958,27972,15,
+Highlight,27973,28222,250,Echevarria
+Uncertainty,28223,28252,30,
+Not a highlight,28253,28415,163,
+Uncertainty,28416,28430,15,
+Highlight,28431,28738,308,Echevarria
+Uncertainty,28739,28768,30,
+Not a highlight,28769,29204,436,
+Uncertainty,29205,29219,15,
+Highlight,29220,29473,254,Manyonga
+Uncertainty,29474,29503,30,
+Not a highlight,29504,29668,165,
+Uncertainty,29669,29683,15,
+Highlight,29684,30276,593,Manyonga
+Uncertainty,30277,30306,30,
+Not a highlight,30307,30595,289,
+Uncertainty,30596,30610,15,
+Highlight,30611,30856,246,Dendy
+Uncertainty,30857,30886,30,
+Not a highlight,30887,31177,291,
+Uncertainty,31178,31192,15,
+Highlight,31193,31493,301,Dendy
+Uncertainty,31494,31523,30,
+Not a highlight,31524,31769,246,
+Uncertainty,31770,31784,15,
+Highlight,31785,32026,242,Samaai
+Uncertainty,32027,32056,30,
+Not a highlight,32057,32226,170,
+Uncertainty,32227,32241,15,
+Highlight,32242,32535,294,Samaai
+Uncertainty,32536,32565,30,
+Not a highlight,32566,32951,386,
+Uncertainty,32952,32966,15,
+Highlight,32967,33260,294,Echevarria
+Uncertainty,33261,33290,30,
+Not a highlight,33291,33515,225,
+Uncertainty,33516,33530,15,
+Highlight,33531,33822,292,Echevarria
+Uncertainty,33823,33852,30,
+Not a highlight,33853,34734,882,
+Uncertainty,34735,34749,15,
+Highlight,34750,34969,220,Manyonga
+Uncertainty,34970,34999,30,
+Not a highlight,35000,36598,1599,
+Uncertainty,36599,36613,15,
+Highlight,36614,36885,272,Dendy
+Uncertainty,36886,36915,30,
+Not a highlight,36916,37131,216,
+Uncertainty,37132,37146,15,
+Highlight,37147,37426,280,Dendy
+Uncertainty,37427,37456,30,
+Not a highlight,37457,38201,745,
+Uncertainty,38202,38216,15,
+Highlight,38217,38411,195,Lawson
+Uncertainty,38412,38441,30,
+Not a highlight,38442,39565,1124,
+Uncertainty,39566,39580,15,
+Highlight,39581,39900,320,Echevarria
+Uncertainty,39901,39930,30,
+Not a highlight,39931,40124,194,
+Uncertainty,40125,40139,15,
+Highlight,40140,40422,283,Echevarria
+Uncertainty,40423,40452,30,
+Not a highlight,40453,41458,1006,
+Uncertainty,41459,41473,15,
+Highlight,41474,41690,217,Manyonga
+Uncertainty,41691,41720,30,
+Not a highlight,41721,44551,2831,
